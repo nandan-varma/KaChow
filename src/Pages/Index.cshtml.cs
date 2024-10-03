@@ -8,6 +8,10 @@ using ContosoCrafts.WebSite.Services;
 
 namespace ContosoCrafts.WebSite.Pages
 {
+    // summary
+    // Teymur Samadzada
+    // Nandan Varma
+    //summary
     public class IndexModel : PageModel
     {
         //Hi Mike
