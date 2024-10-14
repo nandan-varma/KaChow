@@ -1,19 +1,131 @@
-﻿@font-face {
+﻿/* Font Face */
+@font-face {
     font-family: 'magnetobold';
-    src: url("../FontResources/MAGNETOB.TTF") format('truetype');  font-weight: normal;
+    src: url("../FontResources/MAGNETOB.TTF") format('truetype');
+    font-weight: normal;
     font-style: normal;
 }
 
-.checked {
-  color: orange;
+/* Variables */
+:root {
+    --primary-color: #B22222;
+    --secondary-color: #005A9C;
+    --background-color: #FFFFFF;
+    --text-color: #000000;
+    --highlight-color: #eab308;
+    --light-background: #F0F0F0;
+    --border-color: #4A4A4A;
+    --modal-border-color: #6E6F71;
+    --modal-text-color: #333333;
+    --card-text-color: #333333;
+    --star-color: #FFD700;
+    --star-checked-color: #eab308;
+    --font-family: 'magnetobold', sans-serif;
 }
 
-.fa-star {
-  cursor: pointer;
+/* Global Styles */
+body, html {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-size: 16px;
+    font-family: var(--font-family);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
+@media (min-width: 768px) {
+    html {
+        font-size: 18px;
+    }
+}
+
+/* Main Content */
+main {
+    flex: 1;
+}
+
+/* Typography */
+p, h1, ul, td, th, div {
+    font-family: var(--font-family);
+    color: var(--text-color);
+}
+
+/* Links */
+a {
+    color: var(--secondary-color);
+}
+
+a.navbar-brand {
+    white-space: normal;
+    font-size: xx-large;
+    text-align: center;
+    word-break: break-all;
+    color: var(--primary-color) !important;
+}
+
+.nav-link{
+    font-size: 1.2rem;
+}
+
+/* Buttons */
+.btn-primary {
+    color: var(--primary-color);
+    background-color: var(--highlight-color);
+    border-color: var(--highlight-color);
+}
+
+.btn-primary:hover {
+    color: #fff;
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+/* Navigation */
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+/* Borders */
+.border-top {
+    border-top: 1px solid var(--border-color);
+}
+
+.border-bottom {
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Box Shadow */
+.box-shadow {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .1);
+}
+
+/* Cards */
+.card {
+    background-color: var(--background-color);
+    color: var(--card-text-color);
+}
+
+.card-img {
+    height: 200px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: .8;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-text {
+    color: var(--card-text-color);
+}
+
 .card-columns .card:hover .card-img {
     opacity: 1;
     -webkit-transform-style: preserve-3d;
@@ -21,135 +133,103 @@ for details on configuring this project to bundle and minify static web assets. 
 
 .card-columns .card-body {
     height: 100px;
-    font-family: magnetobold;
-    background: #fbfafd;
+    background: var(--light-background);
+    color: var(--primary-color);
 }
 
 .card-columns .card-img {
-  height: 330px;
-  vertical-align: bottom;
-  background-position: center; /* Center the image */
-  background-repeat: no-repeat; /* Do not repeat the image */
-  background-size: cover; /* Resize the background image to cover the entire container */
-  opacity: .8;
-}
-
-.modal .card-img {
-  height: 500px;
-  vertical-align: bottom;
-  background-position: center; /* Center the image */
-  background-repeat: no-repeat; /* Do not repeat the image */
-  background-size: cover; /* Resize the background image to cover the entire container */
+    height: 330px;
+    vertical-align: bottom;
 }
 
 .card-columns .card:hover {
     transform: scale(1.05);
-    box-shadow: 0 10px 20px rgba(37,33,82,.12), 0 4px 8px rgba(37,33,82,.06);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, .1), 0 4px 8px rgba(0, 0, 0, .05);
 }
+
 .card-footer {
-    background: #fbfafd;
+    background: var(--light-background);
+    color: var(--primary-color);
 }
 
+/* Modals */
+.modal-content {
+    background-color: var(--background-color);
+    color: var(--modal-text-color);
+    border: 1px solid var(--modal-border-color);
+}
 
-a.navbar-brand {
-    white-space: normal;
-    font-family: magnetobold;
-    font-size: xx-large;
+.modal-header {
+    border-bottom: 1px solid var(--modal-border-color);
+}
+
+.modal-title {
+    color: var(--primary-color);
+}
+
+.modal-header .close {
+    color: var(--modal-text-color);
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.modal-footer {
+    border-top: 1px solid var(--modal-border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.modal-footer span {
+    color: var(--primary-color);
+}
+
+.modal .card-img {
+    height: 500px;
+    vertical-align: bottom;
+}
+
+/* Footer */
+.footer {
+    background-color: var(--light-background);
+    color: var(--text-color);
+    line-height: 60px;
+    padding: 0 20px;
     text-align: center;
-    word-break: break-all;
 }
 
-/* Provide sufficient contrast against white background */
-a {
-   color: #0366d6;
+/* Backgrounds */
+.bg-navbar, .bg-footer {
+    background: linear-gradient(110deg, var(--highlight-color) 60%, #E02A1C 60%);
 }
 
-.btn-primary {
-    color: #fff;
-    background-color: #252152;
-    border-color: #252152;
-}
-.btn-primary:hover {
-    color: #fff;
-    background-color: #e9a8a6;
-    border-color: #e9a8a6;
+/* Miscellaneous */
+.checked {
+    color: var(--primary-color);
 }
 
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+.fa-star {
+    cursor: pointer;
+    color: var(--star-color);
 }
 
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-  font-size: 14px;
-}
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.border-top {
-  border-top: 1px solid #e5e5e5;
-}
-.border-bottom {
-  border-bottom: 1px solid #e5e5e5;
-}
-
-.box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+.fa-star.checked {
+    color: var(--star-checked-color);
 }
 
 button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
+    font-size: 1rem;
+    line-height: inherit;
+    color: var(--text-color);
+    background-color: var(--light-background);
 }
 
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-  position: relative;
-  min-height: 100%;
-}
-
-body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
-}
-p {
-    font-family: magnetobold, sans-serif;
-}
-h1 {
-    font-family: magnetobold, sans-serif;
-}
-ul {
-    font-family: magnetobold, sans-serif;
-}
-.footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    white-space: nowrap;
-    line-height: 60px; /* Vertically center the text there */
-    font-family: magnetobold, sans-serif;
-}
-
-div {
-    font-family: magnetobold, sans-serif;
-}
-/*Backgrounds*/
-.bg-navbar {
-    background: -webkit-linear-gradient(110deg, #e9a8a6 60%, #252152 60%);
-    background: -o-linear-gradient(110deg, #e9a8a6 60%, #252152 60%);
-    background: -moz-linear-gradient(110deg, #e9a8a6 60%, #252152 60%);
-    background: linear-gradient(110deg, #e9a8a6 60%, #252152 60%);
-}
-.bg-footer {
-    background: -webkit-linear-gradient(110deg, #252152 60%, #e9a8a6 60%);
-    background: -o-linear-gradient(110deg, #252152 60%, #e9a8a6 60%);
-    background: -moz-linear-gradient(110deg, #252152 60%, #e9a8a6 60%);
-    background: linear-gradient(110deg, #252152 60%, #e9a8a6 60%);
+.lightning {
+    font-size: 3.2rem;
+    margin: 0;
+    padding-right: 8rem;
+    color: var(--highlight-color);
 }
