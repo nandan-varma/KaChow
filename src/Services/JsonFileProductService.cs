@@ -106,7 +106,7 @@ namespace ContosoCrafts.WebSite.Services
             }
 
             // Update the data to the new passed in values
-            productData.Title = data.Title;
+            productData.Name = data.Name;
             productData.Description = data.Description.Trim();
             productData.Url = data.Url;
             productData.Image = data.Image;
@@ -150,7 +150,7 @@ namespace ContosoCrafts.WebSite.Services
             var data = new ProductModel()
             {
                 Id = System.Guid.NewGuid().ToString(),
-                Title = "Enter Title",
+                Name = "Enter Name",
                 Description = "Enter Description",
                 Url = "Enter URL",
                 Image = "",
