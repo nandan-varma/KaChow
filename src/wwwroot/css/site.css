@@ -28,12 +28,12 @@ body, html {
     background-color: var(--background-color);
     color: var(--text-color);
     font-size: 16px;
-    font-family: var(--font-family);
     margin: 0;
     padding: 0;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    font-family: var(--font-family);
 }
 
 @media (min-width: 768px) {
@@ -64,6 +64,7 @@ a.navbar-brand {
     text-align: center;
     word-break: break-all;
     color: var(--primary-color) !important;
+    font-family: var(--font-family);
 }
 
 .nav-link{
@@ -199,6 +200,7 @@ a.navbar-brand {
     line-height: 60px;
     padding: 0 20px;
     text-align: center;
+    margin-top: auto;
 }
 
 /* Backgrounds */
@@ -232,6 +234,7 @@ button.accept-policy {
     margin: 0;
     padding-right: 8rem;
     color: var(--highlight-color);
+    font-family: var(--font-family);
 }
 
 .logo {
