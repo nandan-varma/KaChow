@@ -8,8 +8,9 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th>Title</th>
-                <th>Action</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Image</th>
             </tr>
         </thead>
         <tbody>
@@ -17,7 +18,10 @@
             {
                 <tr>
                     <td>@product.Name</td>
-                    @*<td><a asp-page="Read" asp-route-id="@product.Id">Read</a></td>*@
+                    <td>@product.Description</td>
+                    <td>
+                        <div class="card-img" style="background-image: url('@product.Image');">
+                    </td>
                 </tr>
             }
         </tbody>
