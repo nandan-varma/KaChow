@@ -53,6 +53,7 @@ namespace ContosoCrafts.WebSite
                 endpoints.MapRazorPages();
                 endpoints.MapControllers();
                 endpoints.MapBlazorHub();
+                endpoints.MapFallbackToPage("/product/{id}", "/Product/Details");
 
                 // endpoints.MapGet("/products", (context) => 
                 // {

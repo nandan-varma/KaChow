@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
-
+using System.Threading.Tasks;
 using ContosoCrafts.WebSite.Models;
 
 using Microsoft.AspNetCore.Hosting;
@@ -33,6 +33,17 @@ namespace ContosoCrafts.WebSite.Services
                         PropertyNameCaseInsensitive = true
                     });
             }
+        }
+
+        public async Task<ProductModel> GetProductByIdAsync(string id)
+        {
+            var products = await Task.Run(() => GetAllData());
+            return products.FirstOrDefault(x => x.Id.Equals(id));
+        }
+
+        public ProductModel GetProductById(string id){
+            var products = GetAllData();
+            return products.FirstOrDefault(x => x.Id.Equals(id));
         }
 
         /// <summary>

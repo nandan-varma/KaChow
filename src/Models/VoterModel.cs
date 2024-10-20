@@ -10,6 +10,6 @@ namespace ContosoCrafts.WebSite.Models
         public string Id { get; set; }
         public HashSet<string> products_voted_for { get; } = new HashSet<string>();
 
-        public override string toString() => JsonSerializer.Serialize(this);
+        public override string ToString() => JsonSerializer.Serialize(this);
     }
 }
