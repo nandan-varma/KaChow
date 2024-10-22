@@ -20,8 +20,9 @@
                     <td>@product.Name</td>
                     <td>@product.Description</td>
                     <td>
-                        <div class="card-img" style="background-image: url('@product.Image');"></div>
+                        <div class="card-img" style="background-image: url('@product.Image'); background-size: contain;"></div>
                     </td>
+                    <td><a href="/Product/@product.Id">Read</a></td>
                 </tr>
             }
         </tbody>
