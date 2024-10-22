@@ -77,9 +77,15 @@
 {
     ProductModel selectedProduct;
     string selectedProductId;
+    string visitToken;
 
     void SelectProduct(string productId)
     {
+        if (visitToken == null)
+        {
+            visitToken = System.DateTime.Now.ToLongDateString() + " " + System.DateTime.Now.ToLongTimeString();
+            System.Console.WriteLine($"Setting VisitToken as {visitToken}");
+        }
         selectedProductId = productId;
         selectedProduct = ProductService.GetAllData().First(x => x.Id == productId);
         GetCurrentRating();
@@ -91,6 +97,7 @@
 
     void GetCurrentRating()
     {
+        
         if (selectedProduct.Ratings == null)
         {
             currentRating = 0;
@@ -108,8 +115,8 @@
 
     void SubmitRating(int rating)
     {
-        System.Console.WriteLine($"Rating received for {selectedProduct.Id}: {rating}");
-        ProductService.AddRating(selectedProductId, rating);
+        System.Console.WriteLine($"Rating received for {selectedProduct.Id}: {rating} from {visitToken}");
+        ProductService.AddRating(selectedProductId, rating, visitToken);
         SelectProduct(selectedProductId);
     }
 }

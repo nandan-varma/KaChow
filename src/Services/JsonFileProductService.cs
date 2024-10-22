@@ -44,10 +44,15 @@ namespace ContosoCrafts.WebSite.Services
         /// </summary>
         /// <param name="productId"></param>
         /// <param name="rating"></param>
-        public bool AddRating(string productId, int rating)
+        public bool AddRating(string productId, int rating, string visitToken)
         {
             // If the ProductID is invalid, return
             if (string.IsNullOrEmpty(productId))
+            {
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(visitToken))
             {
                 return false;
             }
@@ -57,6 +62,16 @@ namespace ContosoCrafts.WebSite.Services
             // Look up the product, if it does not exist, return
             var data = products.FirstOrDefault(x => x.Id.Equals(productId));
             if (data == null)
+            {
+                return false;
+            }
+
+            if (data.Voters == null)
+            {
+                data.Voters = new string[] { };
+            }
+
+            if (data.Voters.ToList().Contains(visitToken))
             {
                 return false;
             }
@@ -83,6 +98,10 @@ namespace ContosoCrafts.WebSite.Services
             var ratings = data.Ratings.ToList();
             ratings.Add(rating);
             data.Ratings = ratings.ToArray();
+
+            var voters = data.Voters.ToList();
+            voters.Add(visitToken);
+            data.Voters = voters.ToArray();
 
             // Save the data back to the data store
             SaveData(products);
