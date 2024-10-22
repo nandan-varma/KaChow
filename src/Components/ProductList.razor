@@ -81,8 +81,11 @@
 
     void SelectProduct(string productId)
     {
+        // If the token is null create a new token
         if (visitToken == null)
         {
+            // Assign the visitToken string to the current date and current time strings from the DateTime.Now instance,
+            // EX: 22nd October 2024  01:59:11 PM
             visitToken = System.DateTime.Now.ToLongDateString() + " " + System.DateTime.Now.ToLongTimeString();
             System.Console.WriteLine($"Setting VisitToken as {visitToken}");
         }
