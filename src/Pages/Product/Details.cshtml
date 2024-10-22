@@ -1,0 +1,16 @@
+﻿@page "/Product/{id}"
+@model ContosoCrafts.Pages.Product.DetailsModel
+@using ContosoCrafts.WebSite.Components;
+
+@{
+    ViewData["Title"] = "Product Details";
+    var productId = RouteData.Values["id"]?.ToString();
+}
+
+<a asp-page="/Product/Index">Back to Product List</a>
+<h1>@ViewData["Title"]</h1>
+
+@(await Html.RenderComponentAsync<ProductDetails>(
+RenderMode.ServerPrerendered,
+new { Id = productId }
+))

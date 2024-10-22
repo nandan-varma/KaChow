@@ -1,0 +1,49 @@
+﻿@using ContosoCrafts.WebSite.Models
+@using ContosoCrafts.WebSite.Services
+@using Microsoft.AspNetCore.Components.Web
+@inject JsonFileProductService ProductService
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+
+    private ProductModel product;
+
+    protected override async Task OnInitializedAsync()
+    {
+        product = await ProductService.GetProductByIdAsync(Id);
+    }
+}
+
+@if (product == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div class="product-listing">
+        <div class="product-image">
+            <img src="@product.Image" alt="@product.Name" />
+        </div>
+        <div class="product-details">
+            <h1 class="product-title">@product.Name</h1>
+            <p class="product-description">@product.Description</p>
+            <p class="product-price">Price: $@product.Price</p>
+            <div class="product-ratings">
+                @for (int i = 0; i < 5; i++)
+                {
+                    if (i < (int)product.Ratings.Average())
+                    {
+                        <span class="star filled">★</span>
+                    }
+                    else
+                    {
+                        <span class="star">☆</span>
+                    }
+                }
+                <span class="rating-count">(@(product.Ratings?.Count() ?? 0))</span>
+            </div>
+            <a href="@product.Url" class="product-link" target="_blank">Buy Now</a>
+        </div>
+    </div>
+}
