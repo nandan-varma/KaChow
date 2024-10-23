@@ -17,6 +17,8 @@ namespace ContosoCrafts.WebSite.Models
         [StringLength (maximumLength: 33, MinimumLength = 1, ErrorMessage = "The Name should have a length of more than {2} and less than {1}")]
         public string Name { get; set; }
 
+        public string Base { get; set; }
+
         public string Description { get; set; }
 
         public int[] Ratings { get; set; }
