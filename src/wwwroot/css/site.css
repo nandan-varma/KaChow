@@ -207,7 +207,8 @@ a.navbar-brand {
 
 /* Backgrounds */
 .bg-navbar, .bg-footer {
-    background: linear-gradient(110deg, var(--highlight-color) 60%, #E02A1C 60%);
+    background: linear-gradient(110deg, var(--highlight-color) 40%, #E02A1C 80% );
+/*    background: linear-gradient(110deg, var(--background-color, yellow);*/
 }
 
 /* Miscellaneous */
