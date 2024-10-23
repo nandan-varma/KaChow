@@ -109,6 +109,7 @@ a.navbar-brand {
 .card {
     background-color: var(--background-color);
     color: var(--card-text-color);
+    transition: .2s;
 }
 
 .card-img {
@@ -146,6 +147,7 @@ a.navbar-brand {
 .card-columns .card:hover {
     transform: scale(1.05);
     box-shadow: 0 10px 20px rgba(0, 0, 0, .1), 0 4px 8px rgba(0, 0, 0, .05);
+    transition: .2s;
 }
 
 .card-footer {
