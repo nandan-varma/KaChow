@@ -4,6 +4,9 @@
 @inject JsonFileProductService ProductService
 
 <div class="card-columns">
+    @{
+        this.selectedProduct = ProductService.GetAllData().First();
+    }
     @foreach (var product in ProductService.GetAllData())
     {
         <div class="card">
@@ -76,6 +79,7 @@
 
 @code
 {
+    JsonFileProductService productService;
     ProductModel selectedProduct;
     string selectedProductId;
     string visitToken;
