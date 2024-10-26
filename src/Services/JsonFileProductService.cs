@@ -43,7 +43,7 @@ namespace ContosoCrafts.WebSite.Services
 
         public ProductModel GetProductById(string id){
             var products = GetAllData();
-            return products.FirstOrDefault(x => x.Id.Equals(id));
+            return products.FirstOrDefault(x => x.Id.Equals(id.Trim()));
         }
 
         /// <summary>

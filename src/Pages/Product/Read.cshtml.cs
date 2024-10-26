@@ -23,7 +23,7 @@ namespace ContosoCrafts.Pages.Product
                 return NotFound();
             }
 
-            Product = _productService.GetProductById(id.Trim());
+            Product = _productService.GetProductById(id);
 
             if (Product == null)
             {
