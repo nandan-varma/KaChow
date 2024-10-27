@@ -72,11 +72,6 @@ namespace ContosoCrafts.WebSite.Services
                 return false;
             }
 
-            if (data.Voters == null)
-            {
-                data.Voters = new string[] { };
-            }
-
             // Check Rating for boundaries, do not allow ratings below 0
             if (rating < 0)
             {
@@ -127,7 +122,6 @@ namespace ContosoCrafts.WebSite.Services
             productData.Url = data.Url;
             productData.Image = data.Image;
 
-            productData.Quantity = data.Quantity;
             productData.Price = data.Price;
 
             productData.CommentList = data.CommentList;
