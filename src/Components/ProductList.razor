@@ -2,6 +2,7 @@
 @using ContosoCrafts.WebSite.Services
 @using Microsoft.AspNetCore.Components.Web
 @inject JsonFileProductService ProductService
+@inject RatingService RatingService
 
 <div class="card-columns">
     @{
@@ -62,11 +63,11 @@
                         var currentStar = i;
                         if (i <= currentRating)
                         {
-                            <span class="fa fa-star checked" @onclick="(e => SubmitRating(currentStar))"></span>
+                            <span class="fa fa-star checked" onclick="SubmitRating('@selectedProduct.Id', @currentStar)"></span>
                         }
                         else
                         {
-                            <span class="fa fa-star" @onclick="(e => SubmitRating(currentStar))"></span>
+                            <span class="fa fa-star" onclick="SubmitRating('@selectedProduct.Id', @currentStar)"></span>
                         }
                     }
                 </div>
@@ -82,18 +83,9 @@
     JsonFileProductService productService;
     ProductModel selectedProduct;
     string selectedProductId;
-    string visitToken;
 
     void SelectProduct(string productId)
     {
-        // If the token is null create a new token
-        if (visitToken == null)
-        {
-            // Assign the visitToken string to the current date and current time strings from the DateTime.Now instance,
-            // EX: 22nd October 2024  01:59:11 PM
-            visitToken = System.DateTime.Now.ToLongDateString() + " " + System.DateTime.Now.ToLongTimeString();
-            System.Console.WriteLine($"Setting VisitToken as {visitToken}");
-        }
         selectedProductId = productId;
         selectedProduct = ProductService.GetAllData().First(x => x.Id == productId);
         GetCurrentRating();
@@ -119,12 +111,5 @@
         }
 
         System.Console.WriteLine($"Current rating for {selectedProduct.Id}: {currentRating}");
-    }
-
-    void SubmitRating(int rating)
-    {
-        System.Console.WriteLine($"Rating received for {selectedProduct.Id}: {rating} from {visitToken}");
-        ProductService.AddRating(selectedProductId, rating, visitToken);
-        SelectProduct(selectedProductId);
     }
 }

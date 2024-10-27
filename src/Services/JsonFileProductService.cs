@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace ContosoCrafts.WebSite.Services
 {
-   public class JsonFileProductService
+    public class JsonFileProductService
     {
         public JsonFileProductService(IWebHostEnvironment webHostEnvironment)
         {
@@ -55,15 +55,10 @@ namespace ContosoCrafts.WebSite.Services
         /// </summary>
         /// <param name="productId"></param>
         /// <param name="rating"></param>
-        public bool AddRating(string productId, int rating, string visitToken)
+        public bool AddRating(string productId, int rating)
         {
             // If the ProductID is invalid, return
             if (string.IsNullOrEmpty(productId))
-            {
-                return false;
-            }
-
-            if (string.IsNullOrEmpty(visitToken))
             {
                 return false;
             }
@@ -80,11 +75,6 @@ namespace ContosoCrafts.WebSite.Services
             if (data.Voters == null)
             {
                 data.Voters = new string[] { };
-            }
-
-            if (data.Voters.ToList().Contains(visitToken))
-            {
-                return false;
             }
 
             // Check Rating for boundaries, do not allow ratings below 0
@@ -109,10 +99,6 @@ namespace ContosoCrafts.WebSite.Services
             var ratings = data.Ratings.ToList();
             ratings.Add(rating);
             data.Ratings = ratings.ToArray();
-
-            var voters = data.Voters.ToList();
-            voters.Add(visitToken);
-            data.Voters = voters.ToArray();
 
             // Save the data back to the data store
             SaveData(products);
@@ -206,11 +192,11 @@ namespace ContosoCrafts.WebSite.Services
             var data = dataSet.FirstOrDefault(m => m.Id.Equals(id));
 
             var newDataSet = GetAllData().Where(m => m.Id.Equals(id) == false);
-            
+
             SaveData(newDataSet);
 
             return data;
         }
-        
+
     }
 }

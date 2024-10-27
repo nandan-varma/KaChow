@@ -27,7 +27,7 @@ namespace ContosoCrafts.WebSite.Controllers
         [HttpPatch]
         public ActionResult Patch([FromBody] RatingRequest request)
         {
-            ProductService.AddRating(request.ProductId, request.Rating, request.VisitToken);
+            ProductService.AddRating(request.ProductId, request.Rating);
             
             return Ok();
         }
@@ -36,7 +36,6 @@ namespace ContosoCrafts.WebSite.Controllers
         {
             public string ProductId { get; set; }
             public int Rating { get; set; }
-            public string VisitToken { get; set; }
         }
     }
 }

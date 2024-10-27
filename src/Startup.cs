@@ -24,6 +24,8 @@ namespace ContosoCrafts.WebSite
             services.AddServerSideBlazor();
             services.AddHttpClient();
             services.AddControllers();
+            services.AddHttpContextAccessor();
+            services.AddTransient<RatingService>();
             services.AddTransient<JsonFileProductService>();
         }
 
