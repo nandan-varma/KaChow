@@ -11,7 +11,7 @@
     @foreach (var product in ProductService.GetAllData())
     {
         <div class="card">
-            <div class="card-img" style="background-image: url('@product.Image');">
+            <div onclick="window.location.href='/Product/Read/@product.Id'" class="card-img" style="background-image: url('@product.Image'); cursor: pointer;">
             </div>
             <div class="card-body">
                 <h5 class="card-title">@product.Name</h5>
