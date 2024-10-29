@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
 
 using ContosoCrafts.WebSite.Models;
+using Microsoft.Extensions.DependencyModel;
 
 namespace UnitTests.Pages.Product.AddRating
 {
@@ -133,6 +134,36 @@ namespace UnitTests.Pages.Product.AddRating
 
         }
         #endregion AddRating
+        #region UpdateData
 
+        [Test]
+        public void UpdateData_Valid_Product_In_DataBase_Should_Return_Updated_Model()
+        {
+            // Arrange
+            var data = TestHelper.ProductService.CreateData();
+            data.Name = "Skibidi";
+            data.Description = "Toilet";
+            data.Url = "https://www.google.com";
+            data.Image = "https://www.google.com";
+
+            data.Price = 0;
+            data.CommentList = null;
+
+            // Act
+            var resultData = TestHelper.ProductService.UpdateData(data);
+
+            // Reset
+            TestHelper.ProductService.DeleteData(data.Id);
+
+            // Assert
+            Assert.That(resultData.Name, Is.EqualTo(data.Name));
+            Assert.That(resultData.Description, Is.EqualTo(data.Description));
+            Assert.That(resultData.Url, Is.EqualTo(data.Url));
+            Assert.That(resultData.Image, Is.EqualTo(data.Image));
+            Assert.That(resultData.Price, Is.EqualTo(data.Price));
+            Assert.That(resultData.CommentList, Is.EqualTo(data.CommentList));
+        }
+
+        #endregion UpdateData
     }
 }
