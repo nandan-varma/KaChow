@@ -76,6 +76,19 @@ namespace UnitTests.Pages.Product.AddRating
             Assert.That(dataNewList.Ratings.Length, Is.EqualTo(countOriginal + 1));
             Assert.That(dataNewList.Ratings.Last(), Is.EqualTo(5));
         }
+
+        [Test]
+        public void AddRating_InValid_Product_Not_In_DataBase_Should_Return_False()
+        {
+            // Arrange
+            var productId = "non_empty_or_null";
+
+            // Act
+            var result = TestHelper.ProductService.AddRating(productId, 5);
+
+            // Assert
+            Assert.That(result, Is.EqualTo(false));
+        }
         #endregion AddRating
 
     }
