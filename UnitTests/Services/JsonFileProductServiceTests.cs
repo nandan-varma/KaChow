@@ -115,6 +115,23 @@ namespace UnitTests.Pages.Product.AddRating
             // Assert
             Assert.That(result, Is.EqualTo(false));
         }
+
+        [Test]
+        public void AddRating_Valid_Product_Null_Ratings_Should_Create_Ratings_Array_And_Return_True()
+        {
+            // Arrange
+            var data = TestHelper.ProductService.CreateData();
+
+            // Act
+            var result = TestHelper.ProductService.AddRating(data.Id, 5);
+
+            // Reset
+            TestHelper.ProductService.DeleteData(data.Id);
+
+            // Assert
+            Assert.That(result, Is.EqualTo(true));
+
+        }
         #endregion AddRating
 
     }
