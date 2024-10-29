@@ -102,6 +102,19 @@ namespace UnitTests.Pages.Product.AddRating
             // Assert
             Assert.That(result, Is.EqualTo(false));
         }
+
+        [Test]
+        public void AddRating_InValid_Rating_Rating_Over_Five_Should_Return_False()
+        {
+            // Arrange
+            var data = TestHelper.ProductService.GetAllData().First();
+
+            // Act
+            var result = TestHelper.ProductService.AddRating(data.Id, 6);
+
+            // Assert
+            Assert.That(result, Is.EqualTo(false));
+        }
         #endregion AddRating
 
     }
