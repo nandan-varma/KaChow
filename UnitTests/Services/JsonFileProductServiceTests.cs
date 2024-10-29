@@ -241,5 +241,20 @@ namespace UnitTests.Pages.Product.GetProductById
 
         #endregion GetProductById
     }
-
 }
+
+namespace UnitTests.Pages.Product.GetProductByIdAsync
+{
+    public class JsonFileProductServiceTests
+    {
+        #region TestSetup
+        [SetUp]
+        public void TestInitialize()
+        {
+        }
+        #endregion TestSetup
+
+        #region GetProductByIdAsync
+
+        #endregion GetProductByIdAsync
+    }
