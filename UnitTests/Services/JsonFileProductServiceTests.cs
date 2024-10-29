@@ -256,5 +256,19 @@ namespace UnitTests.Pages.Product.GetProductByIdAsync
 
         #region GetProductByIdAsync
 
+        [Test]
+        public void GetProductByIdAsync_Valid_Product_In_DataBase_Should_Return_Product()
+        {
+            // Arrange
+            var data = TestHelper.ProductService.GetAllData().First();
+
+            // Act
+            var resultData = TestHelper.ProductService.GetProductByIdAsync(data.Id);
+
+            // Assert
+            Assert.That(data.Id, Is.EqualTo(resultData.Result.Id));
+        }
+
         #endregion GetProductByIdAsync
     }
+}
