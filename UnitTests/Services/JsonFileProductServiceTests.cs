@@ -198,16 +198,36 @@ namespace UnitTests.Pages.Product.UpdateData
 
 namespace UnitTests.Pages.Product.GetProductById
 {
-    #region TestSetup
-    
-    [SetUp]
-    public void TestInitialize()
+
+    public class JsonFileProductServiceTests
     {
+        #region TestSetup
+
+        [SetUp]
+        public void TestInitialize()
+        {
+        }
+
+        #endregion TestSetup
+
+        #region GetProductById
+
+        [Test]
+        public void GetProductById_Valid_Product_In_DataBase_Should_Return_Product()
+        {
+            // Arrange
+            var data = TestHelper.ProductService.GetAllData().First();
+
+            // Act
+            var resultData = TestHelper.ProductService.GetProductById(data.Id);
+
+            // Assert
+            Assert.That(data.Id, Is.EqualTo(resultData.Id));
+        }
+
+       
+
+        #endregion GetProductById
     }
 
-    #endregion TestSetup
-
-    #region GetProductById
-
-    #endregion GetProductById
 }
