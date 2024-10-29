@@ -225,7 +225,19 @@ namespace UnitTests.Pages.Product.GetProductById
             Assert.That(data.Id, Is.EqualTo(resultData.Id));
         }
 
-       
+        [Test]
+        public void GetProductById_InValid_Product_Not_In_DataBase_Should_Return_Null()
+        {
+            // Arrange
+            var dataId = "Skibidi";
+
+            // Act
+            var resultData = TestHelper.ProductService.GetProductById(dataId);
+
+            // Assert
+            Assert.That(resultData, Is.EqualTo(null));
+        }
+
 
         #endregion GetProductById
     }
