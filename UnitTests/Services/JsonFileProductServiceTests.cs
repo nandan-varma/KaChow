@@ -164,6 +164,19 @@ namespace UnitTests.Pages.Product.AddRating
             Assert.That(resultData.CommentList, Is.EqualTo(data.CommentList));
         }
 
+        [Test]
+        public void UpdateData_InValid_Product_Not_In_DataBase_Should_Return_Null()
+        {
+            // Arrange
+            var data = new ProductModel();
+            data.Id = "not_null_or_empty";
+
+            // Act
+            var resultData = TestHelper.ProductService.UpdateData(data);
+
+            // Assert
+            Assert.That(resultData, Is.EqualTo(null));
+        }
         #endregion UpdateData
     }
 }
