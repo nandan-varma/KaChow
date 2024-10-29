@@ -134,6 +134,21 @@ namespace UnitTests.Pages.Product.AddRating
 
         }
         #endregion AddRating
+    }
+}
+
+namespace UnitTests.Pages.Product.UpdateData
+{
+    public class JsonFileProductServiceTests
+    {
+        #region TestSetup
+
+        [SetUp]
+        public void TestInitialize()
+        {
+        }
+
+        #endregion TestSetup
         #region UpdateData
 
         [Test]
