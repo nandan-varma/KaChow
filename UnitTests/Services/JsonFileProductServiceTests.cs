@@ -195,3 +195,19 @@ namespace UnitTests.Pages.Product.UpdateData
         #endregion UpdateData
     }
 }
+
+namespace UnitTests.Pages.Product.GetProductById
+{
+    #region TestSetup
+    
+    [SetUp]
+    public void TestInitialize()
+    {
+    }
+
+    #endregion TestSetup
+
+    #region GetProductById
+
+    #endregion GetProductById
+}
