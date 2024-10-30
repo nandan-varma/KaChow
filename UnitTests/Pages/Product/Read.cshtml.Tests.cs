@@ -17,6 +17,7 @@ using NUnit.Framework;
 using ContosoCrafts.WebSite.Pages.Product;
 using ContosoCrafts.WebSite.Services;
 using ContosoCrafts.Pages.Product;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace UnitTests.Pages.Product.Read
 {
@@ -69,6 +70,26 @@ namespace UnitTests.Pages.Product.Read
         }
 
         #endregion TestSetup
+
+        #region OnGet
+
+        [Test]
+        public void ReadPage_InValid_Product_Id_Should_Return_404()
+        {
+            // Arrange
+            var dataId = "not_empty_or_null";
+
+            // Act
+            var result = pageModel.OnGet(dataId);
+
+            // Assert
+            Assert.That(pageModel.ModelState.IsValid, Is.EqualTo(true));
+            Assert.That(((IStatusCodeActionResult) result).StatusCode, Is.EqualTo(404));
+            Assert.That(pageModel.Product, Is.EqualTo(null));
+        }
+
+
+        #endregion
 
 
     }
