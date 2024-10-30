@@ -89,6 +89,21 @@ namespace UnitTests.Pages.Product.Read
         }
 
 
+        [Test]
+        public void ReadPage_Valid_Product_Id_Should_Return_Status_200()
+        {
+            // Arrange
+            var dataId = TestHelper.ProductService.GetAllData().First().Id;
+
+            // Act
+            var result = (IStatusCodeActionResult) pageModel.OnGet(dataId);
+
+            // Assert
+            Assert.That(pageModel.ModelState.IsValid, Is.EqualTo(true));
+            Assert.That(result.StatusCode, Is.EqualTo(200));
+            Assert.That(pageModel.Product.Id, Is.EqualTo(dataId));
+        }
+
         #endregion
 
 
