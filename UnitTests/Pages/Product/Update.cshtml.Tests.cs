@@ -101,6 +101,23 @@ namespace UnitTests.Pages.Product.Update
             Assert.That(pageModel.Product.Id, Is.EqualTo(data.Id));
         }
 
+        [Test]
+        public void Update_OnPost_Should_Redirect_To_Index_Page()
+        {
+            // Arrange
+            pageModel.OnGet(TestHelper.ProductService.GetAllData().First().Id);
+            var data = pageModel.Product.Price;
+            pageModel.Product.Price = -data;
+
+            // Act
+            var result = (RedirectToPageResult) pageModel.OnPost();
+
+            // Assert
+            Assert.That(pageModel.ModelState.IsValid, Is.True);
+            Assert.That(pageModel.Product.Price, Is.Not.EqualTo(data));
+            Assert.That(result.PageName, Is.EqualTo("./Index"));
+        }
+
         #endregion UpdateTests
 
     }
