@@ -118,6 +118,20 @@ namespace UnitTests.Pages.Product.Update
             Assert.That(result.PageName, Is.EqualTo("./Index"));
         }
 
+        [Test]
+        public void Update_OnPost_InValid_ModelState_Should_Return_Page_Result()
+        {
+            // Arrange
+            pageModel.Product = TestHelper.ProductService.GetAllData().First();
+            pageModel.ModelState.AddModelError("Sigma", "You must be Sigma");
+
+            // Act
+            var result = (PageResult) pageModel.OnPost();
+
+            // Assert
+            Assert.That(pageModel.ModelState.IsValid, Is.False);
+        }
+
         #endregion UpdateTests
 
     }
