@@ -1,4 +1,8 @@
-﻿
+﻿@using ContosoCrafts.WebSite.Models
+@using ContosoCrafts.WebSite.Services
+@using Microsoft.AspNetCore.Components.Web
+@inject JsonFileProductService ProductService
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,15 +40,46 @@
             <p class="lightning">95</p>
         </nav>
     </header>
+
+    <!-- Bootstrap carousel -->
+
+    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="https://cdn-ssl.s7.shopdisney.com/is/image/DisneyShopping/1515000440086?fmt=webp" class="d-block w-100" alt="...">
+            </div>
+            
+            @foreach (var product in ProductService.GetAllData())
+            {
+                <div class="carousel-item">
+                    <img src="@product.Image" class="d-block w-100" alt="...">
+                </div>
+            }
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+
+    <!-- bootstrap carousel -->
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted bg-footer">
+    <footer style="display: flex; justify-content: space-around;" class="border-top footer text-muted bg-footer">
         <div class="container">
             &copy; 2024 - Kachow - <a asp-area="" asp-page="/Privacy">Privacy</a>
+        </div>
+        <div class="container">
+            <a asp-area="" asp-page="/About">About Us</a>
         </div>
     </footer>
 
