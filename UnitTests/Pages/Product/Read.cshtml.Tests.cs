@@ -89,6 +89,19 @@ namespace UnitTests.Pages.Product.Read
         }
 
         [Test]
+        public void ReadPage_InValid_Product_Id_Null_String_Should_Return_Not_Found()
+        {
+            // Arrange
+
+            // Act
+            var result = pageModel.OnGet(null);
+
+            // Assert
+            Assert.That(pageModel.ModelState.IsValid, Is.EqualTo(true));
+            Assert.That(((IStatusCodeActionResult)result).StatusCode, Is.EqualTo(404));
+        }
+
+        [Test]
         public void ReadPage_Valid_Product_Id_Should_Select_Product_And_Return_Non_Null_Page_Result()
         {
             // Arrange
