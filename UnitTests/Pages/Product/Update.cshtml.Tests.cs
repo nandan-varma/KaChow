@@ -72,6 +72,22 @@ namespace UnitTests.Pages.Product.Update
 
         #endregion TestSetup
 
+        #region UpdateTests
+
+        [Test]
+        public void Update_OnGet_InValid_Product_Id_Should_Have_Null_Product()
+        {
+            // Arrange
+
+            // Act
+            pageModel.OnGet("non_null_or_empty");
+
+            // Assert
+            Assert.That(pageModel.ModelState.IsValid, Is.True);
+            Assert.That(pageModel.Product, Is.Null);
+        }
+
+        #endregion UpdateTests
 
     }
 }
