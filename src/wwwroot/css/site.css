@@ -330,4 +330,29 @@ button.accept-policy {
     .product-link:hover {
         background-color: #ff8c00;
     }
- 
+
+
+
+.carousel {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    position: relative;
+    transform: translateX(0%);
+}
+
+.carousel-item {
+    width: 100%;
+}
+
+.carousel-control-next-icon, .carousel-control-prev-icon {
+    background-color: black;
+    height: 40px;
+    width: 40px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+}
+
+    
