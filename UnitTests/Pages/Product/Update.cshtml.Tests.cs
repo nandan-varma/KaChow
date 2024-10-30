@@ -87,6 +87,20 @@ namespace UnitTests.Pages.Product.Update
             Assert.That(pageModel.Product, Is.Null);
         }
 
+        [Test]
+        public void Update_OnGet_Valid_Product_Id_Should_Have_Non_Null_Product()
+        {
+            // Arrange
+            var data = TestHelper.ProductService.GetAllData().First();
+
+            // Act
+            pageModel.OnGet(data.Id);
+
+            // Assert
+            Assert.That(pageModel.ModelState.IsValid, Is.True);
+            Assert.That(pageModel.Product.Id, Is.EqualTo(data.Id));
+        }
+
         #endregion UpdateTests
 
     }
