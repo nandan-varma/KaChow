@@ -88,7 +88,6 @@ namespace UnitTests.Pages.Product.Read
             Assert.That(pageModel.Product, Is.EqualTo(null));
         }
 
-        //ReadPage_Valid_Product_Id_Should_Return_Status_200
         [Test]
         public void ReadPage_Valid_Product_Id_Should_Select_Product_And_Return_Non_Null_Page_Result()
         {
