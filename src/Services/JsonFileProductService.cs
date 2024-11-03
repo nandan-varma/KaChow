@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using ContosoCrafts.WebSite.Models;
+
 using Microsoft.AspNetCore.Hosting;
 
 namespace ContosoCrafts.WebSite.Services
@@ -24,7 +25,7 @@ namespace ContosoCrafts.WebSite.Services
 
         public IEnumerable<ProductModel> GetAllData()
         {
-            using(var jsonFileReader = File.OpenText(JsonFileName))
+            using (var jsonFileReader = File.OpenText(JsonFileName))
             {
                 return JsonSerializer.Deserialize<ProductModel[]>(jsonFileReader.ReadToEnd(),
                     new JsonSerializerOptions
@@ -40,7 +41,8 @@ namespace ContosoCrafts.WebSite.Services
             return products.FirstOrDefault(x => x.Id.Equals(id));
         }
 
-        public ProductModel GetProductById(string id){
+        public ProductModel GetProductById(string id)
+        {
             var products = GetAllData();
             return products.FirstOrDefault(x => x.Id.Equals(id.Trim()));
         }
@@ -84,7 +86,7 @@ namespace ContosoCrafts.WebSite.Services
             }
 
             // Check to see if the rating exist, if there are none, then create the array
-            if(data.Ratings == null)
+            if (data.Ratings == null)
             {
                 data.Ratings = new int[] { };
             }

@@ -18,7 +18,7 @@ public class RatingService
         return ratings.ContainsKey(productId);
     }
 
-    public void AddRating(string productId, int stars)
+    public virtual void AddRating(string productId, int stars)
     {
         var ratings = GetRatingsFromCookie();
 
@@ -35,7 +35,14 @@ public class RatingService
         if (string.IsNullOrEmpty(cookieValue))
             return new Dictionary<string, int>();
 
-        return JsonSerializer.Deserialize<Dictionary<string, int>>(cookieValue) ?? new Dictionary<string, int>();
+        try
+        {
+            return JsonSerializer.Deserialize<Dictionary<string, int>>(cookieValue);
+        }
+        catch (JsonException)
+        {
+            return new Dictionary<string, int>();
+        }
     }
 
     public string SerializeRatings(Dictionary<string, int> ratings)
@@ -43,7 +50,7 @@ public class RatingService
         return JsonSerializer.Serialize(ratings);
     }
 
-    private void SaveRatingsToCookie(Dictionary<string, int> ratings)
+    public void SaveRatingsToCookie(Dictionary<string, int> ratings)
     {
         var cookieValue = SerializeRatings(ratings);
         _httpContextAccessor.HttpContext.Items["UserRatings"] = cookieValue;
