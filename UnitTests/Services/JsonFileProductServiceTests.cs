@@ -145,7 +145,121 @@ namespace UnitTests.Services
         }
         #endregion AddRating
 
+        #region UpdateData
+        [Test]
+        /// <summary>
+        /// Tests that UpdateData returns the updated model for a valid product in the database.
+        /// </summary>
+        public void UpdateData_Valid_Product_In_DataBase_Should_Return_Updated_Model()
+        {
+            // Arrange
+            var Data = TestHelper.ProductService.CreateData();
+            Data.Name = "Skibidi";
+            Data.Description = "Toilet";
+            Data.Url = "https://www.google.com";
+            Data.Image = "https://www.google.com";
+            Data.Price = 0;
+            Data.CommentList = null;
 
+            // Act
+            var ResultData = TestHelper.ProductService.UpdateData(Data);
 
+            // Reset
+            TestHelper.ProductService.DeleteData(Data.Id);
+
+            // Assert
+            Assert.That(ResultData.Name, Is.EqualTo(Data.Name));
+            Assert.That(ResultData.Description, Is.EqualTo(Data.Description));
+            Assert.That(ResultData.Url, Is.EqualTo(Data.Url));
+            Assert.That(ResultData.Image, Is.EqualTo(Data.Image));
+            Assert.That(ResultData.Price, Is.EqualTo(Data.Price));
+            Assert.That(ResultData.CommentList, Is.EqualTo(Data.CommentList));
+        }
+
+        [Test]
+        /// <summary>
+        /// Tests that UpdateData returns null for an invalid product not in the database.
+        /// </summary>
+        public void UpdateData_InValid_Product_Not_In_DataBase_Should_Return_Null()
+        {
+            // Arrange
+            var Data = new ProductModel();
+            Data.Id = "not_null_or_empty";
+
+            // Act
+            var ResultData = TestHelper.ProductService.UpdateData(Data);
+
+            // Assert
+            Assert.That(ResultData, Is.EqualTo(null));
+        }
+        #endregion UpdateData
+
+        #region GetProductById
+        [Test]
+        /// <summary>
+        /// Tests that GetProductById returns a product for a valid product in the database.
+        /// </summary>
+        public void GetProductById_Valid_Product_In_DataBase_Should_Return_Product()
+        {
+            // Arrange
+            var Data = TestHelper.ProductService.GetAllData().First();
+
+            // Act
+            var ResultData = TestHelper.ProductService.GetProductById(Data.Id);
+
+            // Assert
+            Assert.That(Data.Id, Is.EqualTo(ResultData.Id));
+        }
+
+        [Test]
+        /// <summary>
+        /// Tests that GetProductById returns null for an invalid product not in the database.
+        /// </summary>
+        public void GetProductById_InValid_Product_Not_In_DataBase_Should_Return_Null()
+        {
+            // Arrange
+            var DataId = "Skibidi";
+
+            // Act
+            var ResultData = TestHelper.ProductService.GetProductById(DataId);
+
+            // Assert
+            Assert.That(ResultData, Is.EqualTo(null));
+        }
+        #endregion GetProductById
+
+        #region GetProductByIdAsync
+        [Test]
+        /// <summary>
+        /// Tests that GetProductByIdAsync returns a product for a valid product in the database.
+        /// </summary>
+        public void GetProductByIdAsync_Valid_Product_In_DataBase_Should_Return_Product()
+        {
+            // Arrange
+            var Data = TestHelper.ProductService.GetAllData().First();
+
+            // Act
+            var ResultData = TestHelper.ProductService.GetProductByIdAsync(Data.Id);
+
+            // Assert
+            Assert.That(Data.Id, Is.EqualTo(ResultData.Result.Id));
+        }
+
+        [Test]
+        /// <summary>
+        /// Tests that GetProductByIdAsync returns null for an invalid product not in the database.
+        /// </summary>
+        public void GetProductByIdAsync_InValid_Product_Not_In_DataBase_Should_Return_Null()
+        {
+            // Arrange
+            var DataId = "Skibidi";
+
+            // Act
+            var ResultData = TestHelper.ProductService.GetProductByIdAsync(DataId);
+
+            // Assert
+            Assert.That(ResultData.Result, Is.EqualTo(null));
+        }
+        #endregion GetProductByIdAsync
     }
 }
