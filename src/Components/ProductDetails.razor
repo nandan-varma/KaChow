@@ -29,6 +29,7 @@ else
             <h1 class="product-title">@product.Name</h1>
             <p class="product-description">@product.Description</p>
             <p class="product-price">Price: $@product.Price</p>
+            <p class="product-details">Stock: @product.Stock</p>
             <div class="product-ratings">
                 @if (product.Ratings?.Any() == true)
                 {
