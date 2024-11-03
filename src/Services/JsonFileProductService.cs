@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using ContosoCrafts.WebSite.Models;
-
 using Microsoft.AspNetCore.Hosting;
 
 namespace ContosoCrafts.WebSite.Services
@@ -134,7 +133,7 @@ namespace ContosoCrafts.WebSite.Services
         /// <summary>
         /// Save All products data to storage
         /// </summary>
-        private void SaveData(IEnumerable<ProductModel> products)
+        public void SaveData(IEnumerable<ProductModel> products)
         {
 
             using (var outputStream = File.Create(JsonFileName))

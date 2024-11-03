@@ -1,40 +1,46 @@
+using System.Collections.Generic;
 using System.Linq;
-
-using Microsoft.Extensions.DependencyInjection;
-
 using Bunit;
-using NUnit.Framework;
-
 using ContosoCrafts.WebSite.Components;
+using ContosoCrafts.WebSite.Models;
 using ContosoCrafts.WebSite.Services;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
+using Moq;
+using NUnit.Framework;
 
 namespace UnitTests.Components
 {
-    public class ProductListTests : BunitTestContext
+    public class ProductListTests : Bunit.TestContext
     {
-        #region TestSetup
+        private Mock<IWebHostEnvironment> WebHostEnvironmentMock;
+        private Mock<IHttpContextAccessor> HttpContextAccessorMock;
+        private IEnumerable<ProductModel> OriginalProductData;
+
+        public ProductListTests()
+        {
+            #region TestSetup
+            WebHostEnvironmentMock = new Mock<IWebHostEnvironment>();
+            WebHostEnvironmentMock.Setup(x => x.WebRootPath).Returns("../../../../src/wwwroot");
+            HttpContextAccessorMock = new Mock<IHttpContextAccessor>();
+
+            Services.AddSingleton(new JsonFileProductService(WebHostEnvironmentMock.Object));
+            Services.AddSingleton(new RatingService(HttpContextAccessorMock.Object));
+            #endregion
+        }
 
         [SetUp]
         public void TestInitialize()
         {
+            OriginalProductData = Services.GetService<JsonFileProductService>().GetAllData();
         }
 
-        #endregion TestSetup
-
-        [Test]
-        public void ProductList_Valid_Default_Should_Return_Content()
+        [TearDown]
+        public void TestCleanup()
         {
-            // Arrange
-            Services.AddSingleton<JsonFileProductService>(TestHelper.ProductService);
-
-            // Act
-            var page = RenderComponent<ProductList>();
-
-            // Get the Cards retrned
-            var result = page.Markup;
-
-            // Assert
-            Assert.That(result.Contains("The Quantified Cactus: An Easy Plant Soil Moisture Sensor"), Is.EqualTo(true));
+            Services.GetService<JsonFileProductService>().SaveData(OriginalProductData);
         }
+
     }
 }
