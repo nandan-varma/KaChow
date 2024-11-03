@@ -15,14 +15,19 @@
     @inject JsonFileProductService ProductService
 
     <div class="carousel-inner">
+        
+        @{
+            var data = ProductService.GetAllData().ToList();
+        }
+
         <div class="carousel-item active">
-            <img src="https://cdn-ssl.s7.shopdisney.com/is/image/DisneyShopping/1515000440086?fmt=webp" class="d-block w-100" alt="...">
+            <img src="@data[0].Image" class="d-block w-100" alt="...">
         </div>
 
-        @foreach (var product in ProductService.GetAllData())
+        @for (int i = 1; i < data.Count(); i++)
         {
             <div class="carousel-item">
-                <img src="@product.Image" class="d-block w-100" alt="...">
+                <img src="@data[i].Image" class="d-block w-100" alt="...">
             </div>
         }
     </div>
