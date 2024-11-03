@@ -75,6 +75,79 @@ namespace UnitTests.Pages.Product
 
         #endregion TestSetup
 
+        #region UpdateTests
+
+        [Test]
+        /// <summary>
+        /// Tests that OnGet returns null product when given an invalid product ID.
+        /// </summary>
+        public void Update_OnGet_Invalid_Product_Id_Should_Have_Null_Product()
+        {
+            // Arrange
+
+            // Act
+            PageModel.OnGet("non_null_or_empty");
+
+            // Assert
+            Assert.That(PageModel.ModelState.IsValid, Is.True);
+            Assert.That(PageModel.Product, Is.Null);
+        }
+
+        [Test]
+        /// <summary>
+        /// Tests that OnGet returns a non-null product when given a valid product ID.
+        /// </summary>
+        public void Update_OnGet_Valid_Product_Id_Should_Have_Non_Null_Product()
+        {
+            // Arrange
+            var Data = TestHelper.ProductService.GetAllData().First();
+
+            // Act
+            PageModel.OnGet(Data.Id);
+
+            // Assert
+            Assert.That(PageModel.ModelState.IsValid, Is.True);
+            Assert.That(PageModel.Product.Id, Is.EqualTo(Data.Id));
+        }
+
+        [Test]
+        /// <summary>
+        /// Tests that OnPost redirects to the index page after a successful update.
+        /// </summary>
+        public void Update_OnPost_Should_Redirect_To_Index_Page()
+        {
+            // Arrange
+            PageModel.OnGet(TestHelper.ProductService.GetAllData().First().Id);
+            var Data = PageModel.Product.Price;
+            PageModel.Product.Price = -Data;
+
+            // Act
+            var Result = (RedirectToPageResult)PageModel.OnPost();
+
+            // Assert
+            Assert.That(PageModel.ModelState.IsValid, Is.True);
+            Assert.That(PageModel.Product.Price, Is.Not.EqualTo(Data));
+            Assert.That(Result.PageName, Is.EqualTo("./Index"));
+        }
+
+        [Test]
+        /// <summary>
+        /// Tests that OnPost returns PageResult when the model state is invalid.
+        /// </summary>
+        public void Update_OnPost_Invalid_ModelState_Should_Return_Page_Result()
+        {
+            // Arrange
+            PageModel.Product = TestHelper.ProductService.GetAllData().First();
+            PageModel.ModelState.AddModelError("Sigma", "You must be Sigma");
+
+            // Act
+            var Result = (PageResult)PageModel.OnPost();
+
+            // Assert
+            Assert.That(PageModel.ModelState.IsValid, Is.False);
+        }
+
+        #endregion UpdateTests
 
     }
 }
