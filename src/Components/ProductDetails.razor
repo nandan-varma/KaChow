@@ -30,13 +30,23 @@ else
             <p class="product-description">@product.Description</p>
             <p class="product-price">Price: $@product.Price</p>
             <div class="product-ratings">
-                @for (int i = 0; i < 5; i++)
+                @if (product.Ratings?.Any() == true)
                 {
-                    if (i < (int)product.Ratings.Average())
+                    @for (int i = 0; i < 5; i++)
                     {
-                        <span class="star filled">★</span>
+                        if (i < (int)product.Ratings.Average())
+                        {
+                            <span class="star filled">★</span>
+                        }
+                        else
+                        {
+                            <span class="star">☆</span>
+                        }
                     }
-                    else
+                }
+                else
+                {
+                    @for (int i = 0; i < 5; i++)
                     {
                         <span class="star">☆</span>
                     }
