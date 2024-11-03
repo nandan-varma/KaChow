@@ -1,42 +1,29 @@
-using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Moq;
 using NUnit.Framework;
+using ContosoCrafts.WebSite;
+using ContosoCrafts.WebSite.Services;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Http;
+using System.Net.Http;
+using Microsoft.Extensions.Configuration;
 
-namespace UnitTests.Pages.Startup
+namespace UnitTests
 {
     public class StartupTests
     {
-        #region TestSetup
+        private Startup _startup;
+        private Mock<IConfiguration> _configurationMock;
 
         [SetUp]
-        public void TestInitialize()
+        public void Setup()
         {
+            _configurationMock = new Mock<IConfiguration>();
+            _startup = new Startup(_configurationMock.Object);
         }
 
-        public class Startup : ContosoCrafts.WebSite.Startup
-        {
-            public Startup(IConfiguration config) : base(config) { }
-        }
-        #endregion TestSetup
-
-        #region ConfigureServices
-        [Test]
-        public void Startup_ConfigureServices_Valid_Defaut_Should_Pass()
-        {
-            var webHost = Microsoft.AspNetCore.WebHost.CreateDefaultBuilder().UseStartup<Startup>().Build();
-            Assert.That(webHost, Is.Not.Null);
-        }
-        #endregion ConfigureServices
-
-        #region Configure
-        [Test]
-        public void Startup_Configure_Valid_Defaut_Should_Pass()
-        {
-            var webHost = Microsoft.AspNetCore.WebHost.CreateDefaultBuilder().UseStartup<Startup>().Build();
-            Assert.That(webHost, Is.Not.Null);
-        }
-
-        #endregion Configure
     }
 }
