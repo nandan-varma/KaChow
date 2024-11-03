@@ -110,7 +110,7 @@
     "Url": "https://www.ebay.com/itm/256628785637",
     "Name": "Guido",
     "Model": "Forklift",
-    "Description": "Guido, Luigi's loyal assistant, is a little blue forklift with a need for speed. This adorable plush is a great companion for Cars enthusiasts.",
+    "Description": "Guido, Luigis loyal assistant, is a little blue forklift with a need for speed. This adorable plush is a great companion for Cars enthusiasts.",
     "Ratings": [
       5,
       4
@@ -121,11 +121,11 @@
   },
   {
     "Id": "disney-pixar-cars-fillmore-plush",
-    "img": "https://m.media-amazon.com/images/I/51jzv+G5XcL._AC_SY300_SX300_.jpg",
+    "img": "https://m.media-amazon.com/images/I/51jzv\u002BG5XcL._AC_SY300_SX300_.jpg",
     "Url": "https://www.amazon.co.uk/Disney-Pixar-Movie-Exclusive-Fillmore/dp/B004XZQ886",
     "Name": "Fillmore",
     "Model": "1960 Volkswagen Bus",
-    "Description": "Fillmore, the peace-loving Volkswagen Bus who runs the organic fuel station in Radiator Springs, is now available as a soft plush for Cars fans!",
+    "Description": "Fillmore, the peace loving Volkswagen Bus who runs the organic fuel station in Radiator Springs, is now available as a soft plush for Cars fans!",
     "Ratings": [
       5,
       3
