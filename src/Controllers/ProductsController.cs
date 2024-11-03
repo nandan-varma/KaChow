@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using ContosoCrafts.WebSite.Models;
 using ContosoCrafts.WebSite.Services;
+using System.Linq;
 
 namespace ContosoCrafts.WebSite.Controllers
 {
@@ -27,10 +28,18 @@ namespace ContosoCrafts.WebSite.Controllers
         [HttpPatch]
         public ActionResult Patch([FromBody] RatingRequest request)
         {
+            // Check if the product exists
+            var product = ProductService.GetAllData().FirstOrDefault(p => p.Id == request.ProductId);
+            if (product == null || request.Rating < 1 || request.Rating > 5)
+            {
+                return BadRequest(); // Return bad request if product does not exist or rating is out of bounds
+            }
+
             ProductService.AddRating(request.ProductId, request.Rating);
-            
+
             return Ok();
         }
+
 
         public class RatingRequest
         {
