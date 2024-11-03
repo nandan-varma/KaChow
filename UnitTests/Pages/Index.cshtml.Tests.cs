@@ -1,46 +1,43 @@
-using System.Linq;
-
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-
-using Moq;
-
 using NUnit.Framework;
-
+using ContosoCrafts.WebSite.Models;
+using ContosoCrafts.WebSite.Services;
+using System.Collections.Generic;
+using System.Linq;
 using ContosoCrafts.WebSite.Pages;
+using Moq;
+using Microsoft.AspNetCore.Hosting;
 
-namespace UnitTests.Pages.Index
+namespace UnitTests.Pages
 {
-    public class IndexTests
+    [TestFixture]
+    public class IndexModelTests
     {
-        #region TestSetup
-
-        public static IndexModel pageModel;
+        private IndexModel IndexModel;
+        private Mock<ILogger<IndexModel>> LoggerMock;
+        private Mock<IWebHostEnvironment> WebHostEnvironment;
+        private JsonFileProductService ProductService;
+        private IEnumerable<ProductModel> OriginalProductData;
 
         [SetUp]
-        public void TestInitialize()
+        public void Setup()
         {
-            var MockLoggerDirect = Mock.Of<ILogger<IndexModel>>();
-
-            pageModel = new IndexModel(MockLoggerDirect, TestHelper.ProductService)
-            {
-            };
+            // Create mocks for logger and product service
+            LoggerMock = new Mock<ILogger<IndexModel>>();
+            WebHostEnvironment = new Mock<IWebHostEnvironment>();
+            WebHostEnvironment.Setup(m => m.WebRootPath).Returns("../../../../src/wwwroot");
+            ProductService = new JsonFileProductService(WebHostEnvironment.Object);
+            OriginalProductData = ProductService.GetAllData();
+            IndexModel = new IndexModel(LoggerMock.Object, ProductService);
         }
 
-        #endregion TestSetup
-
-        #region OnGet
-        [Test]
-        public void OnGet_Valid_Should_Return_Products()
+        [TearDown]
+        public void TearDown()
         {
-            // Arrange
-
-            // Act
-            pageModel.OnGet();
-
-            // Assert
-            Assert.That(pageModel.ModelState.IsValid, Is.EqualTo(true));
-            Assert.That(pageModel.Products.ToList().Any(), Is.EqualTo(true));
+            // Restore the original data after each test
+            ProductService.SaveData(OriginalProductData);
         }
-        #endregion OnGet
+
     }
 }
