@@ -62,5 +62,22 @@ namespace UnitTests.Pages.Product
         }
         #endregion TestSetup
 
+        #region OnGet
+        [Test]
+        /// <summary>
+        /// Tests that OnGet returns valid products.
+        /// </summary>
+        public void OnGet_Valid_Should_Return_Products()
+        {
+            // Arrange
+
+            // Act
+            PageModel.OnGet();
+
+            // Assert
+            Assert.That(PageModel.ModelState.IsValid, Is.EqualTo(true));
+            Assert.That(PageModel.Products.ToList().Count, Is.EqualTo(TestHelper.ProductService.GetAllData().Count()));
+        }
+        #endregion OnGet
     }
 }
