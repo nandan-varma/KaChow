@@ -39,5 +39,77 @@ namespace UnitTests.Pages
             ProductService.SaveData(OriginalProductData);
         }
 
+        [Test]
+        public void OnGet_WhenDataIsAvailable_Should_SetProducts()
+        {
+            // Arrange
+            var testProducts = ProductService.GetAllData();
+
+            // Act
+            IndexModel.OnGet();
+
+            // Assert
+            Assert.That(IndexModel.Products, Is.Not.Null);
+            Assert.That(IndexModel.Products.Count(), Is.EqualTo(testProducts.Count()));
+        }
+
+        [Test]
+        public void OnGet_WhenNoDataAvailable_Should_SetProductsToEmpty()
+        {
+            // Arrange
+            ProductService.SaveData(new List<ProductModel>());
+
+            // Act
+            IndexModel.OnGet();
+
+            // Assert
+            Assert.That(IndexModel.Products, Is.Not.Null);
+            Assert.That(IndexModel.Products, Is.Empty);
+        }
+
+        [Test]
+        public void MoveNext_WhenNextItemExists_Should_ReturnTrue()
+        {
+            // Arrange
+            IndexModel.OnGet(); // Make sure products are loaded
+            var enumerator = IndexModel.Products.GetEnumerator(); // Assuming Products is an IEnumerable<ProductModel>
+
+            // Act
+            bool result = enumerator.MoveNext(); // Call MoveNext
+
+            // Assert
+            Assert.That(result, Is.True); // Assuming there are products loaded
+        }
+
+        [Test]
+        public void MoveNext_WhenNoMoreItems_Should_ReturnFalse()
+        {
+            // Arrange
+            ProductService.SaveData(new List<ProductModel>()); // Clear products
+            IndexModel.OnGet(); // Refresh the product list
+
+            var enumerator = IndexModel.Products.GetEnumerator(); // Assuming Products is an IEnumerable<ProductModel>
+
+            // Act
+            bool result = enumerator.MoveNext(); // Call MoveNext
+
+            // Assert
+            Assert.That(result, Is.False); // No items should be available
+        }
+
+        [Test]
+        public void ProductsEnumerator_WhenNoMoreItems_Should_ReturnFalse()
+        {
+            // Arrange
+            ProductService.SaveData(new List<ProductModel>()); // Clear products
+            IndexModel.OnGet(); // Refresh the product list
+
+            // Act
+            var enumerator = IndexModel.Products.GetEnumerator();
+            bool hasMore = enumerator.MoveNext(); // Attempt to move when no items
+
+            // Assert
+            Assert.That(hasMore, Is.False);
+        }
     }
 }
