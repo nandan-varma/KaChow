@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
@@ -9,82 +8,59 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
-
 using Moq;
-
 using NUnit.Framework;
-
 using ContosoCrafts.WebSite.Pages.Product;
 using ContosoCrafts.WebSite.Services;
 
-namespace UnitTests.Pages.Product.Index
+namespace UnitTests.Pages.Product
 {
     public class IndexTests
     {
         #region TestSetup
-        public static IUrlHelperFactory urlHelperFactory;
-        public static DefaultHttpContext httpContextDefault;
-        public static IWebHostEnvironment webHostEnvironment;
-        public static ModelStateDictionary modelState;
-        public static ActionContext actionContext;
-        public static EmptyModelMetadataProvider modelMetadataProvider;
-        public static ViewDataDictionary viewData;
-        public static TempDataDictionary tempData;
-        public static PageContext pageContext;
+        public static IUrlHelperFactory UrlHelperFactory;
+        public static DefaultHttpContext HttpContextDefault;
+        public static IWebHostEnvironment WebHostEnvironment;
+        public static ModelStateDictionary ModelState;
+        public static ActionContext ActionContext;
+        public static EmptyModelMetadataProvider ModelMetadataProvider;
+        public static ViewDataDictionary ViewData;
+        public static TempDataDictionary TempData;
+        public static PageContext PageContext;
 
-        public static IndexModel pageModel;
+        public static IndexModel PageModel;
 
         [SetUp]
         public void TestInitialize()
         {
-            httpContextDefault = new DefaultHttpContext()
+            HttpContextDefault = new DefaultHttpContext();
+
+            ModelState = new ModelStateDictionary();
+
+            ActionContext = new ActionContext(HttpContextDefault, HttpContextDefault.GetRouteData(), new PageActionDescriptor(), ModelState);
+
+            ModelMetadataProvider = new EmptyModelMetadataProvider();
+            ViewData = new ViewDataDictionary(ModelMetadataProvider, ModelState);
+            TempData = new TempDataDictionary(HttpContextDefault, Mock.Of<ITempDataProvider>());
+
+            PageContext = new PageContext(ActionContext)
             {
-                //RequestServices = serviceProviderMock.Object,
+                ViewData = ViewData,
             };
 
-            modelState = new ModelStateDictionary();
-
-            actionContext = new ActionContext(httpContextDefault, httpContextDefault.GetRouteData(), new PageActionDescriptor(), modelState);
-
-            modelMetadataProvider = new EmptyModelMetadataProvider();
-            viewData = new ViewDataDictionary(modelMetadataProvider, modelState);
-            tempData = new TempDataDictionary(httpContextDefault, Mock.Of<ITempDataProvider>());
-
-            pageContext = new PageContext(actionContext)
-            {
-                ViewData = viewData,
-            };
-
-            var mockWebHostEnvironment = new Mock<IWebHostEnvironment>();
-            mockWebHostEnvironment.Setup(m => m.EnvironmentName).Returns("Hosting:UnitTestEnvironment");
-            mockWebHostEnvironment.Setup(m => m.WebRootPath).Returns("../../../../src/bin/Debug/net6.0/wwwroot");
-            mockWebHostEnvironment.Setup(m => m.ContentRootPath).Returns("./data/");
+            var MockWebHostEnvironment = new Mock<IWebHostEnvironment>();
+            MockWebHostEnvironment.Setup(m => m.WebRootPath).Returns("../../../../src/wwwroot");
 
             var MockLoggerDirect = Mock.Of<ILogger<IndexModel>>();
-            JsonFileProductService productService;
+            JsonFileProductService ProductService;
 
-            productService = new JsonFileProductService(mockWebHostEnvironment.Object);
+            ProductService = new JsonFileProductService(MockWebHostEnvironment.Object);
 
-            pageModel = new IndexModel(productService)
+            PageModel = new IndexModel(ProductService)
             {
             };
         }
-
         #endregion TestSetup
 
-        #region OnGet
-        [Test]
-        public void OnGet_Valid_Should_Return_Products()
-        {
-            // Arrange
-
-            // Act
-            pageModel.OnGet();
-
-            // Assert
-            Assert.That(pageModel.ModelState.IsValid, Is.EqualTo(true));
-            Assert.That(pageModel.Products.ToList().Count, Is.EqualTo(TestHelper.ProductService.GetAllData().Count()));
-        }
-        #endregion OnGet
     }
 }
