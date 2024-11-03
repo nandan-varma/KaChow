@@ -38,6 +38,7 @@ namespace UnitTests
         public static TempDataDictionary TempData;
         public static PageContext PageContext;
         public static JsonFileProductService ProductService;
+        public static RatingService RatingService;
 
         /// <summary>
         /// Default Constructor
