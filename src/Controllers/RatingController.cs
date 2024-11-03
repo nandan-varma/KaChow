@@ -20,26 +20,26 @@ namespace ContosoCrafts.WebSite.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult AddRating([FromQuery] string productId, [FromQuery] int rating)
+        public IActionResult AddRating(string productId, int rating)
         {
-            var ratings = _ratingService.GetRatingsFromCookie();
-
-            if (ratings.ContainsKey(productId))
+            if (rating < 1 || rating > 5)
             {
-                return BadRequest("User has already rated this product.");
+                return BadRequest("Invalid rating value.");
+            }
+
+            if (string.IsNullOrEmpty(productId))
+            {
+                return BadRequest("Product ID cannot be null or empty.");
+            }
+
+            var product = _productService.GetProductById(productId);
+
+            if (product == null)
+            {
+                return NotFound("Product not found.");
             }
 
             _ratingService.AddRating(productId, rating);
-            _productService.AddRating(productId, rating);
-
-            ratings[productId] = rating;
-            var cookieValue = _ratingService.SerializeRatings(ratings);
-            var options = new CookieOptions
-            {
-                Expires = DateTimeOffset.UtcNow.AddDays(30),
-                HttpOnly = true
-            };
-            Response.Cookies.Append("UserRatings", cookieValue, options);
 
             return Ok();
         }
