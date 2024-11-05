@@ -228,6 +228,55 @@ namespace UnitTests.Services
         }
         #endregion GetProductById
 
+        #region CreateData
+
+        [Test]
+        /// <summary>
+        /// Tests that DeleteData successfully removes a valid product from the database.
+        /// </summary>
+        public void DeleteData_Valid_Product_In_DataBase_Should_Remove_Product()
+        {
+            // Arrange
+            var Data = TestHelper.ProductService.CreateData();
+            Data.Name = "Skibidi";
+            Data.Description = "Toilet";
+            Data.Url = "https://www.google.com";
+            Data.Image = "https://www.google.com";
+            Data.Price = 0;
+            Data.CommentList = null;
+
+            // Act
+            var DeleteResult = TestHelper.ProductService.DeleteData(Data.Id);
+
+            // Assert that the delete operation was successful
+            Assert.That(DeleteResult, Is.True);
+
+            // Act again to confirm product is no longer in the database
+            var ResultData = TestHelper.ProductService.GetProductById(Data.Id);
+
+            // Assert
+            Assert.That(ResultData, Is.Null);
+        }
+
+        [Test]
+        /// <summary>
+        /// Tests that DeleteData returns false for an invalid product not in the database.
+        /// </summary>
+        public void DeleteData_InValid_Product_Not_In_DataBase_Should_Return_False()
+        {
+            // Arrange
+            var DataId = "not_null_or_empty"; // an ID that doesn't exist in the database
+
+            // Act
+            var DeleteResult = TestHelper.ProductService.DeleteData(DataId);
+
+            // Assert
+            Assert.That(DeleteResult, Is.False);
+        }
+
+
+        #endregion CreateData
+
         #region GetProductByIdAsync
         [Test]
         /// <summary>
