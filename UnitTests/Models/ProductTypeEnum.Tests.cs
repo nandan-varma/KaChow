@@ -1,5 +1,5 @@
-﻿using NUnit.Framework;
-using ContosoCrafts.WebSite.Models;
+﻿using ContosoCrafts.WebSite.Models;
+using NUnit.Framework;
 
 namespace UnitTests.Models
 {
