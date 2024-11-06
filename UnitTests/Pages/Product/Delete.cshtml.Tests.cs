@@ -140,6 +140,28 @@ namespace UnitTests.Pages.Product
             // Assert
             Assert.That(PageModel.ModelState.IsValid, Is.False);
         }
+        
+        [Test]
+        /// <summary>
+        /// Tests that OnPost adds an error message to ModelState and returns Page when deletion fails.
+        /// </summary>
+        public void Delete_OnPost_Delete_Fails_Should_Add_Error_To_ModelState_And_Return_Page()
+        {
+            // Arrange
+            var Product = ProductService.CreateData();
+            PageModel = new DeleteModel(productService: ProductService) { Product = Product };
+
+            ProductService.DeleteData(Product.Id);
+
+
+            // Act
+            var Result = PageModel.OnPost();
+
+            // Assert
+            Assert.That(PageModel.ModelState.IsValid, Is.False);
+            Assert.That(PageModel.ModelState[string.Empty].Errors.First().ErrorMessage, Is.EqualTo("Product not found or could not be deleted."));
+            Assert.That(Result, Is.TypeOf<PageResult>());
+        }
 
         [Test]
         /// <summary>
