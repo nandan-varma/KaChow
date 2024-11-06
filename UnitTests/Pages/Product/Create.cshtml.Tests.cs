@@ -1,14 +1,13 @@
-﻿using System.Linq;
+﻿using ContosoCrafts.WebSite.Models;
+using ContosoCrafts.WebSite.Pages.Product;
+using ContosoCrafts.WebSite.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Moq;
 using NUnit.Framework;
-using ContosoCrafts.WebSite.Pages.Product;
-using ContosoCrafts.WebSite.Services;
-using ContosoCrafts.WebSite.Models;
 
 namespace UnitTests.Pages.Product
 {
