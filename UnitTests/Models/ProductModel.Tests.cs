@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 
+// Namespace for Model UnitTests
 namespace UnitTests.Models
 {
     public class ProductModelTests
