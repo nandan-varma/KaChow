@@ -3,6 +3,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
 
+// Namespace for Service UnitTests
 namespace UnitTests.Services
 {
     public class JsonFileProductServiceTests
