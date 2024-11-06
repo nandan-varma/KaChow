@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using Bunit;
 using ContosoCrafts.WebSite.Components;
 using ContosoCrafts.WebSite.Models;
@@ -9,6 +7,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using NUnit.Framework;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace UnitTests.Components
 {
