@@ -1,9 +1,7 @@
-using System.Collections.Generic;
-
-using Microsoft.AspNetCore.Mvc;
-
 using ContosoCrafts.WebSite.Models;
 using ContosoCrafts.WebSite.Services;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ContosoCrafts.WebSite.Controllers
