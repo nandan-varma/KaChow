@@ -300,7 +300,22 @@ namespace UnitTests.Services
             Assert.That(createdProduct.Description, Is.EqualTo(newProduct.Description));
         }
 
-        
+
+        [Test]
+        public void CreateProduct_Null_Product_Should_Not_Add_Product()
+        {
+            // Arrange
+            var originalProductCount = TestHelper.ProductService.GetAllData().Count();
+
+            // Act
+            var result = TestHelper.ProductService.CreateProduct(null); // Ensure this returns false if null
+
+            // Assert
+            Assert.That(result, Is.False); // Verify that CreateProduct handles null inputs properly
+            var productCountAfterCreate = TestHelper.ProductService.GetAllData().Count();
+            Assert.That(productCountAfterCreate, Is.EqualTo(originalProductCount)); // Confirm product count remains unchanged
+        }
+
 
         #endregion CreateProduct
 
