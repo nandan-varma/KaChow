@@ -8,6 +8,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
 
+// Namespace for Controller UnitTests
 namespace UnitTests.Controllers
 {
     public class ProductsControllerTests
