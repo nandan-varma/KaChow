@@ -6,22 +6,39 @@ using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 
+// Namespace for ContosoCrafts Web Services
 namespace ContosoCrafts.WebSite.Services
 {
+
+    /// <summary>
+    /// A Service class which handles all interactions between
+    /// the application and the JSON database
+    /// </summary>
     public class JsonFileProductService
     {
+
+        /// <summary>
+        /// Default Constructor
+        /// </summary>
+        /// <param name="webHostEnvironment"></param>
         public JsonFileProductService(IWebHostEnvironment webHostEnvironment)
         {
             WebHostEnvironment = webHostEnvironment;
         }
 
+        // Web environment field
         public IWebHostEnvironment WebHostEnvironment { get; }
 
+        // FileName Field and Getter
         private string JsonFileName
         {
             get { return Path.Combine(WebHostEnvironment.WebRootPath, "data", "plushies.json"); }
         }
 
+        /// <summary>
+        /// Method which retrieves all the data in the database
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<ProductModel> GetAllData()
         {
             using (var jsonFileReader = File.OpenText(JsonFileName))
@@ -33,13 +50,23 @@ namespace ContosoCrafts.WebSite.Services
                     });
             }
         }
-
+        
+        /// <summary>
+        /// A method which retrieves a product by Id asynchronously
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public async Task<ProductModel> GetProductByIdAsync(string id)
         {
             var products = await Task.Run(() => GetAllData());
             return products.FirstOrDefault(x => x.Id.Equals(id));
         }
 
+        /// <summary>
+        /// A method which retrieves the product with Id, id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ProductModel GetProductById(string id)
         {
             var products = GetAllData();
