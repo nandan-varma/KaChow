@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Moq;
 using NUnit.Framework;
 
+// Namespace for Product Page UnitTests
 namespace UnitTests.Pages.Product
 {
     public class CreateTests
