@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -139,6 +140,25 @@ namespace UnitTests.Pages.Product
             // Assert
             Assert.That(PageModel.ModelState.IsValid, Is.False);
         }
+
+        [Test]
+        /// <summary>
+        /// Tests that CreateProduct assigns a unique GUID and returns true when valid data is provided.
+        /// </summary>
+        public void CreateProduct_Valid_Data_Should_Assign_Guid_And_Return_True()
+        {
+            // Arrange
+            var newProduct = new ProductModel();
+
+            // Act
+            var result = ProductService.CreateProduct(newProduct);
+
+            // Assert
+            Assert.That(result, Is.True, "CreateProduct should return true for valid data");
+            Assert.That(newProduct.Id, Is.Not.Null.And.Not.Empty, "Product ID should not be null or empty");
+            Assert.That(Guid.TryParse(newProduct.Id, out _), Is.True, "Assigned ID should be a valid GUID");
+        }
+
 
         #endregion DeleteTests
     }

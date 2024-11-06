@@ -133,5 +133,17 @@
     "Price": 16,
     "Stock": 1,
     "CommentList": []
+  },
+  {
+    "Id": "null-ratings",
+    "img": null,
+    "Url": null,
+    "Name": "Null Ratings Product",
+    "Model": null,
+    "Description": null,
+    "Ratings": null,
+    "Price": 0,
+    "Stock": 0,
+    "CommentList": []
   }
 ]
