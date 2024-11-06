@@ -5,15 +5,27 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
+// Namespace for the ContosoCrafts Website
 namespace ContosoCrafts.WebSite
 {
+
+    /// <summary>
+    /// A class which aids the program.cs class
+    /// in starting the web application
+    /// </summary>
     public class Startup
     {
+
+        /// <summary>
+        /// Constructor which sets the configuration field
+        /// </summary>
+        /// <param name="configuration"></param>
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
+        // Configuration field
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
