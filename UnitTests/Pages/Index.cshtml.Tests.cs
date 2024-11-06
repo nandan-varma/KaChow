@@ -8,6 +8,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
 
+// Namespace for Page UnitTests
 namespace UnitTests.Pages
 {
     [TestFixture]
