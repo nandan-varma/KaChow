@@ -11,9 +11,11 @@ using System.Linq;
 // Namespace for Page UnitTests
 namespace UnitTests.Pages
 {
+
     [TestFixture]
     public class IndexModelTests
     {
+        #region TestSetup
         private IndexModel IndexModel;
         private Mock<ILogger<IndexModel>> LoggerMock;
         private Mock<IWebHostEnvironment> WebHostEnvironment;
@@ -38,6 +40,10 @@ namespace UnitTests.Pages
             // Restore the original data after each test
             ProductService.SaveData(OriginalProductData);
         }
+
+        #endregion TestSetup
+
+        #region OnGet
 
         [Test]
         public void OnGet_WhenDataIsAvailable_Should_SetProducts()
@@ -111,5 +117,8 @@ namespace UnitTests.Pages
             // Assert
             Assert.That(hasMore, Is.False);
         }
+
+        #endregion OnGet
+
     }
 }
