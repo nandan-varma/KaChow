@@ -1,8 +1,7 @@
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using NUnit.Framework;
 using ContosoCrafts.WebSite.Models;
+using NUnit.Framework;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace UnitTests.Services
 {
