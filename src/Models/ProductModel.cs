@@ -13,8 +13,8 @@ namespace ContosoCrafts.WebSite.Models
         public string Image { get; set; }
 
         public string Url { get; set; }
-        
-        [StringLength (maximumLength: 33, MinimumLength = 1, ErrorMessage = "The Name should have a length of more than {2} and less than {1}")]
+
+        [StringLength(maximumLength: 33, MinimumLength = 1, ErrorMessage = "The Name should have a length of more than {2} and less than {1}")]
         public string Name { get; set; }
 
         public string Model { get; set; }
@@ -23,10 +23,10 @@ namespace ContosoCrafts.WebSite.Models
 
         public int[] Ratings { get; set; }
 
-        [Range (-1, 100, ErrorMessage = "Value for {0} must be between {1} and {2}.")]
+        [Range(-1, 100, ErrorMessage = "Value for {0} must be between {1} and {2}.")]
         public int Price { get; set; }
 
-        public int Stock {  get; set; }
+        public int Stock { get; set; }
 
         // Store the Comments entered by the users on this product
         public List<CommentModel> CommentList { get; set; } = new List<CommentModel>();
