@@ -1,6 +1,7 @@
 using Bunit;
 using NUnit.Framework;
 
+// Namespace for base site UnitTests
 namespace UnitTests
 {
     /// <summary>
