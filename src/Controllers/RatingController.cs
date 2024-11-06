@@ -1,8 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using ContosoCrafts.WebSite.Services;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
+﻿using ContosoCrafts.WebSite.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ContosoCrafts.WebSite.Controllers
 {
