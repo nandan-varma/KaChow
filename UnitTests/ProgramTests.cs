@@ -1,6 +1,7 @@
 ﻿using ContosoCrafts.WebSite;
 using NUnit.Framework;
 
+// Namespace for base site UnitTests
 namespace UnitTests
 {
     public class ProgramTests
