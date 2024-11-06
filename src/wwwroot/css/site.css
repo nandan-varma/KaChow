@@ -356,3 +356,11 @@ button.accept-policy {
 }
 
     
+.create-product-button-container {
+    margin: 1rem;
+}
+
+.create-product-button {
+    font-size: 1.5rem;
+    bottom: 2rem;
+}
