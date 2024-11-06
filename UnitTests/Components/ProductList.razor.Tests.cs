@@ -10,6 +10,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
 
+// Namespace for Component UnitTests
 namespace UnitTests.Components
 {
     public class ProductListTests : Bunit.TestContext
