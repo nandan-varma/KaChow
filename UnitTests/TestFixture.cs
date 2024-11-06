@@ -1,7 +1,7 @@
 using NUnit.Framework;
 using System.IO;
 
-
+// Namespace for base site UnitTests
 namespace UnitTests
 {
     [SetUpFixture]
