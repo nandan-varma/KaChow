@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using ContosoCrafts.WebSite.Models;
+using NUnit.Framework;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
-using NUnit.Framework;
-using ContosoCrafts.WebSite.Models;
 
 namespace UnitTests.Models
 {
