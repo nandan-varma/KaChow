@@ -13,7 +13,6 @@ using Moq;
 using NUnit.Framework;
 using System.Linq;
 
-// Namespace for Product Page UnitTests
 namespace UnitTests.Pages.Product
 {
     public class IndexTests
@@ -64,6 +63,10 @@ namespace UnitTests.Pages.Product
         #endregion TestSetup
 
         #region OnGet
+        /// <summary>
+        /// Test to check if OnGet method returns valid products
+        /// </summary>
+        [Test]
         public void OnGet_Valid_Should_Return_Products()
         {
             // Arrange
@@ -76,7 +79,32 @@ namespace UnitTests.Pages.Product
             Assert.That(PageModel.Products.ToList().Count, Is.EqualTo(TestHelper.ProductService.GetAllData().Count()));
         }
 
+        /// <summary>
+        /// Test to check if OnGet method sets Products property
+        /// </summary>
+        [Test]
+        public void OnGet_Should_Set_Products_Property()
+        {
+            // Arrange
 
+            // Act
+            PageModel.OnGet();
+
+            // Assert
+            Assert.That(PageModel.Products, Is.Not.Null);
+        }
+
+        /// <summary>
+        /// Test to check if OnGet method does not throw any exceptions
+        /// </summary>
+        [Test]
+        public void OnGet_Should_Not_Throw_Exception()
+        {
+            // Arrange
+
+            // Act & Assert
+            Assert.DoesNotThrow(() => PageModel.OnGet());
+        }
         #endregion OnGet
     }
 }
