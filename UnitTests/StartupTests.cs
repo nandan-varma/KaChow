@@ -10,6 +10,7 @@ using Moq;
 using NUnit.Framework;
 using System.Net.Http;
 
+// Namespace for base site UnitTests
 namespace UnitTests
 {
     public class StartupTests
