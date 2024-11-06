@@ -15,6 +15,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
 
+// Namespace for Product Page UnitTests
 namespace UnitTests.Pages.Product
 {
     public class UpdateTests
