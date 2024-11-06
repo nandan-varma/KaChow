@@ -1,6 +1,7 @@
 ﻿using ContosoCrafts.WebSite.Models;
 using NUnit.Framework;
 
+// Namespace for Model UnitTests
 namespace UnitTests.Models
 {
     public class ProductTypeEnumTests
