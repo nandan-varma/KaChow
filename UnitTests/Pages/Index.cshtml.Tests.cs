@@ -1,13 +1,12 @@
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
-using NUnit.Framework;
 using ContosoCrafts.WebSite.Models;
+using ContosoCrafts.WebSite.Pages;
 using ContosoCrafts.WebSite.Services;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Logging;
+using Moq;
+using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
-using ContosoCrafts.WebSite.Pages;
-using Moq;
-using Microsoft.AspNetCore.Hosting;
 
 namespace UnitTests.Pages
 {
