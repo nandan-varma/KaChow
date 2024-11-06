@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Moq;
 using NUnit.Framework;
+using System.Collections.Generic;
 
 // Namespace for Product Page UnitTests
 namespace UnitTests.Pages.Product
@@ -23,6 +24,7 @@ namespace UnitTests.Pages.Product
         private static PageContext PageContext;
         private static CreateModel PageModel;
         private static JsonFileProductService ProductService;
+        private static IEnumerable<ProductModel> OriginalProductData;
 
         [SetUp]
         public void TestInitialize()
@@ -39,7 +41,15 @@ namespace UnitTests.Pages.Product
 
             ProductService = new JsonFileProductService(mockWebHostEnvironment.Object);
             PageModel = new CreateModel(ProductService) { PageContext = PageContext };
+            OriginalProductData = ProductService.GetAllData();
         }
+
+        [TearDown]
+        public void TestCleanup()
+        {
+            ProductService.SaveData(OriginalProductData);
+        }
+
         #endregion TestSetup
 
         #region OnGet
