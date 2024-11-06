@@ -16,6 +16,7 @@
             </tr>
         </thead>
         <tbody>
+            <a href="/Product/Create">Create</a>
             @foreach (var product in Model.Products)
             {
                 <tr>
@@ -24,12 +25,12 @@
                     <td>
                         <div class="card-img" style="background-image: url('@product.Image'); background-size: contain;"></div>
                     </td>
-                    <td><a href="/Product/Create/@product.Id">Create</a></td>
                     <td><a href="/Product/Read/@product.Id">Read</a></td>
                     <td><a href="/Product/Update/@product.Id">Update</a></td>
                     <td><a href="/Product/Delete/@product.Id">Delete</a></td>
                 </tr>
             }
         </tbody>
+
     </table>
 </div>

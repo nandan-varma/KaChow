@@ -9,7 +9,7 @@ namespace ContosoCrafts.WebSite.Pages.Product
     {
         private readonly JsonFileProductService _productService;
 
-        public DeleteModel(JsonFileProductService productService)
+        public DeleteModel(JsonFileProductService productService)   
         {
             _productService = productService;
         }
@@ -29,8 +29,18 @@ namespace ContosoCrafts.WebSite.Pages.Product
                 return Page();
             }
 
-            _productService.DeleteData(Product.Id);
+            // Call DeleteData and check if the deletion was successful
+            var isDeleted = _productService.DeleteData(Product.Id);
+
+            if (!isDeleted)
+            {
+                // Optionally, add an error message to ModelState if deletion fails
+                ModelState.AddModelError(string.Empty, "Product not found or could not be deleted.");
+                return Page();
+            }
+
             return RedirectToPage("./Index");
         }
+
     }
 }
