@@ -228,7 +228,7 @@ namespace UnitTests.Services
         }
         #endregion GetProductById
 
-        #region CreateData
+        #region DeleteData
 
         [Test]
         /// <summary>
@@ -275,7 +275,34 @@ namespace UnitTests.Services
         }
 
 
-        #endregion CreateData
+        #endregion DeleteData
+
+        #region CreateProduct
+        [Test]
+        public void CreateProduct_Valid_Product_Should_Add_Product()
+        {
+            // Arrange
+            var newProduct = new ProductModel
+            {
+                Id = "new_id",
+                Name = "New Product",
+                Description = "Description of new product",
+                Price = 100
+            };
+
+            // Act
+            TestHelper.ProductService.CreateProduct(newProduct);
+            var createdProduct = TestHelper.ProductService.GetAllData().FirstOrDefault(p => p.Id == newProduct.Id);
+
+            // Assert
+            Assert.That(createdProduct, Is.Not.Null);
+            Assert.That(createdProduct.Name, Is.EqualTo(newProduct.Name));
+            Assert.That(createdProduct.Description, Is.EqualTo(newProduct.Description));
+        }
+
+        
+
+        #endregion CreateProduct
 
         #region GetProductByIdAsync
         [Test]
