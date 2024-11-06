@@ -15,6 +15,7 @@ namespace UnitTests.Pages.Product
     [TestFixture]
     public class ReadTests
     {
+        #region TestSetup
         private Mock<IWebHostEnvironment> WebHostEnvironment;
         private JsonFileProductService ProductService;
         private DetailsModel DetailsModel;
@@ -40,6 +41,9 @@ namespace UnitTests.Pages.Product
             ProductService.SaveData(OriginalProductData);
         }
 
+        #endregion TestSetup
+
+        #region OnGet
         [Test]
         /// <summary>
         /// Tests that OnGet returns NotFound when ID is null.
@@ -166,5 +170,7 @@ namespace UnitTests.Pages.Product
             // Assert
             Assert.That(result, Is.InstanceOf<NotFoundResult>());
         }
+
+        #endregion OnGet
     }
 }
