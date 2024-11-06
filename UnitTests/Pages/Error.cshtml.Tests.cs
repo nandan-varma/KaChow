@@ -4,6 +4,7 @@ using Moq;
 using NUnit.Framework;
 using System.Diagnostics;
 
+// Namespace for Page UnitTests
 namespace UnitTests.Pages
 {
     public class ErrorTests
