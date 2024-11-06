@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
-using System;
 using System.Text.Json;
 
 public class RatingService
