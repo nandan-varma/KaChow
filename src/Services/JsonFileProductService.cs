@@ -1,5 +1,6 @@
 using ContosoCrafts.WebSite.Models;
 using Microsoft.AspNetCore.Hosting;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -206,6 +207,7 @@ namespace ContosoCrafts.WebSite.Services
         {
             if (data == null) return false;
             // Get the current set, and append the new record to it because IEnumerable does not have Add
+            data.Id = Guid.NewGuid().ToString();
             var dataSet = GetAllData();
             dataSet = dataSet.Append(data);
 
