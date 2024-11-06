@@ -1,7 +1,5 @@
-﻿using NUnit.Framework;
-using Microsoft.Extensions.Hosting;
-using Microsoft.AspNetCore.Hosting;
-using ContosoCrafts.WebSite;
+﻿using ContosoCrafts.WebSite;
+using NUnit.Framework;
 
 namespace UnitTests
 {
