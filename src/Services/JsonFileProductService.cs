@@ -176,22 +176,45 @@ namespace ContosoCrafts.WebSite.Services
             return data;
         }
 
+        public bool CreateProduct(ProductModel data)
+        {
+            if (data == null) return false;
+            // Get the current set, and append the new record to it because IEnumerable does not have Add
+            var dataSet = GetAllData();
+            dataSet = dataSet.Append(data);
+
+            SaveData(dataSet);
+
+            return true;
+        }
+
+
         /// <summary>
         /// Remove the item from the system
         /// </summary>
         /// <returns></returns>
-        public ProductModel DeleteData(string id)
+        public bool DeleteData(string id)
         {
-            // Get the current set, and append the new record to it
+            // Get the current data set
             var dataSet = GetAllData();
             var data = dataSet.FirstOrDefault(m => m.Id.Equals(id));
 
-            var newDataSet = GetAllData().Where(m => m.Id.Equals(id) == false);
+            // If data is null (ID not found), return false
+            if (data == null)
+            {
+                return false;
+            }
 
+            // Filter out the item to delete
+            var newDataSet = dataSet.Where(m => !m.Id.Equals(id));
+
+            // Save the new data set without the deleted item
             SaveData(newDataSet);
 
-            return data;
+            // Return true indicating successful deletion
+            return true;
         }
+
 
     }
 }
