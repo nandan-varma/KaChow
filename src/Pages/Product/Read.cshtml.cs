@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 // Namespace for ContosoCrafts Product Pages
-namespace ContosoCrafts.Pages.Product
+namespace ContosoCrafts.WebSite.Pages.Product
 {
     /// <summary>
     /// A class which describes the Read Pages Model

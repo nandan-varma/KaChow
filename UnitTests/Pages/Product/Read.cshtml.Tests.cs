@@ -1,4 +1,4 @@
-﻿using ContosoCrafts.Pages.Product;
+﻿using ContosoCrafts.WebSite.Pages.Product;
 using ContosoCrafts.WebSite.Models;
 using ContosoCrafts.WebSite.Services;
 using Microsoft.AspNetCore.Hosting;
