@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 
+// Namespace for Page UnitTests
 namespace UnitTests.Pages
 {
     public class PrivacyTests
