@@ -1,13 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using NUnit.Framework;
 using ContosoCrafts.WebSite.Controllers;
 using ContosoCrafts.WebSite.Models;
 using ContosoCrafts.WebSite.Services;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
+using NUnit.Framework;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace UnitTests.Controllers
 {
