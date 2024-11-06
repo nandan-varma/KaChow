@@ -3,6 +3,7 @@ using ContosoCrafts.WebSite.Services;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Collections.Generic;
 
+// Namespace for the ContosoCrafts Website Product Page
 namespace ContosoCrafts.WebSite.Pages.Product
 {
     /// <summary>
