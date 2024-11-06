@@ -6,13 +6,9 @@ using System.Collections.Generic;
 
 namespace ContosoCrafts.WebSite.Pages
 {
-    // summary
-    // Teymur Samadzada
-    // Nandan Varma
-    //summary
+
     public class IndexModel : PageModel
     {
-        //Hi Mike
         private readonly ILogger<IndexModel> _logger;
 
         public IndexModel(ILogger<IndexModel> logger,
