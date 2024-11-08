@@ -11,7 +11,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        product = await ProductService.GetProductByIdAsync(Id);
+        product = await Task.Run( () => ProductService.GetProductById(Id) );
     }
 }
 
