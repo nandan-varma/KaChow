@@ -51,17 +51,6 @@ namespace ContosoCrafts.WebSite.Services
                     });
             }
         }
-        
-        /// <summary>
-        /// A method which retrieves a product by Id asynchronously
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public async Task<ProductModel> GetProductByIdAsync(string id)
-        {
-            var products = await Task.Run(() => GetAllData());
-            return products.FirstOrDefault(x => x.Id.Equals(id));
-        }
 
         /// <summary>
         /// A method which retrieves the product with Id, id
