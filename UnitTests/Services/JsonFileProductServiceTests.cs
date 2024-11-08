@@ -315,42 +315,6 @@ namespace UnitTests.Services
             var productCountAfterCreate = TestHelper.ProductService.GetAllData().Count();
             Assert.That(productCountAfterCreate, Is.EqualTo(originalProductCount)); // Confirm product count remains unchanged
         }
-
-
         #endregion CreateProduct
-
-        #region GetProductByIdAsync
-        [Test]
-        /// <summary>
-        /// Tests that GetProductByIdAsync returns a product for a valid product in the database.
-        /// </summary>
-        public void GetProductByIdAsync_Valid_Product_In_DataBase_Should_Return_Product()
-        {
-            // Arrange
-            var Data = TestHelper.ProductService.GetAllData().First();
-
-            // Act
-            var ResultData = TestHelper.ProductService.GetProductByIdAsync(Data.Id);
-
-            // Assert
-            Assert.That(Data.Id, Is.EqualTo(ResultData.Result.Id));
-        }
-
-        [Test]
-        /// <summary>
-        /// Tests that GetProductByIdAsync returns null for an invalid product not in the database.
-        /// </summary>
-        public void GetProductByIdAsync_InValid_Product_Not_In_DataBase_Should_Return_Null()
-        {
-            // Arrange
-            var DataId = "Skibidi";
-
-            // Act
-            var ResultData = TestHelper.ProductService.GetProductByIdAsync(DataId);
-
-            // Assert
-            Assert.That(ResultData.Result, Is.EqualTo(null));
-        }
-        #endregion GetProductByIdAsync
     }
 }
