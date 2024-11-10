@@ -5,10 +5,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 using System.Linq;
@@ -18,69 +16,52 @@ namespace UnitTests.Pages.Product
     public class IndexTests
     {
         #region TestSetup
-        public static IUrlHelperFactory UrlHelperFactory;
-        public static DefaultHttpContext HttpContextDefault;
-        public static IWebHostEnvironment WebHostEnvironment;
-        public static ModelStateDictionary ModelState;
-        public static ActionContext ActionContext;
-        public static EmptyModelMetadataProvider ModelMetadataProvider;
-        public static ViewDataDictionary ViewData;
-        public static TempDataDictionary TempData;
-        public static PageContext PageContext;
-
-        public static IndexModel PageModel;
+        private static DefaultHttpContext HttpContextDefault;
+        private static ModelStateDictionary ModelState;
+        private static PageContext PageContext;
+        private static IndexModel PageModel;
+        private static JsonFileProductService ProductService;
 
         [SetUp]
         public void TestInitialize()
         {
             HttpContextDefault = new DefaultHttpContext();
-
             ModelState = new ModelStateDictionary();
+            var actionContext = new ActionContext(HttpContextDefault, HttpContextDefault.GetRouteData(), new PageActionDescriptor(), ModelState);
+            var modelMetadataProvider = new EmptyModelMetadataProvider();
+            var viewData = new ViewDataDictionary(modelMetadataProvider, ModelState);
+            var tempData = new TempDataDictionary(HttpContextDefault, Mock.Of<ITempDataProvider>());
 
-            ActionContext = new ActionContext(HttpContextDefault, HttpContextDefault.GetRouteData(), new PageActionDescriptor(), ModelState);
+            PageContext = new PageContext(actionContext) { ViewData = viewData };
 
-            ModelMetadataProvider = new EmptyModelMetadataProvider();
-            ViewData = new ViewDataDictionary(ModelMetadataProvider, ModelState);
-            TempData = new TempDataDictionary(HttpContextDefault, Mock.Of<ITempDataProvider>());
+            var mockWebHostEnvironment = new Mock<IWebHostEnvironment>();
+            mockWebHostEnvironment.Setup(m => m.WebRootPath).Returns("../../../../src/wwwroot");
 
-            PageContext = new PageContext(ActionContext)
-            {
-                ViewData = ViewData,
-            };
-
-            var MockWebHostEnvironment = new Mock<IWebHostEnvironment>();
-            MockWebHostEnvironment.Setup(m => m.WebRootPath).Returns("../../../../src/wwwroot");
-
-            var MockLoggerDirect = Mock.Of<ILogger<IndexModel>>();
-            JsonFileProductService ProductService;
-
-            ProductService = new JsonFileProductService(MockWebHostEnvironment.Object);
-
-            PageModel = new IndexModel(ProductService)
-            {
-            };
+            ProductService = new JsonFileProductService(mockWebHostEnvironment.Object);
+            PageModel = new IndexModel(ProductService);
         }
         #endregion TestSetup
 
         #region OnGet
         /// <summary>
-        /// Test to check if OnGet method returns valid products
+        /// Test to check if OnGet method retrieves and returns products correctly.
         /// </summary>
         [Test]
         public void OnGet_Valid_Should_Return_Products()
         {
             // Arrange
+            var expectedProductCount = ProductService.GetAllData().Count();
 
             // Act
             PageModel.OnGet();
 
             // Assert
-            Assert.That(PageModel.ModelState.IsValid, Is.EqualTo(true));
-            Assert.That(PageModel.Products.ToList().Count, Is.EqualTo(TestHelper.ProductService.GetAllData().Count()));
+            Assert.That(PageModel.ModelState.IsValid, Is.True);
+            Assert.That(PageModel.Products.ToList().Count, Is.EqualTo(expectedProductCount));
         }
 
         /// <summary>
-        /// Test to check if OnGet method sets Products property
+        /// Test to verify if OnGet method sets the Products property with data.
         /// </summary>
         [Test]
         public void OnGet_Should_Set_Products_Property()
@@ -92,10 +73,11 @@ namespace UnitTests.Pages.Product
 
             // Assert
             Assert.That(PageModel.Products, Is.Not.Null);
+            Assert.That(PageModel.Products.Any(), Is.True);
         }
 
         /// <summary>
-        /// Test to check if OnGet method does not throw any exceptions
+        /// Test to confirm that OnGet method completes without throwing exceptions.
         /// </summary>
         [Test]
         public void OnGet_Should_Not_Throw_Exception()
