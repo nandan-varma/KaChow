@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 
 // Namespace for ContosoCrafts Web Services
@@ -25,10 +26,13 @@ namespace ContosoCrafts.WebSite.Services
         public JsonFileProductService(IWebHostEnvironment webHostEnvironment)
         {
             WebHostEnvironment = webHostEnvironment;
+            SaveDataLock = new Mutex();
         }
 
         // Web environment field
         public IWebHostEnvironment WebHostEnvironment { get; }
+
+        private Mutex SaveDataLock;
 
         // FileName Field and Getter
         private string JsonFileName
@@ -180,6 +184,8 @@ namespace ContosoCrafts.WebSite.Services
         public void SaveData(IEnumerable<ProductModel> products)
         {
 
+            // Wait to aquire the mutex, "Wait your turn to open the file and write
+            SaveDataLock.WaitOne();
             using (var outputStream = File.Create(JsonFileName))
             {
                 JsonSerializer.Serialize<IEnumerable<ProductModel>>(
@@ -191,6 +197,9 @@ namespace ContosoCrafts.WebSite.Services
                     products
                 );
             }
+
+            // When done writing, release the Mutex, "My turn is over"
+            SaveDataLock.ReleaseMutex();
         }
 
         /// <summary>
