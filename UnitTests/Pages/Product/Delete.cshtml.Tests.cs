@@ -6,10 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 using System;
@@ -22,32 +20,25 @@ namespace UnitTests.Pages.Product
     public class DeleteTests
     {
         #region TestSetup
-        public static IUrlHelperFactory UrlHelperFactory;
-        public static DefaultHttpContext HttpContextDefault;
-        public static IWebHostEnvironment WebHostEnvironment;
-        public static ModelStateDictionary ModelState;
-        public static ActionContext ActionContext;
-        public static EmptyModelMetadataProvider ModelMetadataProvider;
-        public static ViewDataDictionary ViewData;
-        public static TempDataDictionary TempData;
-        public static PageContext PageContext;
+        private static DefaultHttpContext HttpContextDefault;
+        private static IWebHostEnvironment WebHostEnvironment;
+        private static ModelStateDictionary ModelState;
+        private static PageContext PageContext;
 
-        public static DeleteModel PageModel;
-        public static JsonFileProductService ProductService;
-        public static IEnumerable<ProductModel> OriginalProductData;
+        private static DeleteModel PageModel;
+        private static JsonFileProductService ProductService;
+        private static IEnumerable<ProductModel> OriginalProductData;
 
         [SetUp]
         public void TestInitialize()
         {
             HttpContextDefault = new DefaultHttpContext();
-
             ModelState = new ModelStateDictionary();
 
-            ActionContext = new ActionContext(HttpContextDefault, HttpContextDefault.GetRouteData(), new PageActionDescriptor(), ModelState);
-
-            ModelMetadataProvider = new EmptyModelMetadataProvider();
-            ViewData = new ViewDataDictionary(ModelMetadataProvider, ModelState);
-            TempData = new TempDataDictionary(HttpContextDefault, Mock.Of<ITempDataProvider>());
+            var ActionContext = new ActionContext(HttpContextDefault, new RouteData(), new PageActionDescriptor(), ModelState);
+            var ModelMetadataProvider = new EmptyModelMetadataProvider();
+            var ViewData = new ViewDataDictionary(ModelMetadataProvider, ModelState);
+            var TempData = new TempDataDictionary(HttpContextDefault, Mock.Of<ITempDataProvider>());
 
             PageContext = new PageContext(ActionContext)
             {
@@ -56,12 +47,10 @@ namespace UnitTests.Pages.Product
 
             var MockWebHostEnvironment = new Mock<IWebHostEnvironment>();
             MockWebHostEnvironment.Setup(m => m.WebRootPath).Returns("../../../../src/wwwroot");
-            var MockLoggerDirect = Mock.Of<ILogger<IndexModel>>();
-
             ProductService = new JsonFileProductService(MockWebHostEnvironment.Object);
             OriginalProductData = ProductService.GetAllData();
 
-            PageModel = new DeleteModel(ProductService) { };
+            PageModel = new DeleteModel(ProductService);
         }
 
         [TearDown]
@@ -97,14 +86,14 @@ namespace UnitTests.Pages.Product
         public void Delete_OnGet_Valid_Product_Id_Should_Have_Non_Null_Product()
         {
             // Arrange
-            var Data = TestHelper.ProductService.GetAllData().First();
+            var data = ProductService.GetAllData().First();
 
             // Act
-            PageModel.OnGet(Data.Id);
+            PageModel.OnGet(data.Id);
 
             // Assert
             Assert.That(PageModel.ModelState.IsValid, Is.True);
-            Assert.That(PageModel.Product.Id, Is.EqualTo(Data.Id));
+            Assert.That(PageModel.Product.Id, Is.EqualTo(data.Id));
         }
 
         [Test]
@@ -114,14 +103,14 @@ namespace UnitTests.Pages.Product
         public void Delete_OnPost_Should_Redirect_To_Index_Page()
         {
             // Arrange
-            PageModel.OnGet(TestHelper.ProductService.GetAllData().First().Id);
+            PageModel.OnGet(ProductService.GetAllData().First().Id);
 
             // Act
-            var Result = (RedirectToPageResult)PageModel.OnPost();
+            var result = (RedirectToPageResult)PageModel.OnPost();
 
             // Assert
             Assert.That(PageModel.ModelState.IsValid, Is.True);
-            Assert.That(Result.PageName, Is.EqualTo("./Index"));
+            Assert.That(result.PageName, Is.EqualTo("./Index"));
         }
 
         [Test]
@@ -131,11 +120,11 @@ namespace UnitTests.Pages.Product
         public void Delete_OnPost_Invalid_ModelState_Should_Return_Page_Result()
         {
             // Arrange
-            PageModel.Product = TestHelper.ProductService.GetAllData().First();
+            PageModel.Product = ProductService.GetAllData().First();
             PageModel.ModelState.AddModelError("Error", "Invalid Model State");
 
             // Act
-            var Result = (PageResult)PageModel.OnPost();
+            var result = (PageResult)PageModel.OnPost();
 
             // Assert
             Assert.That(PageModel.ModelState.IsValid, Is.False);
@@ -148,19 +137,17 @@ namespace UnitTests.Pages.Product
         public void Delete_OnPost_Delete_Fails_Should_Add_Error_To_ModelState_And_Return_Page()
         {
             // Arrange
-            var Product = ProductService.CreateData();
-            PageModel = new DeleteModel(productService: ProductService) { Product = Product };
-
-            ProductService.DeleteData(Product.Id);
-
+            var product = ProductService.CreateData();
+            PageModel = new DeleteModel(ProductService) { Product = product };
+            ProductService.DeleteData(product.Id);
 
             // Act
-            var Result = PageModel.OnPost();
+            var result = PageModel.OnPost();
 
             // Assert
             Assert.That(PageModel.ModelState.IsValid, Is.False);
             Assert.That(PageModel.ModelState[string.Empty].Errors.First().ErrorMessage, Is.EqualTo("Product not found or could not be deleted."));
-            Assert.That(Result, Is.TypeOf<PageResult>());
+            Assert.That(result, Is.TypeOf<PageResult>());
         }
 
         [Test]
@@ -180,7 +167,6 @@ namespace UnitTests.Pages.Product
             Assert.That(newProduct.Id, Is.Not.Null.And.Not.Empty, "Product ID should not be null or empty");
             Assert.That(Guid.TryParse(newProduct.Id, out _), Is.True, "Assigned ID should be a valid GUID");
         }
-
 
         #endregion DeleteTests
     }
