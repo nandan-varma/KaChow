@@ -3,13 +3,12 @@ using ContosoCrafts.WebSite.Models;
 using ContosoCrafts.WebSite.Services;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Moq;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
-// Namespace for Product Page UnitTests
 namespace UnitTests.Pages.Product
 {
     [TestFixture]
@@ -19,35 +18,32 @@ namespace UnitTests.Pages.Product
         private Mock<IWebHostEnvironment> WebHostEnvironment;
         private JsonFileProductService ProductService;
         private DetailsModel DetailsModel;
-
         private IEnumerable<ProductModel> OriginalProductData;
 
         [SetUp]
         public void Setup()
         {
-            // Initialize the product service with a test data setup
             WebHostEnvironment = new Mock<IWebHostEnvironment>();
             WebHostEnvironment.Setup(m => m.WebRootPath).Returns("../../../../src/wwwroot");
-            ProductService = new JsonFileProductService(WebHostEnvironment.Object); // Assume this loads data from a test file or a mock setup
+            ProductService = new JsonFileProductService(WebHostEnvironment.Object);
             DetailsModel = new DetailsModel(ProductService);
-
             OriginalProductData = ProductService.GetAllData();
         }
 
         [TearDown]
         public void TearDown()
         {
-            // Restore the original data after each test
             ProductService.SaveData(OriginalProductData);
         }
 
         #endregion TestSetup
 
         #region OnGet
-        [Test]
+
         /// <summary>
         /// Tests that OnGet returns NotFound when ID is null.
         /// </summary>
+        [Test]
         public void OnGet_NullId_Should_Return_NotFound()
         {
             // Act
@@ -57,10 +53,10 @@ namespace UnitTests.Pages.Product
             Assert.That(result, Is.InstanceOf<NotFoundResult>());
         }
 
-        [Test]
         /// <summary>
         /// Tests that OnGet returns NotFound when ID is empty.
         /// </summary>
+        [Test]
         public void OnGet_EmptyId_Should_Return_NotFound()
         {
             // Act
@@ -70,14 +66,14 @@ namespace UnitTests.Pages.Product
             Assert.That(result, Is.InstanceOf<NotFoundResult>());
         }
 
-        [Test]
         /// <summary>
         /// Tests that OnGet returns NotFound for a non-existent product ID.
         /// </summary>
+        [Test]
         public void OnGet_NonExistentProductId_Should_Return_NotFound()
         {
             // Arrange
-            var id = "non-existent-id"; // ID that does not exist in the dataset
+            var id = "non-existent-id";
 
             // Act
             var result = DetailsModel.OnGet(id);
@@ -86,15 +82,15 @@ namespace UnitTests.Pages.Product
             Assert.That(result, Is.InstanceOf<NotFoundResult>());
         }
 
-        [Test]
         /// <summary>
         /// Tests that OnGet returns the page when the product ID exists.
         /// </summary>
+        [Test]
         public void OnGet_ExistingProductId_Should_Return_Page()
         {
             // Arrange
             var product = ProductService.GetAllData().First();
-            var id = product.Id; // Use the ID of the first product
+            var id = product.Id;
 
             // Act
             var result = DetailsModel.OnGet(id);
@@ -104,10 +100,10 @@ namespace UnitTests.Pages.Product
             Assert.That(DetailsModel.Product.Id, Is.EqualTo(product.Id));
         }
 
-        [Test]
         /// <summary>
         /// Tests that OnGet returns NotFound for a whitespace ID.
         /// </summary>
+        [Test]
         public void OnGet_WhitespaceId_Should_Return_NotFound()
         {
             // Act
@@ -117,10 +113,10 @@ namespace UnitTests.Pages.Product
             Assert.That(result, Is.InstanceOf<NotFoundResult>());
         }
 
-        [Test]
         /// <summary>
         /// Tests that multiple calls with the same valid ID return the correct product.
         /// </summary>
+        [Test]
         public void OnGet_MultipleCalls_Should_Return_CorrectProduct()
         {
             // Arrange
@@ -137,10 +133,10 @@ namespace UnitTests.Pages.Product
             Assert.That(DetailsModel.Product.Id, Is.EqualTo(product.Id));
         }
 
-        [Test]
         /// <summary>
         /// Tests that OnGet returns NotFound for an invalid ID.
         /// </summary>
+        [Test]
         public void OnGet_InvalidId_Should_Return_NotFound()
         {
             // Arrange
@@ -153,16 +149,15 @@ namespace UnitTests.Pages.Product
             Assert.That(result, Is.InstanceOf<NotFoundResult>());
         }
 
-        [Test]
         /// <summary>
         /// Tests that OnGet returns NotFound when the product list is empty.
         /// </summary>
+        [Test]
         public void OnGet_EmptyProductList_Should_Return_NotFound()
         {
             // Arrange
-            // Here you should ensure that GetAllData returns an empty list
             var emptyProductList = new ProductModel[] { };
-            ProductService.SaveData(emptyProductList); // Hypothetical method to clear data for this test
+            ProductService.SaveData(emptyProductList);
 
             // Act
             var result = DetailsModel.OnGet("any-id");
