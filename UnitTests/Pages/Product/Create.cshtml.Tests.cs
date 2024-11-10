@@ -53,7 +53,11 @@ namespace UnitTests.Pages.Product
         #endregion TestSetup
 
         #region OnGet
+
         [Test]
+        /// <summary>
+        /// Tests that OnGet returns a PageResult.
+        /// </summary>
         public void OnGet_Should_Return_Page()
         {
             // Act
@@ -62,10 +66,15 @@ namespace UnitTests.Pages.Product
             // Assert
             Assert.That(result, Is.TypeOf<PageResult>());
         }
+
         #endregion OnGet
 
         #region OnPost
+
         [Test]
+        /// <summary>
+        /// Tests that OnPost creates a product and redirects to Index when model state is valid.
+        /// </summary>
         public void OnPost_Valid_ModelState_Should_Create_Product_And_Redirect_To_Index()
         {
             // Arrange
@@ -86,6 +95,9 @@ namespace UnitTests.Pages.Product
         }
 
         [Test]
+        /// <summary>
+        /// Tests that OnPost returns a PageResult when model state is invalid.
+        /// </summary>
         public void OnPost_Invalid_ModelState_Should_Return_PageResult()
         {
             // Arrange
@@ -99,6 +111,7 @@ namespace UnitTests.Pages.Product
             Assert.That(PageModel.ModelState.IsValid, Is.False);
             Assert.That(result, Is.TypeOf<PageResult>());
         }
+
         #endregion OnPost
     }
 }
