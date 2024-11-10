@@ -53,6 +53,32 @@ namespace ContosoCrafts.WebSite.Services
         }
 
         /// <summary>
+        /// A method which retrieves a product by Id asynchronously
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public Task<ProductModel> GetProductByIdAsync(string id)
+        {
+
+            // Extract the id string from the stack to ensure it lives after the function returns
+            string _id = id;
+            // Create a promise object
+            TaskCompletionSource<ProductModel> promise = new TaskCompletionSource<ProductModel>();
+            // Get the Task from the promise and represent it as a future object
+            Task<ProductModel> future = promise.Task;
+
+            // Create a thread to asynchronously get all the products from the database
+            // then set the promise's result as the resutlt of the fetch
+            Task.Factory.StartNew(() =>
+            {
+                var products = GetAllData();
+                promise.TrySetResult(products.FirstOrDefault(x => x.Id.Equals(_id)));
+            });
+            // Return the future
+            return future;
+        }
+
+        /// <summary>
         /// A method which retrieves the product with Id, id
         /// </summary>
         /// <param name="id"></param>
