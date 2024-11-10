@@ -22,6 +22,7 @@ namespace UnitTests.Services
         private IEnumerable<ProductModel> OriginalProductData;
 
         #region TestSetup
+
         [SetUp]
         public void Setup()
         {
@@ -46,14 +47,16 @@ namespace UnitTests.Services
         {
             ProductService.SaveData(OriginalProductData);
         }
-        #endregion
+
+        #endregion TestSetup
 
         #region HasUserRated
+
         [Test]
         /// <summary>
         /// Tests that HasUserRated returns true when the user has rated the product.
         /// </summary>
-        public void HasUserRated_UserHasRated_ShouldReturnTrue()
+        public void HasUserRated_User_Has_Rated_Should_Return_True()
         {
             // Arrange
             var ProductId = ProductService.GetAllData().First().Id;
@@ -73,7 +76,7 @@ namespace UnitTests.Services
         /// <summary>
         /// Tests that HasUserRated returns false when the user has not rated the product.
         /// </summary>
-        public void HasUserRated_UserHasNotRated_ShouldReturnFalse()
+        public void HasUserRated_User_Has_Not_Rated_Should_Return_False()
         {
             // Arrange
             var ProductId = ProductService.GetAllData().First().Id;
@@ -85,14 +88,16 @@ namespace UnitTests.Services
             // Assert
             Assert.That(Result, Is.EqualTo(false));
         }
-        #endregion
+
+        #endregion HasUserRated
 
         #region AddRating
+
         [Test]
         /// <summary>
         /// Tests that AddRating adds a rating when the product is not already rated.
         /// </summary>
-        public void AddRating_ProductNotAlreadyRated_ShouldAddRating()
+        public void AddRating_Product_Not_Already_Rated_Should_Add_Rating()
         {
             // Arrange
             var ProductId = ProductService.GetAllData().First().Id;
@@ -110,14 +115,16 @@ namespace UnitTests.Services
             Assert.That(Items.ContainsKey("UserRatings"), Is.True);
             Assert.That(Items["UserRatings"], Is.EqualTo($"{{\"{ProductId}\":5}}"));
         }
-        #endregion
+
+        #endregion AddRating
 
         #region GetRatingsFromCookie
+
         [Test]
         /// <summary>
         /// Tests that GetRatingsFromCookie returns an empty dictionary when the cookie is null.
         /// </summary>
-        public void GetRatingsFromCookie_CookieIsNull_ShouldReturnEmptyDictionary()
+        public void GetRatingsFromCookie_Cookie_Is_Null_Should_Return_Empty_Dictionary()
         {
             // Arrange
             RequestCookieCollectionMock.Setup(x => x["UserRatings"]).Returns((string)null);
@@ -133,7 +140,7 @@ namespace UnitTests.Services
         /// <summary>
         /// Tests that GetRatingsFromCookie returns an empty dictionary when the cookie is invalid.
         /// </summary>
-        public void GetRatingsFromCookie_CookieIsInvalid_ShouldReturnEmptyDictionary()
+        public void GetRatingsFromCookie_Cookie_Is_Invalid_Should_Return_Empty_Dictionary()
         {
             // Arrange
             RequestCookieCollectionMock.Setup(x => x["UserRatings"]).Returns("invalid_json");
@@ -144,14 +151,16 @@ namespace UnitTests.Services
             // Assert
             Assert.That(Result, Is.Empty);
         }
-        #endregion
+
+        #endregion GetRatingsFromCookie
 
         #region SerializeRatings
+
         [Test]
         /// <summary>
         /// Tests that SerializeRatings returns a valid JSON string from a valid ratings dictionary.
         /// </summary>
-        public void SerializeRatings_ValidRatingsDictionary_ShouldReturnValidJsonString()
+        public void SerializeRatings_Valid_Ratings_Dictionary_Should_Return_Valid_Json_String()
         {
             // Arrange
             var Ratings = new Dictionary<string, int> { { "product1", 5 } };
@@ -162,14 +171,16 @@ namespace UnitTests.Services
             // Assert
             Assert.That(Result, Is.EqualTo("{\"product1\":5}"));
         }
-        #endregion
+
+        #endregion SerializeRatings
 
         #region SaveRatingsToCookie
+
         [Test]
         /// <summary>
         /// Tests that SaveRatingsToCookie saves the ratings to the cookie correctly.
         /// </summary>
-        public void SaveRatingsToCookie_ValidRatingsDictionary_ShouldSaveRatingsToCookie()
+        public void SaveRatingsToCookie_Valid_Ratings_Dictionary_Should_Save_Ratings_To_Cookie()
         {
             // Arrange
             var Ratings = new Dictionary<string, int> { { "product1", 5 } };
@@ -183,6 +194,7 @@ namespace UnitTests.Services
             Assert.That(Items.ContainsKey("UserRatings"), Is.True);
             Assert.That(Items["UserRatings"], Is.EqualTo("{\"product1\":5}"));
         }
-        #endregion
+
+        #endregion SaveRatingsToCookie
     }
 }
