@@ -1,8 +1,10 @@
 ﻿@using ContosoCrafts.WebSite.Models
 @using ContosoCrafts.WebSite.Services
 @using Microsoft.AspNetCore.Components.Web
-@inject JsonFileProductService ProductService // Service for product data
-@inject RatingService RatingService // Service for managing ratings
+@inject JsonFileProductService ProductService
+@* Service for product data *@
+@inject RatingService RatingService
+@* Service for managing ratings *@
 
 <div class="card-columns">
     @foreach (var product in ProductService.GetAllData()) // Loop through each product
@@ -49,22 +51,24 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    @if (VoteCount == 0) // Display message if no votes
+                    @* Display message if no votes *@
+                    @if (VoteCount == 0)
                     {
                         <span>Be the first to vote!</span>
                     }
 
-                    @if (VoteCount > 0) // Display vote count only if there are votes
+                    @* Display vote count only if there are votes *@
+                    @if (VoteCount > 0)
                     {
                         <span>@VoteCount @VoteLabel</span>
                     }
 
-                    // Display star rating system
+                    @* Display star rating system *@
                     @for (int i = 1; i < 6; i++)
                     {
                         var currentStar = i;
                         // Display checked or unchecked star based on current rating
-                        <span class="fa fa-star @(i <= CurrentRating ? "checked" : "")" onclick="SubmitRating('@SelectedProduct.Id', @currentStar)"></span>
+                        <span class="fa fa-star @(i <= CurrentRating ? "checked" : "")" @onclick="() => SubmitRating(SelectedProduct.Id, currentStar)"></span>
                     }
                 </div>
             </div>
@@ -97,24 +101,32 @@
         {
             CurrentRating = 0;
             VoteCount = 0;
-            System.Console.WriteLine($"Current rating for {SelectedProduct.Id}: {CurrentRating}");
-            return CurrentRating; // Return current rating early if no ratings
+
+            // Return current rating early if no ratings
+            return CurrentRating;
         }
 
         // Proceed with rating calculation if ratings are present
         VoteCount = SelectedProduct.Ratings.Count();
-        VoteLabel = VoteCount > 1 ? "Votes" : "Vote"; // Set appropriate label
-        CurrentRating = SelectedProduct.Ratings.Sum() / VoteCount; // Calculate average rating
 
-        System.Console.WriteLine($"Current rating for {SelectedProduct.Id}: {CurrentRating}");
-        return CurrentRating; // Return current rating
+        // Set appropriate label
+        VoteLabel = VoteCount > 1 ? "Votes" : "Vote";
+
+        // Calculate average rating
+        CurrentRating = SelectedProduct.Ratings.Sum() / VoteCount;
+
+        // Return current rating
+        return CurrentRating;
     }
 
 
     // Method to submit a new rating
     public void SubmitRating(string productId, int rating)
     {
-        ProductService.AddRating(productId, rating); // Add the rating
-        GetCurrentRating(); // Update current rating
+        // Add new rating to the product
+        ProductService.AddRating(productId, rating);
+
+        // Update the selected product
+        SelectProduct(productId);
     }
 }
