@@ -102,17 +102,19 @@
         {
             CurrentRating = 0;
             VoteCount = 0;
+            System.Console.WriteLine($"Current rating for {SelectedProduct.Id}: {CurrentRating}");
+            return CurrentRating; // Return current rating early if no ratings
         }
-        else
-        {
-            VoteCount = SelectedProduct.Ratings.Count();
-            VoteLabel = VoteCount > 1 ? "Votes" : "Vote"; // Set appropriate label
-            CurrentRating = SelectedProduct.Ratings.Sum() / VoteCount; // Calculate average rating
-        }
+
+        // Proceed with rating calculation if ratings are present
+        VoteCount = SelectedProduct.Ratings.Count();
+        VoteLabel = VoteCount > 1 ? "Votes" : "Vote"; // Set appropriate label
+        CurrentRating = SelectedProduct.Ratings.Sum() / VoteCount; // Calculate average rating
 
         System.Console.WriteLine($"Current rating for {SelectedProduct.Id}: {CurrentRating}");
         return CurrentRating; // Return current rating
     }
+
 
     // Method to submit a new rating
     public void SubmitRating(string productId, int rating)
