@@ -39,10 +39,13 @@ namespace UnitTests.Models
 
         [Test]
         /// <summary>
-        /// Tests that valid properties return the correct values.
+        /// Tests that valid properties return the expected values.
         /// </summary>
-        public void PropertyTests_Valid_Properties_Should_Return_Correct_Values()
+        public void PropertyTests_Valid_Properties_Should_Return_Expected_Values()
         {
+            // Arrange & Act are implicit in property initialization
+
+            // Assert
             Assert.That(Product.Id, Is.EqualTo("1"));
             Assert.That(Product.Image, Is.EqualTo("image.png"));
             Assert.That(Product.Url, Is.EqualTo("http://example.com"));
@@ -65,11 +68,15 @@ namespace UnitTests.Models
         /// </summary>
         public void ValidationTests_Name_Empty_Should_Return_False()
         {
+            // Arrange
             var Context = new ValidationContext(Product) { MemberName = "Name" };
             var Results = new List<ValidationResult>();
 
+            // Act
             Product.Name = ""; // Invalid
             bool IsValid = Validator.TryValidateProperty(Product.Name, Context, Results);
+
+            // Assert
             Assert.That(IsValid, Is.False);
         }
 
@@ -79,11 +86,15 @@ namespace UnitTests.Models
         /// </summary>
         public void ValidationTests_Name_Valid_Should_Return_True()
         {
+            // Arrange
             var Context = new ValidationContext(Product) { MemberName = "Name" };
             var Results = new List<ValidationResult>();
 
+            // Act
             Product.Name = "Valid Name"; // Valid
             bool IsValid = Validator.TryValidateProperty(Product.Name, Context, Results);
+
+            // Assert
             Assert.That(IsValid, Is.True);
         }
 
@@ -93,11 +104,15 @@ namespace UnitTests.Models
         /// </summary>
         public void ValidationTests_Price_Negative_Should_Return_False()
         {
+            // Arrange
             var Context = new ValidationContext(Product) { MemberName = "Price" };
             var Results = new List<ValidationResult>();
 
+            // Act
             Product.Price = -2; // Invalid
             bool IsValid = Validator.TryValidateProperty(Product.Price, Context, Results);
+
+            // Assert
             Assert.That(IsValid, Is.False);
         }
 
@@ -107,11 +122,15 @@ namespace UnitTests.Models
         /// </summary>
         public void ValidationTests_Price_Valid_Should_Return_True()
         {
+            // Arrange
             var Context = new ValidationContext(Product) { MemberName = "Price" };
             var Results = new List<ValidationResult>();
 
+            // Act
             Product.Price = 50; // Valid
             bool IsValid = Validator.TryValidateProperty(Product.Price, Context, Results);
+
+            // Assert
             Assert.That(IsValid, Is.True);
         }
 
@@ -121,12 +140,18 @@ namespace UnitTests.Models
 
         [Test]
         /// <summary>
-        /// Tests that ToString returns the correct JSON representation of the product.
+        /// Tests that ToString returns the expected JSON representation of the product.
         /// </summary>
-        public void ToStringTest_Valid_Product_Should_Return_Correct_Json()
+        public void ToStringTest_Valid_Product_Should_Return_Expected_Json()
         {
+            // Arrange
             string ExpectedJson = JsonSerializer.Serialize(Product);
-            Assert.That(Product.ToString(), Is.EqualTo(ExpectedJson));
+
+            // Act
+            string ActualJson = Product.ToString();
+
+            // Assert
+            Assert.That(ActualJson, Is.EqualTo(ExpectedJson));
         }
 
         #endregion ToStringTest
