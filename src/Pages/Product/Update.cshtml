@@ -1,53 +1,71 @@
-﻿@page "{id}"
-@using ContosoCrafts.WebSite.Services
-@inject JsonFileProductService productService
-@model ContosoCrafts.WebSite.Pages.Product.UpdateModel
+﻿@page "{id}" // Route parameter for the product ID to identify which product to update
+@using ContosoCrafts.WebSite.Services // Importing the product service to handle product data
+@inject JsonFileProductService productService // Injecting the product service for access to product data
+@model ContosoCrafts.WebSite.Pages.Product.UpdateModel // Setting the page model for the Update product page
 @{
+    // Setting the title of the page to "Update Page"
     ViewData["Title"] = "Update Page";
 }
 
 <h2>Update Product</h2>
 
 <div class="container">
+    <!-- Form to update the product details using a POST request -->
     <form method="post">
+        <!-- Displays any validation errors for the entire model -->
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <!-- Hidden field for the product ID -->
         @Html.HiddenFor(x => x.Product.Id)
 
+        <!-- Form field for updating the product name -->
         <div class="form-group">
             <label asp-for="Product.Name"></label>
             <input asp-for="Product.Name" class="form-control" />
             <span asp-validation-for="Product.Name" class="text-danger"></span>
         </div>
+
+        <!-- Form field for updating the product description -->
         <div class="form-group">
-            using ContosoCrafts.WebSite.Services;
             <label asp-for="Product.Description"></label>
             <input asp-for="Product.Description" class="form-control" />
             <span asp-validation-for="Product.Description" class="text-danger"></span>
         </div>
+
+        <!-- Form field for updating the product image URL -->
         <div class="form-group">
             <label asp-for="Product.Image"></label>
             <input asp-for="Product.Image" class="form-control" />
             <span asp-validation-for="Product.Image" class="text-danger"></span>
         </div>
+
+        <!-- Form field for updating the product URL -->
         <div class="form-group">
             <label asp-for="Product.Url"></label>
             <input asp-for="Product.Url" class="form-control" />
             <span asp-validation-for="Product.Url" class="text-danger"></span>
         </div>
+
+        <!-- Form field for updating the product model -->
         <div class="form-group">
             <label asp-for="Product.Model"></label>
             <input asp-for="Product.Model" class="form-control" />
             <span asp-validation-for="Product.Model" class="text-danger"></span>
         </div>
+
+        <!-- Form field for updating the product price -->
         <div class="form-group">
             <label asp-for="Product.Price"></label>
             <input asp-for="Product.Price" class="form-control" />
             <span asp-validation-for="Product.Price" class="text-danger"></span>
         </div>
+
+        <!-- Submit button to confirm product update -->
         <button type="submit" class="btn btn-primary">Update</button>
     </form>
 </div>
 
 @section Scripts {
+    <!-- Includes validation scripts for the form -->
     @await Html.PartialAsync("_ValidationScriptsPartial")
 }
