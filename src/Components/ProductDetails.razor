@@ -19,7 +19,8 @@
 {
     <p>Loading...</p>
 }
-else
+
+@if (product != null)
 {
     <div class="product-listing">
         <div class="product-image">
@@ -35,17 +36,11 @@ else
                 {
                     @for (int i = 0; i < 5; i++)
                     {
-                        if (i < (int)product.Ratings.Average())
-                        {
-                            <span class="star filled">★</span>
-                        }
-                        else
-                        {
-                            <span class="star">☆</span>
-                        }
+                        <span class="star @(i < (int)product.Ratings.Average() ? "filled" : "")">@(i < (int)product.Ratings.Average() ? "★" : "☆")</span>
                     }
                 }
-                else
+
+                @if (product.Ratings == null || !product.Ratings.Any())
                 {
                     @for (int i = 0; i < 5; i++)
                     {
