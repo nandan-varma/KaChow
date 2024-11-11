@@ -1,16 +1,22 @@
-﻿@page "{id}"
-@model ContosoCrafts.WebSite.Pages.Product.DetailsModel
-@using ContosoCrafts.WebSite.Components;
+﻿@page "{id}" // Route parameter for the product ID to display its details
+@model ContosoCrafts.WebSite.Pages.Product.DetailsModel // Setting the page model for the Product Details page
+@using ContosoCrafts.WebSite.Components // Importing components used on the page
 
 @{
+    // Setting the page title to "Product Details"
     ViewData["Title"] = "Product Details";
+
+    // Retrieving the product ID from the route data
     var productId = RouteData.Values["id"]?.ToString();
 }
 
+<!-- Link to navigate back to the product list page -->
 <a asp-page="/Product/Index">Back to Product List</a>
+
 <h1>@ViewData["Title"]</h1>
 
+<!-- Renders the ProductDetails component with the specified product ID, using server-side prerendering -->
 @(await Html.RenderComponentAsync<ProductDetails>(
-RenderMode.ServerPrerendered,
-new { Id = productId }
+    RenderMode.ServerPrerendered,
+    new { Id = productId }
 ))
