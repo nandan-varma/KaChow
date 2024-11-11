@@ -10,7 +10,7 @@ namespace UnitTests.Models
         /// <summary>
         /// Tests that the constructor initializes Id with a unique Guid.
         /// </summary>
-        public void Constructor_Should_Initialize_Id_With_Unique_Guid()
+        public void Constructor_Id_Should_Initialize_With_Unique_Guid()
         {
             // Arrange & Act
             var Comment1 = new CommentModel();
@@ -24,9 +24,9 @@ namespace UnitTests.Models
 
         [Test]
         /// <summary>
-        /// Tests that the Comment property can be set and retrieved correctly.
+        /// Tests that the Comment property can be set and retrieved with the expected value.
         /// </summary>
-        public void Comment_Property_Should_Set_And_Get_Value_Correctly()
+        public void Comment_Property_Set_Get_Value_Should_Return_ExpectedValue()
         {
             // Arrange
             var Comment = new CommentModel();
@@ -42,9 +42,9 @@ namespace UnitTests.Models
 
         [Test]
         /// <summary>
-        /// Tests that the Id property can be set and retrieved correctly.
+        /// Tests that the Id property can be set and retrieved with the expected value.
         /// </summary>
-        public void Id_Property_Should_Set_And_Get_Value_Correctly()
+        public void Id_Property_Set_Get_Value_Should_Return_ExpectedValue()
         {
             // Arrange
             var Comment = new CommentModel();
