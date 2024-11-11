@@ -1,12 +1,12 @@
-﻿@page
-@model ContosoCrafts.WebSite.Pages.Product.IndexModel
+﻿@page // Marks this as a Razor Page
+@model ContosoCrafts.WebSite.Pages.Product.IndexModel // Sets the page model for the Product Index page
 @{
+    // Sets the page title to "Index page"
     ViewData["Title"] = "Index page";
 }
 
-
-
 <div class="container">
+    <!-- Table to display the list of products with their details -->
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
@@ -16,23 +16,36 @@
             </tr>
         </thead>
         <tbody>
+            <!-- Button to navigate to the Create Product page -->
             <div class="create-product-button-container">
                 <a class="create-product-button" href="/Product/Create">Create</a>
             </div>
+
+            <!-- Loop through each product in the Products model and display its details -->
             @foreach (var product in Model.Products)
             {
                 <tr>
+                    <!-- Display product name -->
                     <td>@product.Name</td>
+
+                    <!-- Display product description -->
                     <td>@product.Description</td>
+
+                    <!-- Display product image as a background image in a div -->
                     <td>
                         <div class="card-img" style="background-image: url('@product.Image'); background-size: contain;"></div>
                     </td>
+
+                    <!-- Link to read more about the product -->
                     <td><a href="/Product/Read/@product.Id">Read</a></td>
+
+                    <!-- Link to update the product details -->
                     <td><a href="/Product/Update/@product.Id">Update</a></td>
+
+                    <!-- Link to delete the product -->
                     <td><a href="/Product/Delete/@product.Id">Delete</a></td>
                 </tr>
             }
         </tbody>
-
     </table>
 </div>
