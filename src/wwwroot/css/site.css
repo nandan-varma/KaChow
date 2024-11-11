@@ -370,12 +370,20 @@ button.accept-policy {
     .about-us > * {
         margin: 0 20px;
     }
+    
+    .privacy-policy > * {
+        margin: 0 20px;
+    }
 
 }
 
 /* Medium screens (tablets) */
 @media (max-width: 768px) {
     .about-us > * {
+        margin: 0 20px;
+    }
+
+    .privacy-policy > * {
         margin: 0 20px;
     }
 }
@@ -385,4 +393,9 @@ button.accept-policy {
     .about-us > * {
         margin: 0 15px;
     }
+
+    .privacy-policy > * {
+        margin: 0 20px;
+    }
 }
+
