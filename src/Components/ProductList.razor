@@ -53,23 +53,18 @@
                     {
                         <span>Be the first to vote!</span>
                     }
-                    else
+
+                    @if (VoteCount > 0) // Display vote count only if there are votes
                     {
                         <span>@VoteCount @VoteLabel</span>
-                        // Show vote count
                     }
+
                     // Display star rating system
                     @for (int i = 1; i < 6; i++)
                     {
                         var currentStar = i;
-                        if (i <= CurrentRating)
-                        {
-                            <span class="fa fa-star checked" onclick="SubmitRating('@SelectedProduct.Id', @currentStar)"></span>
-                        }
-                        else
-                        {
-                            <span class="fa fa-star" onclick="SubmitRating('@SelectedProduct.Id', @currentStar)"></span>
-                        }
+                        // Display checked or unchecked star based on current rating
+                        <span class="fa fa-star @(i <= CurrentRating ? "checked" : "")" onclick="SubmitRating('@SelectedProduct.Id', @currentStar)"></span>
                     }
                 </div>
             </div>
