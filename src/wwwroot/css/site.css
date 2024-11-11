@@ -204,6 +204,9 @@ a.navbar-brand {
 
 /* Footer */
 .footer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
     background-color: var(--light-background);
     color: var(--text-color);
     line-height: 60px;
@@ -214,6 +217,47 @@ a.navbar-brand {
     -moz-box-shadow: 0px 10px 20px 0px rgba(0,0,0,0.75);
     box-shadow: 0px 10px 50px 0px rgba(0,0,0,0.75);
 }
+
+.footer-title-name {
+    width: 50%;
+}
+
+.footer-container {
+    width: 50%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+@media (max-width: 530px) {
+    .footer {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer {
+        flex-direction: column;
+    }
+
+    .footer-container {
+        justify-content: space-between;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer {
+        flex-direction: column;
+    }
+
+    .footer-container {
+        flex-direction: column;
+    }
+}
+
+
+
+
 
 /* Backgrounds */
 .bg-navbar, .bg-footer {
