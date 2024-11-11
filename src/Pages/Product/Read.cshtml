@@ -1,6 +1,9 @@
-﻿@page "{id}" // Route parameter for the product ID to display its details
-@model ContosoCrafts.WebSite.Pages.Product.DetailsModel // Setting the page model for the Product Details page
-@using ContosoCrafts.WebSite.Components // Importing components used on the page
+﻿@page "{id}"
+@* Route parameter for the product ID to display its details *@
+@model ContosoCrafts.WebSite.Pages.Product.DetailsModel 
+@* Setting the page model for the Product Details page *@
+@using ContosoCrafts.WebSite.Components 
+@* Importing components used on the page *@
 
 @{
     // Setting the page title to "Product Details"
@@ -8,6 +11,9 @@
 
     // Retrieving the product ID from the route data
     var productId = RouteData.Values["id"]?.ToString();
+
+    // Getting Product Data from Product Service
+    var product = Model.Product;
 }
 
 <!-- Link to navigate back to the product list page -->
@@ -15,8 +21,35 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<!-- Renders the ProductDetails component with the specified product ID, using server-side prerendering -->
-@(await Html.RenderComponentAsync<ProductDetails>(
-    RenderMode.ServerPrerendered,
-    new { Id = productId }
-))
+<!-- Renders the Product Details -->
+@if (product != null)
+{
+    <div class="product-listing">
+        <div class="product-image">
+            <img src="@product.Image" alt="@product.Name" />
+        </div>
+        <div class="product-details">
+            <h1 class="product-title">@product.Name</h1>
+            <p class="product-description">@product.Description</p>
+            <p class="product-price">Price: $@product.Price</p>
+            <p class="product-details">Stock: @product.Stock</p>
+            <div class="product-ratings">
+                @if (product.Ratings?.Any() == true)
+                {
+                    @for (int i = 0; i < 5; i++)
+                    {
+                        <span class="star @(i < (int)product.Ratings.Average() ? "filled" : "")">@(i < (int)product.Ratings.Average() ? "★" : "☆")</span>
+                    }
+                }
+                @if (product.Ratings == null || !product.Ratings.Any())
+                {
+                    @for (int i = 0; i < 5; i++)
+                    {
+                        <span class="star">☆</span>
+                    }
+                }
+                <span class="rating-count">(@(product.Ratings?.Count() ?? 0))</span>
+            </div>
+        </div>
+    </div>
+}
