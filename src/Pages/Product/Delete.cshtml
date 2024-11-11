@@ -1,8 +1,9 @@
-﻿@page "{id}"
-@using ContosoCrafts.WebSite.Services
-@inject JsonFileProductService productService
-@model ContosoCrafts.WebSite.Pages.Product.DeleteModel
+﻿@page "{id}" // Route parameter for the product ID to identify which product to delete
+@using ContosoCrafts.WebSite.Services // Importing the product service for handling product data
+@inject JsonFileProductService productService // Injecting the product service to interact with product data
+@model ContosoCrafts.WebSite.Pages.Product.DeleteModel // Setting the page model for the Delete product page
 @{
+    // Setting the page title to "Delete Page"
     ViewData["Title"] = "Delete Page";
 }
 
@@ -10,17 +11,23 @@
 
 <div class="container">
 
+    <!-- Warning message to confirm deletion of the product -->
     <div class="text-danger">This action will delete the selected product. Are you sure you want to delete the product?</div>
 
+    <!-- Form for deleting the product using a POST request -->
     <form method="post">
+        <!-- Displays any validation errors for the model -->
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <!-- Hidden field for the product ID -->
         @Html.HiddenFor(x => x.Product.Id)
 
-        
+        <!-- Submit button to confirm product deletion -->
         <button type="submit" class="btn btn-primary">Delete</button>
     </form>
 </div>
 
 @section Scripts {
+    <!-- Includes validation scripts for the form -->
     @await Html.PartialAsync("_ValidationScriptsPartial")
 }
