@@ -1,55 +1,77 @@
 ﻿@page
-@using ContosoCrafts.WebSite.Services
-@inject JsonFileProductService productService
-@model ContosoCrafts.WebSite.Pages.Product.CreateModel
+@using ContosoCrafts.WebSite.Services // Imports the service that handles product data
+@inject JsonFileProductService productService // Injects an instance of the product service for accessing product data
+@model ContosoCrafts.WebSite.Pages.Product.CreateModel // Sets the page model for the Create product page
 @{
+    // Sets the title of the page to "Create Page"
     ViewData["Title"] = "Create Page";
 }
 <h2>Create Product</h2>
+
 <div class="container">
+    <!-- Form to create a new product using a POST request -->
     <form method="post">
+        <!-- Displays any validation errors for the entire model -->
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <!-- Hidden field for the product ID -->
         @Html.HiddenFor(x => x.Product.Id)
+
+        <!-- Form field for the product name -->
         <div class="form-group">
             <label asp-for="Product.Name"></label>
             <input asp-for="Product.Name" class="form-control" />
             <span asp-validation-for="Product.Name" class="text-danger"></span>
         </div>
+
+        <!-- Form field for the product model -->
         <div class="form-group">
             <label asp-for="Product.Model"></label>
             <input asp-for="Product.Model" class="form-control" />
             <span asp-validation-for="Product.Model" class="text-danger"></span>
         </div>
+
+        <!-- Form field for the product description -->
         <div class="form-group">
-            using ContosoCrafts.WebSite.Services;
             <label asp-for="Product.Description"></label>
             <input asp-for="Product.Description" class="form-control" />
             <span asp-validation-for="Product.Description" class="text-danger"></span>
         </div>
+
+        <!-- Form field for the product image URL -->
         <div class="form-group">
             <label asp-for="Product.Image"></label>
             <input asp-for="Product.Image" class="form-control" />
             <span asp-validation-for="Product.Image" class="text-danger"></span>
         </div>
+
+        <!-- Form field for the product URL -->
         <div class="form-group">
             <label asp-for="Product.Url"></label>
             <input asp-for="Product.Url" class="form-control" />
             <span asp-validation-for="Product.Url" class="text-danger"></span>
         </div>
-       
+
+        <!-- Form field for the product price -->
         <div class="form-group">
             <label asp-for="Product.Price"></label>
             <input asp-for="Product.Price" class="form-control" />
             <span asp-validation-for="Product.Price" class="text-danger"></span>
         </div>
+
+        <!-- Form field for the product stock quantity -->
         <div class="form-group">
             <label asp-for="Product.Stock"></label>
             <input asp-for="Product.Stock" class="form-control" />
             <span asp-validation-for="Product.Stock" class="text-danger"></span>
         </div>
+
+        <!-- Submit button to create the product -->
         <button type="submit" class="btn btn-primary">Create</button>
     </form>
 </div>
+
 @section Scripts {
+    <!-- Includes validation scripts for the form -->
     @await Html.PartialAsync("_ValidationScriptsPartial")
 }
