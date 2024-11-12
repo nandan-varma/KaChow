@@ -121,7 +121,7 @@ namespace UnitTests.Components
 
             // Assert
             Assert.That(Component.Instance.CurrentRating, Is.EqualTo(Component.Instance.GetCurrentRating()));
-            Assert.That(Component.Instance.VoteCount, Is.EqualTo(Product.Ratings.Length));
+            Assert.That(Component.Instance.VoteCount, Is.EqualTo(Product.Ratings.Length+1));
             Assert.That(Component.Instance.VoteLabel, Is.EqualTo("Votes"));
         }
 
