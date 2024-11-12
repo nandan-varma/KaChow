@@ -34,7 +34,7 @@ namespace ContosoCrafts.WebSite.Models
         public int[] Ratings { get; set; }
 
         // Price Field
-        [Range(-1, 100, ErrorMessage = "Value for {0} must be between {1} and {2}.")]
+        [Range(0, 100, ErrorMessage = "Value for {0} must be between {1} and {2}.")]
         public int Price { get; set; }
 
         // Stock Field
