@@ -22,6 +22,11 @@ namespace ContosoCrafts.WebSite.Pages
             _logger = logger;
         }
 
+        /// <summary>
+        /// Handles GET requests to display the Privacy page.
+        /// This method is called when the Privacy page is accessed,
+        /// preparing any required data or resources.
+        /// </summary>
         public void OnGet()
         {
         }
