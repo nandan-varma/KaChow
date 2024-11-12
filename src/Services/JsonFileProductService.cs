@@ -170,6 +170,7 @@ namespace ContosoCrafts.WebSite.Services
                     }),
                     products
                 );
+                outputStream.Close();
             }
 
             // When done writing, release the Mutex, "My turn is over"
