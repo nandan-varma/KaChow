@@ -32,7 +32,7 @@ namespace ContosoCrafts.WebSite.Services
         // Web environment field
         public IWebHostEnvironment WebHostEnvironment { get; }
 
-        private Mutex SaveDataLock;
+        private static Mutex SaveDataLock;
 
         // FileName Field and Getter
         private string JsonFileName
