@@ -8,8 +8,8 @@
 <div class="container">
     <!-- Table to display the list of products with their details -->
     <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
+        <thead class="products-header-container">
+            <tr class="products-header-names">
                 <th>Name</th>
                 <th>Description</th>
                 <th>Image</th>
@@ -24,26 +24,30 @@
             <!-- Loop through each product in the Products model and display its details -->
             @foreach (var product in Model.Products)
             {
-                <tr>
-                    <!-- Display product name -->
-                    <td>@product.Name</td>
+                <tr class="products-list-container">
+                    <div>
+                            <!-- Display product name -->
+                        <td>@product.Name</td>
 
-                    <!-- Display product description -->
-                    <td>@product.Description</td>
+                        <!-- Display product description -->
+                        <td>@product.Description</td>
 
-                    <!-- Display product image as a background image in a div -->
-                    <td>
-                        <div class="card-img" style="background-image: url('@product.Image'); background-size: contain;"></div>
-                    </td>
+                        <!-- Display product image as a background image in a div -->
+                        <td>
+                            <div class="card-img" style="background-image: url('@product.Image'); background-size: contain;"></div>
+                        </td>
+                    </div>
 
-                    <!-- Link to read more about the product -->
-                    <td><a href="/Product/Read/@product.Id">Read</a></td>
+                    <div>
+                            <!-- Link to read more about the product -->
+                        <td><a href="/Product/Read/@product.Id">Read</a></td>
 
-                    <!-- Link to update the product details -->
-                    <td><a href="/Product/Update/@product.Id">Update</a></td>
+                        <!-- Link to update the product details -->
+                        <td><a href="/Product/Update/@product.Id">Update</a></td>
 
-                    <!-- Link to delete the product -->
-                    <td><a href="/Product/Delete/@product.Id">Delete</a></td>
+                        <!-- Link to delete the product -->
+                        <td><a href="/Product/Delete/@product.Id">Delete</a></td>   
+                    </div>
                 </tr>
             }
         </tbody>
