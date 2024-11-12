@@ -229,7 +229,7 @@ namespace ContosoCrafts.WebSite.Services
 
         public bool CreateProduct(ProductModel data)
         {
-            if (data == null) return false;
+            if (data == null || data.Price < 0) return false;
             // Get the current set, and append the new record to it because IEnumerable does not have Add
             data.Id = Guid.NewGuid().ToString();
             var dataSet = GetAllData();
