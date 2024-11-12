@@ -10,19 +10,58 @@
 <h2>Delete Product</h2>
 
 <div class="container">
-
-    <!-- Warning message to confirm deletion of the product -->
-    <div class="text-danger">This action will delete the selected product. Are you sure you want to delete the product?</div>
-
-    <!-- Form for deleting the product using a POST request -->
+    <h3 class="text-danger">Are you sure you want to delete this product?</h3>
+    <!-- Form to update the product details using a POST request -->
     <form method="post">
-        <!-- Displays any validation errors for the model -->
+        <!-- Displays any validation errors for the entire model -->
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
         <!-- Hidden field for the product ID -->
         @Html.HiddenFor(x => x.Product.Id)
 
-        <!-- Submit button to confirm product deletion -->
+        <!-- Form field for updating the product name -->
+        <div class="form-group">
+            <label asp-for="Product.Name"></label>
+            <input asp-for="Product.Name" class="form-control" readonly />
+            <span asp-validation-for="Product.Name" class="text-danger"></span>
+        </div>
+
+        <!-- Form field for updating the product description -->
+        <div class="form-group">
+            <label asp-for="Product.Description"></label>
+            <input asp-for="Product.Description" class="form-control" readonly />
+            <span asp-validation-for="Product.Description" class="text-danger"></span>
+        </div>
+
+        <!-- Form field for updating the product image URL -->
+        <div class="form-group">
+            <label asp-for="Product.Image"></label>
+            <input asp-for="Product.Image" class="form-control" readonly />
+            <span asp-validation-for="Product.Image" class="text-danger"></span>
+        </div>
+
+        <!-- Form field for updating the product URL -->
+        <div class="form-group">
+            <label asp-for="Product.Url"></label>
+            <input asp-for="Product.Url" class="form-control" readonly />
+            <span asp-validation-for="Product.Url" class="text-danger"></span>
+        </div>
+
+        <!-- Form field for updating the product model -->
+        <div class="form-group">
+            <label asp-for="Product.Model"></label>
+            <input asp-for="Product.Model" class="form-control" readonly />
+            <span asp-validation-for="Product.Model" class="text-danger"></span>
+        </div>
+
+        <!-- Form field for updating the product price -->
+        <div class="form-group">
+            <label asp-for="Product.Price"></label>
+            <input asp-for="Product.Price" class="form-control" readonly />
+            <span asp-validation-for="Product.Price" class="text-danger"></span>
+        </div>
+
+        <!-- Submit button to confirm product update -->
         <button type="submit" class="btn btn-primary">Delete</button>
     </form>
 </div>
