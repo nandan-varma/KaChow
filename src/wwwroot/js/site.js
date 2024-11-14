@@ -21,3 +21,21 @@ function SubmitRating(productId, rating) {
             console.error("Error submitting rating:", error);
         });
 }
+
+function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const backToTopButton = document.getElementById('back-to-top');
+    if (backToTopButton) {
+        backToTopButton.addEventListener('click', scrollToTop);
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 200) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        });
+    }
+});
