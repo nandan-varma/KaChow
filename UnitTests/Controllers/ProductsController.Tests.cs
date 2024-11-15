@@ -14,26 +14,18 @@ namespace UnitTests.Controllers
     public class ProductsControllerTests
     {
         private ProductsController Controller;
-        private Mock<IWebHostEnvironment> WebHostEnvironmentMock;
         private JsonFileProductService ProductService;
-        private IEnumerable<ProductModel> OriginalProductData;
 
         [SetUp]
         public void Setup()
         {
-            #region TestSetup
-            WebHostEnvironmentMock = new Mock<IWebHostEnvironment>();
-            WebHostEnvironmentMock.Setup(m => m.WebRootPath).Returns("../../../../src/wwwroot");
-            ProductService = new JsonFileProductService(WebHostEnvironmentMock.Object);
+            ProductService = TestHelper.ProductService;
             Controller = new ProductsController(ProductService);
-            OriginalProductData = ProductService.GetAllData();
-            #endregion
         }
 
         [TearDown]
         public void TearDown()
         {
-            ProductService.SaveData(OriginalProductData);
         }
 
         [Test]
@@ -59,12 +51,7 @@ namespace UnitTests.Controllers
         public void Patch_ValidRating_Should_Return_Ok()
         {
             // Arrange
-            var ValidProduct = new ProductModel
-            {
-                Id = "valid-product-id",
-                Name = "Test Product",
-                Ratings = new int[] { }
-            };
+            var ValidProduct = ProductService.CreateData();
 
             var OriginalData = ProductService.GetAllData().ToList();
             OriginalData.Add(ValidProduct);
