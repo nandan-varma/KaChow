@@ -1,4 +1,7 @@
+using ContosoCrafts.WebSite.Models;
 using NUnit.Framework;
+using NUnit.Framework.Internal;
+using System.Collections.Generic;
 using System.IO;
 
 // Namespace for base site UnitTests
@@ -12,6 +15,8 @@ namespace UnitTests
 
         // Path to the data folder for the content
         public static string DataContentRootPath = "./data/";
+
+        public IEnumerable<ProductModel> Products;
 
         [OneTimeSetUp]
         public void RunBeforeAnyTests()
@@ -48,11 +53,14 @@ namespace UnitTests
 
                 File.Copy(OriginalFilePathName, newFilePathName);
             }
+
+            Products = TestHelper.ProductService.GetAllData();
         }
 
         [OneTimeTearDown]
         public void RunAfterAnyTests()
         {
+            TestHelper.ProductService.SaveData(Products);
         }
     }
 }
