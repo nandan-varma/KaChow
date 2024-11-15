@@ -6,8 +6,21 @@
 @inject RatingService RatingService
 @* Service for managing ratings *@
 
+<div class="search-filter">
+    <input type="text" @bind="SearchTerm" placeholder="Search products..." class="form-control search-input" />
+    <select @bind="MinRating" class="form-control rating-filter">
+        <option value="0">All Ratings</option>
+        <option value="1">1 ★ & Up</option>
+        <option value="2">2 ★ & Up</option>
+        <option value="3">3 ★ & Up</option>
+        <option value="4">4 ★ & Up</option>
+        <option value="5">5 ★ </option>
+    </select>
+    <button @onclick="ApplyFilters" class="btn btn-primary apply-button">Apply</button>
+</div>
+
 <div class="card-columns">
-    @foreach (var product in ProductService.GetAllData()) // Loop through each product
+    @foreach (var product in FilteredProducts) // Loop through each filtered product
     {
         <div class="card">
             <!-- Link to product detail page -->
@@ -128,5 +141,33 @@
 
         // Update the selected product
         SelectProduct(productId);
+    }
+
+    public string SearchTerm { get; set; } = string.Empty; // Holds the search term
+    public int MinRating { get; set; } = 0; // Holds the minimum rating filter
+    public IEnumerable<ProductModel> FilteredProducts { get; set; } // Holds the filtered products
+
+    // Method to apply search and rating filters
+    public void ApplyFilters()
+    {
+        var products = ProductService.GetAllData();
+
+        if (!string.IsNullOrEmpty(SearchTerm))
+        {
+            products = products.Where(p => p.Name.Contains(SearchTerm, StringComparison.OrdinalIgnoreCase) ||
+                                            p.Description.Contains(SearchTerm, StringComparison.OrdinalIgnoreCase));
+        }
+
+        if (MinRating > 0)
+        {
+            products = products.Where(p => p.Ratings != null && p.Ratings.Any() && p.Ratings.Average() >= MinRating);
+        }
+
+        FilteredProducts = products;
+    }
+
+    protected override void OnInitialized()
+    {
+        FilteredProducts = ProductService.GetAllData(); // Initialize with all products
     }
 }
