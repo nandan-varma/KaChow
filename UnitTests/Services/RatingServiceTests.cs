@@ -19,17 +19,13 @@ namespace UnitTests.Services
         private Mock<HttpContext> HttpContextMock;
         private Mock<IRequestCookieCollection> RequestCookieCollectionMock;
         private Mock<IHeaderDictionary> ResponseHeadersMock;
-        private IEnumerable<ProductModel> OriginalProductData;
 
         #region TestSetup
 
         [SetUp]
         public void Setup()
         {
-            var WebHostEnvironmentMock = new Mock<IWebHostEnvironment>();
-            WebHostEnvironmentMock.Setup(x => x.WebRootPath).Returns("../../../../src/wwwroot");
-            ProductService = new JsonFileProductService(WebHostEnvironmentMock.Object);
-            OriginalProductData = ProductService.GetAllData();
+            ProductService = TestHelper.ProductService;
             HttpContextAccessorMock = new Mock<IHttpContextAccessor>();
             HttpContextMock = new Mock<HttpContext>();
             RequestCookieCollectionMock = new Mock<IRequestCookieCollection>();
@@ -45,7 +41,6 @@ namespace UnitTests.Services
         [TearDown]
         public void TestCleanup()
         {
-            ProductService.SaveData(OriginalProductData);
         }
 
         #endregion TestSetup
