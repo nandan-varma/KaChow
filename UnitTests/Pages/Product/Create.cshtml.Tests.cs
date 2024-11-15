@@ -24,7 +24,6 @@ namespace UnitTests.Pages.Product
         private static PageContext PageContext;
         private static CreateModel PageModel;
         private static JsonFileProductService ProductService;
-        private static IEnumerable<ProductModel> OriginalProductData;
 
         [SetUp]
         public void TestInitialize()
@@ -36,18 +35,13 @@ namespace UnitTests.Pages.Product
             TempData = new TempDataDictionary(HttpContextDefault, Mock.Of<ITempDataProvider>());
             PageContext = new PageContext(ActionContext) { ViewData = ViewData };
 
-            var mockWebHostEnvironment = new Mock<Microsoft.AspNetCore.Hosting.IWebHostEnvironment>();
-            mockWebHostEnvironment.Setup(m => m.WebRootPath).Returns("../../../../src/wwwroot");
-
-            ProductService = new JsonFileProductService(mockWebHostEnvironment.Object);
+            ProductService = TestHelper.ProductService;
             PageModel = new CreateModel(ProductService) { PageContext = PageContext };
-            OriginalProductData = ProductService.GetAllData();
         }
 
         [TearDown]
         public void TestCleanup()
         {
-            ProductService.SaveData(OriginalProductData);
         }
 
         #endregion TestSetup
@@ -78,12 +72,7 @@ namespace UnitTests.Pages.Product
         public void OnPost_Valid_ModelState_Should_Create_Product_And_Redirect_To_Index()
         {
             // Arrange
-            PageModel.Product = new ProductModel
-            {
-                Id = "test_id",
-                Name = "Test Product",
-                Description = "This is a test product."
-            };
+            PageModel.Product = ProductService.CreateData();
             PageModel.ModelState.Clear(); // Ensure model state is valid
 
             // Act
