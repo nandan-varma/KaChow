@@ -41,13 +41,13 @@
     </a>
 </div>
 
-<div class="container">
+<div class="container surprise-me-container">
     @{
         Random random = new Random();
         int index = random.Next(1, data.Count);
         var product = data[index];
     }
-    <a class="btn-primary" href="/Product/Read/@product.Id">Surprise me!</a>
+    <a class="btn-primary surprise-me-button" href="/Product/Read/@product.Id">Surprise me!</a>
 </div>
 
 @(await Html.RenderComponentAsync<ProductList>(RenderMode.ServerPrerendered))
