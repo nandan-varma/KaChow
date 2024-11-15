@@ -27,7 +27,6 @@ namespace UnitTests.Pages.Product
 
         private static DeleteModel PageModel;
         private static JsonFileProductService ProductService;
-        private static IEnumerable<ProductModel> OriginalProductData;
 
         [SetUp]
         public void TestInitialize()
@@ -45,10 +44,7 @@ namespace UnitTests.Pages.Product
                 ViewData = ViewData,
             };
 
-            var MockWebHostEnvironment = new Mock<IWebHostEnvironment>();
-            MockWebHostEnvironment.Setup(m => m.WebRootPath).Returns("../../../../src/wwwroot");
-            ProductService = new JsonFileProductService(MockWebHostEnvironment.Object);
-            OriginalProductData = ProductService.GetAllData();
+            ProductService = TestHelper.ProductService;
 
             PageModel = new DeleteModel(ProductService);
         }
@@ -56,7 +52,6 @@ namespace UnitTests.Pages.Product
         [TearDown]
         public void TestCleanup()
         {
-            ProductService.SaveData(OriginalProductData);
         }
 
         #endregion TestSetup
@@ -157,7 +152,7 @@ namespace UnitTests.Pages.Product
         public void CreateProduct_Valid_Data_Should_Assign_Guid_And_Return_True()
         {
             // Arrange
-            var newProduct = new ProductModel();
+            var newProduct = ProductService.CreateData();
 
             // Act
             var result = ProductService.CreateProduct(newProduct);
