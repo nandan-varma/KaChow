@@ -34,10 +34,7 @@ namespace UnitTests.Pages.Product
 
             PageContext = new PageContext(actionContext) { ViewData = viewData };
 
-            var mockWebHostEnvironment = new Mock<IWebHostEnvironment>();
-            mockWebHostEnvironment.Setup(m => m.WebRootPath).Returns("../../../../src/wwwroot");
-
-            ProductService = new JsonFileProductService(mockWebHostEnvironment.Object);
+            ProductService = TestHelper.ProductService;
             PageModel = new IndexModel(ProductService);
         }
         #endregion TestSetup
@@ -88,5 +85,10 @@ namespace UnitTests.Pages.Product
             Assert.DoesNotThrow(() => PageModel.OnGet());
         }
         #endregion OnGet
+
+        [TearDown]
+        public void TearDown()
+        {
+        }
     }
 }
