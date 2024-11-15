@@ -15,25 +15,20 @@ namespace UnitTests.Pages.Product
     public class ReadTests
     {
         #region TestSetup
-        private Mock<IWebHostEnvironment> WebHostEnvironment;
         private JsonFileProductService ProductService;
         private DetailsModel DetailsModel;
-        private IEnumerable<ProductModel> OriginalProductData;
+        private IEnumerable<ProductModel> OriginalData;
 
         [SetUp]
         public void Setup()
         {
-            WebHostEnvironment = new Mock<IWebHostEnvironment>();
-            WebHostEnvironment.Setup(m => m.WebRootPath).Returns("../../../../src/wwwroot");
-            ProductService = new JsonFileProductService(WebHostEnvironment.Object);
+            ProductService = TestHelper.ProductService;
             DetailsModel = new DetailsModel(ProductService);
-            OriginalProductData = ProductService.GetAllData();
         }
 
         [TearDown]
         public void TearDown()
         {
-            ProductService.SaveData(OriginalProductData);
         }
 
         #endregion TestSetup
@@ -157,10 +152,12 @@ namespace UnitTests.Pages.Product
         {
             // Arrange
             var emptyProductList = new ProductModel[] { };
+            OriginalData = ProductService.GetAllData();
             ProductService.SaveData(emptyProductList);
 
             // Act
             var result = DetailsModel.OnGet("any-id");
+            ProductService.SaveData(OriginalData);
 
             // Assert
             Assert.That(result, Is.InstanceOf<NotFoundResult>());
