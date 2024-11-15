@@ -18,7 +18,10 @@
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-navbar border-bottom box-shadow mb-3">
             <div class="container">
                 <img class="logo" src="/Images/logo.svg" alt="Kachow Logo" />
-                <a class="navbar-brand" asp-area="" asp-page="/Index">Ka-chow - A Plush Pit Stop </a>
+                <a class="navbar-brand" asp-area="" asp-page="/Index">
+                    <span style="font-size: 1.5em; font-weight: bold;">Ka-chow</span><br />
+                    <span style="font-size: 0.75em;">A Plush Pit Stop</span>
+                </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -32,7 +35,10 @@
                             <a class="nav-link text-dark" href="/Product">Products</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/About" >About Us</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/About">About Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <span id="theme-toggle" class="theme-toggle">&#9728;</span> <!-- Theme toggle button -->
                         </li>
                     </ul>
                 </div>
