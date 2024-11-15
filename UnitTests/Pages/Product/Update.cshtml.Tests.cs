@@ -29,7 +29,6 @@ namespace UnitTests.Pages.Product
 
         public static UpdateModel PageModel;
         public static JsonFileProductService ProductService;
-        public static IEnumerable<ProductModel> OriginalProductData;
 
         [SetUp]
         public void TestInitialize()
@@ -49,11 +48,7 @@ namespace UnitTests.Pages.Product
                 ViewData = ViewData,
             };
 
-            var MockWebHostEnvironment = new Mock<IWebHostEnvironment>();
-            MockWebHostEnvironment.Setup(m => m.WebRootPath).Returns("../../../../src/wwwroot");
-
-            ProductService = new JsonFileProductService(MockWebHostEnvironment.Object);
-            OriginalProductData = ProductService.GetAllData();
+            ProductService = TestHelper.ProductService;
 
             PageModel = new UpdateModel(ProductService);
         }
@@ -61,7 +56,6 @@ namespace UnitTests.Pages.Product
         [TearDown]
         public void TestCleanup()
         {
-            ProductService.SaveData(OriginalProductData);
         }
 
         #endregion TestSetup
@@ -109,15 +103,15 @@ namespace UnitTests.Pages.Product
         {
             // Arrange
             PageModel.OnGet(ProductService.GetAllData().First().Id);
-            var originalPrice = PageModel.Product.Price;
-            PageModel.Product.Price = -originalPrice;
+            var product = ProductService.CreateData();
+            PageModel.Product = product;
 
             // Act
             var Result = (RedirectToPageResult)PageModel.OnPost();
 
             // Assert
             Assert.That(PageModel.ModelState.IsValid, Is.True);
-            Assert.That(PageModel.Product.Price, Is.Not.EqualTo(originalPrice));
+            Assert.That(PageModel.Product, Is.EqualTo(product));
             Assert.That(Result.PageName, Is.EqualTo("./Index"));
         }
 
