@@ -214,6 +214,16 @@ namespace ContosoCrafts.WebSite.Services
             return true;
         }
 
+        /// <summary>
+        /// Method to filter products by minimum rating
+        /// </summary>
+        /// <param name="minRating"></param>
+        /// <returns></returns>
+        public IEnumerable<ProductModel> GetProductsByRating(int minRating)
+        {
+            var products = GetAllData();
+            return products.Where(p => p.Ratings != null && p.Ratings.Any() && p.Ratings.Average() >= minRating);
+        }
 
         /// <summary>
         /// Remove the item from the system
