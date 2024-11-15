@@ -339,6 +339,33 @@ button.accept-policy {
     cursor: pointer;
 }
 
+.search-filter {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.search-input {
+    flex-grow: 1;
+    margin-right: 0.5rem;
+}
+
+.rating-filter {
+    width: 150px;
+    margin-right: 0.5rem;
+}
+
+.apply-button {
+    white-space: nowrap;
+    height: 38px; /* Align with input and dropdown height */
+    align-self: stretch; /* Ensure the button is aligned with the input and dropdown */
+}
+
+.apply-button {
+    white-space: nowrap;
+    height: 38px; /* Align with input and dropdown height */
+}
+
 /* Product Page */
 
 .product-listing {
@@ -605,7 +632,7 @@ body.dark-theme {
     }
 }
 
-body.dark-theme .product-details {
+body.dark-theme .product-listing {
     background-color: var(--dark-card-bg);
     color: var(--dark-card-text-color);
 }
