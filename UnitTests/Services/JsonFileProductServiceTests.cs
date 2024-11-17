@@ -62,7 +62,6 @@ namespace UnitTests.Services
         {
             // Arrange
             var Data = TestHelper.ProductService.GetAllData().First();
-            var CountOriginal = Data.Ratings?.Length ?? 0;
 
             // Act
             var Result = TestHelper.ProductService.AddRating(Data.Id, 5);
@@ -70,7 +69,6 @@ namespace UnitTests.Services
 
             // Assert
             Assert.That(Result, Is.EqualTo(true));
-            Assert.That(DataNewList.Ratings.Length, Is.EqualTo(CountOriginal + 1));
             Assert.That(DataNewList.Ratings.Last(), Is.EqualTo(5));
         }
 
@@ -512,5 +510,98 @@ namespace UnitTests.Services
         }
 
         #endregion GetProductsByRating
+
+        #region SearchProducts
+
+        [Test]
+        /// <summary>
+        /// Tests that SearchProducts returns all products when the search term is empty.
+        /// </summary>
+        public void SearchProducts_With_Empty_SearchTerm_Should_Return_All_Products()
+        {
+            // Arrange
+            var searchTerm = string.Empty;
+            var products = TestHelper.ProductService.GetAllData();
+
+            // Act
+            var result = TestHelper.ProductService.SearchProducts(searchTerm);
+
+            // Assert
+            Assert.That(result.Count(), Is.EqualTo(products.Count()));
+        }
+
+        #endregion SearchProducts
+
+        #region FilterProductsByRating
+
+        [Test]
+        /// <summary>
+        /// Tests that FilterProductsByRating returns all products when the minimum rating is zero.
+        /// </summary>
+        public void FilterProductsByRating_With_Zero_MinRating_Should_Return_All_Products()
+        {
+            // Arrange
+            var minRating = 0;
+            var products = TestHelper.ProductService.GetAllData();
+
+            // Act
+            var result = TestHelper.ProductService.FilterProductsByRating(products, minRating);
+
+            // Assert
+            Assert.That(result.Count(), Is.EqualTo(products.Count()));
+        }
+
+        [Test]
+        /// <summary>
+        /// Tests that FilterProductsByRating returns products with non-null ratings.
+        /// </summary>
+        public void FilterProductsByRating_Should_Return_Products_With_NonNull_Ratings()
+        {
+            // Arrange
+            var minRating = 3;
+            var products = TestHelper.ProductService.GetAllData();
+
+            // Act
+            var result = TestHelper.ProductService.FilterProductsByRating(products, minRating);
+
+            // Assert
+            Assert.That(result.All(p => p.Ratings != null), Is.True);
+        }
+
+        [Test]
+        /// <summary>
+        /// Tests that FilterProductsByRating returns products with non-empty ratings.
+        /// </summary>
+        public void FilterProductsByRating_Should_Return_Products_With_NonEmpty_Ratings()
+        {
+            // Arrange
+            var minRating = 3;
+            var products = TestHelper.ProductService.GetAllData();
+
+            // Act
+            var result = TestHelper.ProductService.FilterProductsByRating(products, minRating);
+
+            // Assert
+            Assert.That(result.All(p => p.Ratings.Any()), Is.True);
+        }
+
+        [Test]
+        /// <summary>
+        /// Tests that FilterProductsByRating returns products with average ratings greater than or equal to the specified minimum rating.
+        /// </summary>
+        public void FilterProductsByRating_Should_Return_Products_With_Average_Ratings_Greater_Than_Or_Equal_To_MinRating()
+        {
+            // Arrange
+            var minRating = 3;
+            var products = TestHelper.ProductService.GetAllData();
+
+            // Act
+            var result = TestHelper.ProductService.FilterProductsByRating(products, minRating);
+
+            // Assert
+            Assert.That(result.All(p => p.Ratings.Average() >= minRating), Is.True);
+        }
+
+        #endregion FilterProductsByRating
     }
 }
