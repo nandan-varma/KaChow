@@ -35,6 +35,8 @@ namespace UnitTests.Components
         {
         }
 
+        #region SelectProduct
+
         [Test]
         /// <summary>
         /// Tests that the SelectProduct method sets the selected product correctly when given a valid product.
@@ -52,6 +54,10 @@ namespace UnitTests.Components
             Assert.That(Component.Instance.SelectedProductId, Is.EqualTo(Product.Id));
             Assert.That(Component.Instance.SelectedProduct.Name, Is.EqualTo(Product.Name));
         }
+
+        #endregion SelectProduct
+
+        #region GetCurrentRating
 
         [Test]
         /// <summary>
@@ -98,6 +104,32 @@ namespace UnitTests.Components
 
         [Test]
         /// <summary>
+        /// Tests that the GetCurrentRating method handles a single rating correctly.
+        /// </summary>
+        public void GetCurrentRating_SingleRating_Should_HandleSingleRating()
+        {
+            // Arrange
+            var Product = TestHelper.ProductService.GetAllData().First();
+            Product.Ratings = new int[] { 5 };
+
+            var Component = RenderComponent<ProductList>();
+            Component.Instance.SelectedProduct = Product;
+
+            // Act
+            Component.Instance.GetCurrentRating();
+
+            // Assert
+            Assert.That(Component.Instance.CurrentRating, Is.EqualTo(5));
+            Assert.That(Component.Instance.VoteCount, Is.EqualTo(1));
+            Assert.That(Component.Instance.VoteLabel, Is.EqualTo("Vote"));
+        }
+
+        #endregion GetCurrentRating
+
+        #region SubmitRating
+
+        [Test]
+        /// <summary>
         /// Tests that the SubmitRating method updates the rating of a valid product.
         /// </summary>
         public void SubmitRating_ValidProduct_Should_UpdateRating()
@@ -119,25 +151,31 @@ namespace UnitTests.Components
 
         [Test]
         /// <summary>
-        /// Tests that the GetCurrentRating method handles a single rating correctly.
+        /// Tests that the SubmitRating method is called when a star is clicked.
         /// </summary>
-        public void GetCurrentRating_SingleRating_Should_HandleSingleRating()
+        public void SubmitRating_Should_Be_Called_On_Star_Click()
         {
             // Arrange
             var Product = TestHelper.ProductService.GetAllData().First();
-            Product.Ratings = new int[] { 5 };
-
             var Component = RenderComponent<ProductList>();
             Component.Instance.SelectedProduct = Product;
-
-            // Act
             Component.Instance.GetCurrentRating();
 
+            // Act
+            Component.Render();
+            var Button = Component.Find("button[data-toggle='modal']");
+            Button.Click();
+            var Star = Component.Find(".fa-star");
+            Star.Click();
+
             // Assert
-            Assert.That(Component.Instance.CurrentRating, Is.EqualTo(5));
-            Assert.That(Component.Instance.VoteCount, Is.EqualTo(1));
-            Assert.That(Component.Instance.VoteLabel, Is.EqualTo("Vote"));
+            Assert.That(Component.Instance.CurrentRating, Is.EqualTo(Component.Instance.GetCurrentRating()));
         }
+
+
+        #endregion SubmitRating
+
+        #region Modal
 
         [Test]
         /// <summary>
@@ -236,6 +274,10 @@ namespace UnitTests.Components
             Assert.That(Modal.InnerHtml.Contains("<span>Be the first to vote!</span>"), Is.True);
         }
 
+        #endregion Modal
+
+        #region ApplyFilters
+
         [Test]
         /// <summary>
         /// Tests that the ApplyFilters method returns all products when no filters are applied.
@@ -253,9 +295,6 @@ namespace UnitTests.Components
             // Assert
             Assert.That(component.Instance.FilteredProducts.Count(), Is.EqualTo(TestHelper.ProductService.GetAllData().Count()));
         }
-
-        // Additional tests to cover the lambda expressions
-
 
         [Test]
         /// <summary>
@@ -283,6 +322,9 @@ namespace UnitTests.Components
         }
 
         [Test]
+        /// <summary>
+        /// Tests that the ApplyFilters method returns an empty list when no products match the search term.
+        /// </summary>
         public void ApplyFilters_NoMatchSearchTerm_Should_Return_EmptyList()
         {
             // Arrange
@@ -298,6 +340,9 @@ namespace UnitTests.Components
         }
 
         [Test]
+        /// <summary>
+        /// Tests that the ApplyFilters method excludes products below the minimum rating.
+        /// </summary>
         public void ApplyFilters_BelowMinRating_Should_ExcludeProducts()
         {
             // Arrange
@@ -320,6 +365,9 @@ namespace UnitTests.Components
         }
 
         [Test]
+        /// <summary>
+        /// Tests that the ApplyFilters method returns filtered products when the search term and minimum rating match.
+        /// </summary>
         public void ApplyFilters_MatchSearchTermAndMinRating_Should_ReturnFilteredProducts()
         {
             // Arrange
@@ -345,6 +393,9 @@ namespace UnitTests.Components
         }
 
         [Test]
+        /// <summary>
+        /// Tests that the ApplyFilters method includes a product when the search term matches the product name.
+        /// </summary>
         public void ApplyFilters_SearchTerm_MatchOnName_Should_IncludeProduct()
         {
             // Arrange
@@ -366,7 +417,11 @@ namespace UnitTests.Components
             // Cleanup
             productService.DeleteData(product.Id);
         }
+
         [Test]
+        /// <summary>
+        /// Tests that the ApplyFilters method includes a product when the search term matches the product description.
+        /// </summary>
         public void ApplyFilters_SearchTerm_MatchOnDescription_Should_IncludeProduct()
         {
             // Arrange
@@ -389,28 +444,6 @@ namespace UnitTests.Components
             productService.DeleteData(product.Id);
         }
 
-        [Test]
-        /// <summary>
-        /// Tests that the SubmitRating method is called when a star is clicked.
-        /// </summary>
-        public void SubmitRating_Should_Be_Called_On_Star_Click()
-        {
-            // Arrange
-            var Product = TestHelper.ProductService.GetAllData().First();
-            var Component = RenderComponent<ProductList>();
-            Component.Instance.SelectedProduct = Product;
-            Component.Instance.GetCurrentRating();
-
-            // Act
-            Component.Render();
-            var Button = Component.Find("button[data-toggle='modal']");
-            Button.Click();
-            var Star = Component.Find(".fa-star");
-            Star.Click();
-
-            // Assert
-            Assert.That(Component.Instance.CurrentRating, Is.EqualTo(Component.Instance.GetCurrentRating()));
-        }
-
+        #endregion ApplyFilters
     }
 }
