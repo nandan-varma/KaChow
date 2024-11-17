@@ -24,18 +24,24 @@ namespace ContosoCrafts.WebSite.Services
         /// <param name="webHostEnvironment"></param>
         public JsonFileProductService(IWebHostEnvironment webHostEnvironment)
         {
+            // Assign the WebHostEnvironment instance to the property
             WebHostEnvironment = webHostEnvironment;
+
+            // Initialize a mutex to manage concurrent writes
             SaveDataLock = new Mutex();
         }
 
         // Web environment field
         public IWebHostEnvironment WebHostEnvironment { get; }
 
+        // Mutex lock for saving data
         private static Mutex SaveDataLock;
 
-        // FileName Field and Getter
+        
+        // Property to retrieve the JSON file path
         private string JsonFileName
         {
+            // Combine path to the "plushies.json" file in the web root directory
             get { return Path.Combine(WebHostEnvironment.WebRootPath, "data", "plushies.json"); }
         }
 
@@ -43,14 +49,17 @@ namespace ContosoCrafts.WebSite.Services
         /// Method which retrieves all the data in the database
         /// </summary>
         /// <returns></returns>
+        /// /// <returns>Enumerable list of ProductModel objects</returns>
         public IEnumerable<ProductModel> GetAllData()
         {
+            // Open the JSON file for reading
             using (var jsonFileReader = File.OpenText(JsonFileName))
             {
+                // Deserialize JSON content into ProductModel array
                 return JsonSerializer.Deserialize<ProductModel[]>(jsonFileReader.ReadToEnd(),
                     new JsonSerializerOptions
                     {
-                        PropertyNameCaseInsensitive = true
+                        PropertyNameCaseInsensitive = true // Ignore property case in JSON
                     });
             }
         }
@@ -62,7 +71,10 @@ namespace ContosoCrafts.WebSite.Services
         /// <returns></returns>
         public ProductModel GetProductById(string id)
         {
+            // Fetch all products
             var products = GetAllData();
+
+            // Return the product with matching ID or null if not found
             return products.FirstOrDefault(x => x.Id.Equals(id.Trim()));
         }
 
@@ -75,6 +87,7 @@ namespace ContosoCrafts.WebSite.Services
         /// </summary>
         /// <param name="productId"></param>
         /// <param name="rating"></param>
+        /// /// <returns>True if successful, otherwise false</returns>
         public bool AddRating(string productId, int rating)
         {
             // If the ProductID is invalid, return
@@ -83,6 +96,7 @@ namespace ContosoCrafts.WebSite.Services
                 return false;
             }
 
+            // Get all products
             var products = GetAllData();
 
             // Look up the product, if it does not exist, return
@@ -129,7 +143,10 @@ namespace ContosoCrafts.WebSite.Services
         /// <param name="data"></param>
         public ProductModel UpdateData(ProductModel data)
         {
+            // Retrieve all products
             var products = GetAllData();
+
+            // Find the product to update
             var productData = products.FirstOrDefault(x => x.Id.Equals(data.Id));
             if (productData == null)
             {
@@ -146,6 +163,7 @@ namespace ContosoCrafts.WebSite.Services
 
             productData.CommentList = data.CommentList;
 
+            // Save the updated product list
             SaveData(products);
 
             return productData;
@@ -161,15 +179,16 @@ namespace ContosoCrafts.WebSite.Services
             SaveDataLock.WaitOne();
             using (var outputStream = File.Create(JsonFileName))
             {
+                // Serialize the product list into the JSON file
                 JsonSerializer.Serialize<IEnumerable<ProductModel>>(
                     new Utf8JsonWriter(outputStream, new JsonWriterOptions
                     {
                         SkipValidation = true,
-                        Indented = true
+                        Indented = true // Format JSON for readability
                     }),
                     products
                 );
-                outputStream.Close();
+                outputStream.Close(); // Close the file stream
             }
 
             // When done writing, release the Mutex, "My turn is over"
@@ -183,6 +202,7 @@ namespace ContosoCrafts.WebSite.Services
         /// <returns></returns>
         public ProductModel CreateData()
         {
+            // Create a new product with default values
             var data = new ProductModel()
             {
                 Id = System.Guid.NewGuid().ToString(),
@@ -196,6 +216,7 @@ namespace ContosoCrafts.WebSite.Services
             var dataSet = GetAllData();
             dataSet = dataSet.Append(data);
 
+            // Save the updated data set
             SaveData(dataSet);
 
             return data;
@@ -203,14 +224,18 @@ namespace ContosoCrafts.WebSite.Services
 
         public bool CreateProduct(ProductModel data)
         {
+            // Check if the product data is null or if the price is invalid
             if (data == null || data.Price < 0) return false;
+
             // Get the current set, and append the new record to it because IEnumerable does not have Add
             data.Id = Guid.NewGuid().ToString();
+            // Retrieve the current dataset of products
             var dataSet = GetAllData();
+            // Append the new product to the dataset
             dataSet = dataSet.Append(data);
-
+            // Save the updated dataset back to the storage
             SaveData(dataSet);
-
+            // Return true indicating successful creation
             return true;
         }
 
@@ -221,27 +246,45 @@ namespace ContosoCrafts.WebSite.Services
         /// <returns></returns>
         public IEnumerable<ProductModel> GetProductsByRating(int minRating)
         {
+            // Retrieve all products from the database
             var products = GetAllData();
+            // Filter products with non-null ratings and an average rating greater than or equal to the specified minimum
             return products.Where(p => p.Ratings != null && p.Ratings.Any() && p.Ratings.Average() >= minRating);
         }
 
+        /// <summary>
+        /// Retrieves products that meet or exceed a specified minimum rating
+        /// </summary>
+        /// <param name="minRating">The minimum average rating to filter products</param>
+        /// <returns>A collection of products matching the criteria</returns>
         public IEnumerable<ProductModel> SearchProducts(string searchTerm)
         {
+            // Retrieve all products from the database
             var products = GetAllData();
+
+            // If the search term is empty or null, return all products
             if (string.IsNullOrEmpty(searchTerm))
             {
                 return products;
             }
+            // Filter products where the name or description contains the search term (case insensitive)
             return products.Where(p => p.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
                                        p.Description.Contains(searchTerm, StringComparison.OrdinalIgnoreCase));
         }
 
+        /// <summary>
+        /// Searches for products matching a given search term in their name or description
+        /// </summary>
+        /// <param name="searchTerm">The search term to match</param>
+        /// <returns>A collection of matching products</returns>
         public IEnumerable<ProductModel> FilterProductsByRating(IEnumerable<ProductModel> products, int minRating)
         {
+            // If the minimum rating is zero or less, return the original collection
             if (minRating <= 0)
             {
                 return products;
             }
+            // Filter products with non-null ratings and an average rating greater than or equal to the specified minimum
             return products.Where(p => p.Ratings != null && p.Ratings.Any() && p.Ratings.Average() >= minRating);
         }
 
@@ -253,6 +296,7 @@ namespace ContosoCrafts.WebSite.Services
         {
             // Get the current data set
             var dataSet = GetAllData();
+            // Find the product with the matching ID
             var data = dataSet.FirstOrDefault(m => m.Id.Equals(id));
 
             // If data is null (ID not found), return false
