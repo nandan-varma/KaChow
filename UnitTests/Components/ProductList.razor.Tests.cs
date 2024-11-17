@@ -113,7 +113,7 @@ namespace UnitTests.Components
 
             // Assert
             Assert.That(Component.Instance.CurrentRating, Is.EqualTo(Component.Instance.GetCurrentRating()));
-            Assert.That(Component.Instance.VoteCount, Is.EqualTo(Product.Ratings.Length+1));
+            Assert.That(Component.Instance.VoteCount, Is.EqualTo(Product.Ratings.Length + 1));
             Assert.That(Component.Instance.VoteLabel, Is.EqualTo("Votes"));
         }
 
@@ -238,62 +238,6 @@ namespace UnitTests.Components
 
         [Test]
         /// <summary>
-        /// Tests that the ApplyFilters method filters products correctly based on the search term.
-        /// </summary>
-        public void ApplyFilters_SearchTerm_Should_Filter_Products_Correctly()
-        {
-            // Arrange
-            var component = RenderComponent<ProductList>();
-            var searchTerm = "Product";
-            component.Instance.SearchTerm = searchTerm;
-
-            // Act
-            component.Instance.ApplyFilters();
-
-            // Assert
-            Assert.That(component.Instance.FilteredProducts.All(p => p.Name.Contains(searchTerm, System.StringComparison.OrdinalIgnoreCase) || p.Description.Contains(searchTerm, System.StringComparison.OrdinalIgnoreCase)), Is.True);
-        }
-
-        [Test]
-        /// <summary>
-        /// Tests that the ApplyFilters method filters products correctly based on the minimum rating.
-        /// </summary>
-        public void ApplyFilters_MinRating_Should_Filter_Products_Correctly()
-        {
-            // Arrange
-            var component = RenderComponent<ProductList>();
-            var minRating = 3;
-            component.Instance.MinRating = minRating;
-
-            // Act
-            component.Instance.ApplyFilters();
-
-            // Assert
-            Assert.That(component.Instance.FilteredProducts.All(p => p.Ratings != null && p.Ratings.Any() && p.Ratings.Average() >= minRating), Is.True);
-        }
-
-        [Test]
-        /// <summary>
-        /// Tests that the ApplyFilters method filters products correctly based on both the search term and minimum rating.
-        /// </summary>
-        public void ApplyFilters_SearchTerm_And_MinRating_Should_Filter_Products_Correctly()
-        {
-            // Arrange
-            var component = RenderComponent<ProductList>();
-            var searchTerm = "Product";
-            var minRating = 3;
-            component.Instance.SearchTerm = searchTerm;
-            component.Instance.MinRating = minRating;
-
-            // Act
-            component.Instance.ApplyFilters();
-
-            // Assert
-            Assert.That(component.Instance.FilteredProducts.All(p => (p.Name.Contains(searchTerm, System.StringComparison.OrdinalIgnoreCase) || p.Description.Contains(searchTerm, System.StringComparison.OrdinalIgnoreCase)) && p.Ratings != null && p.Ratings.Any() && p.Ratings.Average() >= minRating), Is.True);
-        }
-
-        [Test]
-        /// <summary>
         /// Tests that the ApplyFilters method returns all products when no filters are applied.
         /// </summary>
         public void ApplyFilters_No_Filters_Should_Return_All_Products()
@@ -337,5 +281,136 @@ namespace UnitTests.Components
             // Cleanup
             productService.DeleteData(product.Id);
         }
+
+        [Test]
+        public void ApplyFilters_NoMatchSearchTerm_Should_Return_EmptyList()
+        {
+            // Arrange
+            var component = RenderComponent<ProductList>();
+            var searchTerm = "NonExistingTerm";
+            component.Instance.SearchTerm = searchTerm;
+
+            // Act
+            component.Instance.ApplyFilters();
+
+            // Assert
+            Assert.That(component.Instance.FilteredProducts.Any(), Is.False);
+        }
+
+        [Test]
+        public void ApplyFilters_BelowMinRating_Should_ExcludeProducts()
+        {
+            // Arrange
+            var component = RenderComponent<ProductList>();
+            var minRating = 4;
+            var productService = TestHelper.ProductService;
+            var product = productService.CreateData(); // Product with low average Ratings
+            product.Ratings = new int[] { 2, 3 };
+            productService.SaveData(productService.GetAllData().Append(product));
+            component.Instance.MinRating = minRating;
+
+            // Act
+            component.Instance.ApplyFilters();
+
+            // Assert
+            Assert.That(component.Instance.FilteredProducts.Any(p => p.Id == product.Id), Is.False);
+
+            // Cleanup
+            productService.DeleteData(product.Id);
+        }
+
+        [Test]
+        public void ApplyFilters_MatchSearchTermAndMinRating_Should_ReturnFilteredProducts()
+        {
+            // Arrange
+            var component = RenderComponent<ProductList>();
+            var searchTerm = "Product";
+            var minRating = 3;
+            var productService = TestHelper.ProductService;
+            var product = productService.CreateData();
+            product.Name = "Product Match";
+            product.Ratings = new int[] { 5, 4, 4 };
+            productService.SaveData(productService.GetAllData().Append(product));
+            component.Instance.SearchTerm = searchTerm;
+            component.Instance.MinRating = minRating;
+
+            // Act
+            component.Instance.ApplyFilters();
+
+            // Assert
+            Assert.That(component.Instance.FilteredProducts.Any(p => p.Id == product.Id), Is.True);
+
+            // Cleanup
+            productService.DeleteData(product.Id);
+        }
+
+        [Test]
+        public void ApplyFilters_SearchTerm_MatchOnName_Should_IncludeProduct()
+        {
+            // Arrange
+            var component = RenderComponent<ProductList>();
+            var searchTerm = "MatchInName";
+            var productService = TestHelper.ProductService;
+            var product = productService.CreateData();
+            product.Name = "MatchInName";
+            product.Description = "Unrelated Description";
+            productService.SaveData(productService.GetAllData().Append(product));
+            component.Instance.SearchTerm = searchTerm;
+
+            // Act
+            component.Instance.ApplyFilters();
+
+            // Assert
+            Assert.That(component.Instance.FilteredProducts.Any(p => p.Id == product.Id), Is.True);
+
+            // Cleanup
+            productService.DeleteData(product.Id);
+        }
+        [Test]
+        public void ApplyFilters_SearchTerm_MatchOnDescription_Should_IncludeProduct()
+        {
+            // Arrange
+            var component = RenderComponent<ProductList>();
+            var searchTerm = "MatchInDescription";
+            var productService = TestHelper.ProductService;
+            var product = productService.CreateData();
+            product.Name = "Unrelated Name";
+            product.Description = "MatchInDescription";
+            productService.SaveData(productService.GetAllData().Append(product));
+            component.Instance.SearchTerm = searchTerm;
+
+            // Act
+            component.Instance.ApplyFilters();
+
+            // Assert
+            Assert.That(component.Instance.FilteredProducts.Any(p => p.Id == product.Id), Is.True);
+
+            // Cleanup
+            productService.DeleteData(product.Id);
+        }
+
+        [Test]
+        /// <summary>
+        /// Tests that the SubmitRating method is called when a star is clicked.
+        /// </summary>
+        public void SubmitRating_Should_Be_Called_On_Star_Click()
+        {
+            // Arrange
+            var Product = TestHelper.ProductService.GetAllData().First();
+            var Component = RenderComponent<ProductList>();
+            Component.Instance.SelectedProduct = Product;
+            Component.Instance.GetCurrentRating();
+
+            // Act
+            Component.Render();
+            var Button = Component.Find("button[data-toggle='modal']");
+            Button.Click();
+            var Star = Component.Find(".fa-star");
+            Star.Click();
+
+            // Assert
+            Assert.That(Component.Instance.CurrentRating, Is.EqualTo(Component.Instance.GetCurrentRating()));
+        }
+
     }
 }
