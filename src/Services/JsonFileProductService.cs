@@ -225,6 +225,26 @@ namespace ContosoCrafts.WebSite.Services
             return products.Where(p => p.Ratings != null && p.Ratings.Any() && p.Ratings.Average() >= minRating);
         }
 
+        public IEnumerable<ProductModel> SearchProducts(string searchTerm)
+        {
+            var products = GetAllData();
+            if (string.IsNullOrEmpty(searchTerm))
+            {
+                return products;
+            }
+            return products.Where(p => p.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) ||
+                                       p.Description.Contains(searchTerm, StringComparison.OrdinalIgnoreCase));
+        }
+
+        public IEnumerable<ProductModel> FilterProductsByRating(IEnumerable<ProductModel> products, int minRating)
+        {
+            if (minRating <= 0)
+            {
+                return products;
+            }
+            return products.Where(p => p.Ratings != null && p.Ratings.Any() && p.Ratings.Average() >= minRating);
+        }
+
         /// <summary>
         /// Remove the item from the system
         /// </summary>
