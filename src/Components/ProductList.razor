@@ -95,7 +95,10 @@
     public ProductModel SelectedProduct { get; set; } // Currently selected product
     public string SelectedProductId { get; set; } // ID of the selected product
 
-    // Method to select a product and fetch its current rating
+    /// <summary>
+    /// Method to select a product and fetch its current rating
+    /// </summary>
+    /// <param name="productId"></param>
     public void SelectProduct(string productId)
     {
         SelectedProductId = productId;
@@ -107,7 +110,10 @@
     public int VoteCount = 0; // Counts the number of votes
     public string VoteLabel; // Label for votes
 
-    // Method to calculate current rating based on received ratings
+    /// <summary>
+    /// Method to calculate current rating based on received ratings
+    /// </summary>
+    /// <returns></returns>
     public int GetCurrentRating()
     {
         if (SelectedProduct.Ratings == null) // Check for no ratings
@@ -132,8 +138,11 @@
         return CurrentRating;
     }
 
-
-    // Method to submit a new rating
+    /// <summary>
+    /// Method to submit a new rating
+    /// </summary>
+    /// <param name="productId"></param>
+    /// <param name="rating"></param>
     public void SubmitRating(string productId, int rating)
     {
         // Add new rating to the product
@@ -147,7 +156,9 @@
     public int MinRating { get; set; } = 0; // Holds the minimum rating filter
     public IEnumerable<ProductModel> FilteredProducts { get; set; } // Holds the filtered products
 
-    // Method to apply search and rating filters
+    /// <summary>
+    /// Method to apply search and rating filters
+    /// </summary>
     public void ApplyFilters()
     {
         var products = ProductService.GetAllData();
@@ -156,6 +167,9 @@
         FilteredProducts = products;
     }
 
+    /// <summary>
+    /// Method called when the component is initialized
+    /// </summary>
     protected override void OnInitialized()
     {
         FilteredProducts = ProductService.GetAllData(); // Initialize with all products
