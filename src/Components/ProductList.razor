@@ -151,18 +151,8 @@
     public void ApplyFilters()
     {
         var products = ProductService.GetAllData();
-
-        if (!string.IsNullOrEmpty(SearchTerm))
-        {
-            products = products.Where(p => p.Name.Contains(SearchTerm, StringComparison.OrdinalIgnoreCase) ||
-                                            p.Description.Contains(SearchTerm, StringComparison.OrdinalIgnoreCase));
-        }
-
-        if (MinRating > 0)
-        {
-            products = products.Where(p => p.Ratings != null && p.Ratings.Any() && p.Ratings.Average() >= MinRating);
-        }
-
+        products = ProductService.SearchProducts(SearchTerm);
+        products = ProductService.FilterProductsByRating(products, MinRating);
         FilteredProducts = products;
     }
 
