@@ -1,4 +1,4 @@
-using ContosoCrafts.WebSite.Pages;
+using ContosoCrafts.WebSite.Pages.Shared;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
