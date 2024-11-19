@@ -1,5 +1,5 @@
-﻿@page "{id}" // Route parameter for the product ID to identify which product to delete
-@using ContosoCrafts.WebSite.Services // Importing the product service for handling product data
+﻿@page "{id}" @* Route parameter for the product ID to identify which product to delete *@
+@using ContosoCrafts.WebSite.Services @* Importing the product service for handling product data *@
 @inject JsonFileProductService productService // Injecting the product service to interact with product data
 @model ContosoCrafts.WebSite.Pages.Product.DeleteModel // Setting the page model for the Delete product page
 @{
