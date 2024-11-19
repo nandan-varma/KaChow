@@ -12,6 +12,8 @@
     ],
     "Price": 20,
     "Stock": 1,
+    "Material": "Cotton",
+    "Size": "Small",
     "CommentList": []
   },
   {
@@ -27,6 +29,8 @@
     ],
     "Price": 15,
     "Stock": 1,
+    "Material": "Cotton",
+    "Size": "Small",
     "CommentList": []
   },
   {
@@ -42,6 +46,8 @@
     ],
     "Price": 25,
     "Stock": 1,
+    "Material": "Cotton",
+    "Size": "Small",
     "CommentList": []
   },
   {
@@ -57,6 +63,8 @@
     ],
     "Price": 19,
     "Stock": 1,
+    "Material": "Cotton",
+    "Size": "Small",
     "CommentList": []
   },
   {
@@ -72,6 +80,8 @@
     ],
     "Price": 17,
     "Stock": 1,
+    "Material": "Cotton",
+    "Size": "Small",
     "CommentList": []
   },
   {
@@ -87,6 +97,8 @@
     ],
     "Price": 13,
     "Stock": 1,
+    "Material": "Cotton",
+    "Size": "Small",
     "CommentList": []
   },
   {
@@ -102,6 +114,8 @@
     ],
     "Price": 15,
     "Stock": 1,
+    "Material": "Cotton",
+    "Size": "Small",
     "CommentList": []
   },
   {
@@ -117,6 +131,8 @@
     ],
     "Price": 14,
     "Stock": 1,
+    "Material": "Cotton",
+    "Size": "Small",
     "CommentList": []
   },
   {
@@ -132,6 +148,8 @@
     ],
     "Price": 16,
     "Stock": 1,
+    "Material": "Cotton",
+    "Size": "Small",
     "CommentList": []
   }
 ]
