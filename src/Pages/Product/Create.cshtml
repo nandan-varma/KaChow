@@ -66,6 +66,20 @@
             <span asp-validation-for="Product.Stock" class="text-danger"></span>
         </div>
 
+        <!-- Form field for the product Material -->
+        <div class="form-group">
+            <label asp-for="Product.Material"></label>
+            <input asp-for="Product.Material" class="form-control" />
+            <span asp-validation-for="Product.Material" class="text-danger"></span>
+        </div>
+
+        <!-- Form field for the product Size -->
+        <div class="form-group">
+            <label asp-for="Product.Size"></label>
+            <input asp-for="Product.Size" class="form-control" />
+            <span asp-validation-for="Product.Size" class="text-danger"></span>
+        </div>
+
         <!-- Submit button to create the product -->
         <button type="submit" class="btn btn-primary">Create</button>
     </form>
