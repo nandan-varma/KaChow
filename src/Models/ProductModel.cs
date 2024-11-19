@@ -15,6 +15,8 @@ namespace ContosoCrafts.WebSite.Models
 
         // Image URL Field
         [JsonPropertyName("img")]
+        [RegularExpression(@"^(https:\/\/|http:\/\/).*(\.jpeg|\.png|\.webp)$", 
+            ErrorMessage = "Image URL must be a Jpeg, PNG, or WebP file and must start with http:// or https://")]
         public string Image { get; set; }
 
         // URL Field
