@@ -50,22 +50,31 @@ namespace ContosoCrafts.WebSite
             else
             {
                 app.UseExceptionHandler("/Error");
+                app.UseStatusCodePagesWithReExecute("/Error", "?statusCode={0}"); // Pass the status code to the Error page
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                //app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
-
             app.UseAuthorization();
+            app.UseHttpsRedirection();
+
+
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
                 endpoints.MapControllers();
                 endpoints.MapBlazorHub();
+
+                endpoints.MapControllerRoute(
+                        name: "default",
+                        pattern: "{controller=Home}/{action=Index}/{id?}"
+                    );
+
+                // Fallback for unmatched routes
+                endpoints.MapFallbackToController("HandleError", "Error");
 
                 // endpoints.MapGet("/products", (context) => 
                 // {
