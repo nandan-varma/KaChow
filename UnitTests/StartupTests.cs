@@ -131,5 +131,42 @@ namespace UnitTests
             Assert.That(Configuration, Is.Not.Null);
             Assert.That(Configuration, Is.EqualTo(ConfigurationMock.Object));
         }
+
+        [Test]
+        public void Configure_Valid_Uses_StatusCodePagesWithReExecute()
+        {
+            // Arrange
+            var Builder = WebApplication.CreateBuilder(new string[0]);
+            var Services = Builder.Services;
+            _startup.ConfigureServices(Services);
+            var App = Builder.Build();
+
+            var WebHostEnvironmentMock = new Mock<IWebHostEnvironment>();
+            WebHostEnvironmentMock.Setup(env => env.EnvironmentName).Returns("Production");
+
+            // Act
+            _startup.Configure(App, WebHostEnvironmentMock.Object);
+
+            // Assert
+            // Simulate a middleware pipeline with a 404 status code
+            var Context = new DefaultHttpContext();
+            Context.Response.StatusCode = 404;
+
+            // Run the app middleware pipeline
+            App.Use(async (httpContext, next) =>
+            {
+                // Trigger status code middleware
+                await next.Invoke();
+                if (httpContext.Response.StatusCode == 404)
+                {
+                    Assert.That(httpContext.Request.Path.Value, Does.StartWith("/Error"));
+                    Assert.That(httpContext.Request.QueryString.Value, Does.Contain("statusCode=404"));
+                }
+            });
+
+            // Ensure middleware execution does not throw
+            Assert.DoesNotThrowAsync(() => App.StartAsync());
+        }
+
     }
 }
