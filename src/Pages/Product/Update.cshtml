@@ -1,5 +1,5 @@
-﻿@page "{id}" // Route parameter for the product ID to identify which product to update
-@using ContosoCrafts.WebSite.Services // Importing the product service to handle product data
+﻿@page "{id}" @* Route parameter for the product ID to identify which product to update *@
+@using ContosoCrafts.WebSite.Services @* Importing the product service to handle product data *@
 @inject JsonFileProductService productService // Injecting the product service for access to product data
 @model ContosoCrafts.WebSite.Pages.Product.UpdateModel // Setting the page model for the Update product page
 @{
