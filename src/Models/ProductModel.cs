@@ -43,6 +43,11 @@ namespace ContosoCrafts.WebSite.Models
         // Stock Field
         public int Stock { get; set; }
 
+        // Material Field
+        public string Material {  get; set; }
+
+        // Size Field
+        public string Size {  get; set; }
         // Store the Comments entered by the users on this product
         public List<CommentModel> CommentList { get; set; } = new List<CommentModel>();
 
