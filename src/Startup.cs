@@ -68,10 +68,6 @@ namespace ContosoCrafts.WebSite
                 endpoints.MapControllers();
                 endpoints.MapBlazorHub();
 
-                endpoints.MapControllerRoute(
-                        name: "default",
-                        pattern: "{controller=Home}/{action=Index}/{id?}"
-                    );
 
                 // Fallback for unmatched routes
                 endpoints.MapFallbackToController("HandleError", "Error");
