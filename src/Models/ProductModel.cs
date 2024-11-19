@@ -18,6 +18,7 @@ namespace ContosoCrafts.WebSite.Models
         public string Image { get; set; }
 
         // URL Field
+        [RegularExpression(@"^http:\/\/|^https:\/\/", ErrorMessage = "URL must start with http:// or https://")]
         public string Url { get; set; }
 
         // Name Field
