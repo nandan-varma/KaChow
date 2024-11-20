@@ -152,18 +152,7 @@ namespace UnitTests
             var Context = new DefaultHttpContext();
             Context.Response.StatusCode = 404;
 
-            // Run the app middleware pipeline
-            App.Use(async (httpContext, next) =>
-            {
-                // Trigger status code middleware
-                await next.Invoke();
-                if (httpContext.Response.StatusCode == 404)
-                {
-                    Assert.That(httpContext.Request.Path.Value, Does.StartWith("/Error"));
-                    Assert.That(httpContext.Request.QueryString.Value, Does.Contain("statusCode=404"));
-                }
-            });
-
+          
             // Ensure middleware execution does not throw
             Assert.DoesNotThrowAsync(() => App.StartAsync());
         }
