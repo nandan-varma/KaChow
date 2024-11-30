@@ -136,6 +136,12 @@ namespace ContosoCrafts.WebSite.Services
             return true;
         }
 
+        /// <summary>
+        /// Adds a comment to the Products comment list
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <param name="comment"></param>
+        /// <returns></returns>
         public bool AddComment(string productId, CommentModel comment)
         {
             // If the comment is null or empty return false
