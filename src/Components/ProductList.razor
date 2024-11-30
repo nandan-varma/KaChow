@@ -132,6 +132,7 @@
         SelectedProductId = productId;
         SelectedProduct = ProductService.GetAllData().First(x => x.Id == productId);
         GetCurrentRating();
+        comments = ProductService.GetPageOfComments(SelectedProductId, PageNumber);
     }
 
     public int CurrentRating = 0; // Holds the current rating value
