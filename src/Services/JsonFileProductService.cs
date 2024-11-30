@@ -135,6 +135,54 @@ namespace ContosoCrafts.WebSite.Services
             return true;
         }
 
+        public bool AddComment(string productId, CommentModel comment)
+        {
+            // If the comment is null or empty return false
+            if (string.IsNullOrEmpty(comment.Comment))
+            {
+                return false;
+            }
+
+            // If the ProductID is invalid, return
+            if (string.IsNullOrEmpty(productId))
+            {
+                return false;
+            }
+
+            // Get all products
+            var products = GetAllData();
+
+            // Look up the product, if it does not exist, return
+            var data = products.FirstOrDefault(x => x.Id.Equals(productId));
+            if (data == null)
+            {
+                return false;
+            }
+
+            // If the comment list is null
+            if (data.CommentList == null)
+            {
+                data.CommentList = new List<CommentModel>();
+            }
+
+            // Get the comments
+            var comments = data.CommentList;
+
+            // Extract the comment from the view
+            CommentModel DeepCopyComment = new CommentModel();
+            DeepCopyComment.Comment = comment.Comment;
+
+            // Add the deep copy to the comment list
+            comments.Add(DeepCopyComment);
+
+            // Reset the view model comment
+            comment.Comment = "";
+
+            // Save the data back to the data store
+            SaveData(products);
+
+            return true;
+        }
         /// <summary>
         /// Find the data record
         /// Update the fields
