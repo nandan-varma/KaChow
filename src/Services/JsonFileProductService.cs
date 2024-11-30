@@ -38,7 +38,7 @@ namespace ContosoCrafts.WebSite.Services
         private static Mutex SaveDataLock;
 
         public const int PAGE_SIZE = 10;
-        
+
         // Property to retrieve the JSON file path
         private string JsonFileName
         {
@@ -210,48 +210,67 @@ namespace ContosoCrafts.WebSite.Services
             return product.CommentList.Count;
         }
 
+        /// <summary>
+        /// Retrieves a page of comments if the page number and product id are valid
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <param name="pageNumber"></param>
+        /// <returns></returns>
         public List<string> GetPageOfComments(string productId, int pageNumber)
         {
+            // If the productId is null or empty, return a null list
             if (string.IsNullOrEmpty(productId))
             {
                 return null;
             }
 
+            // Get all the products
             var products = GetAllData();
 
+            // Retrieve the given product
             var product = products.FirstOrDefault(x=>x.Id.Equals(productId));
 
+            // If the given product does not exist return a null list
             if (product == null)
             {
                 return null;
             }
 
+            // If the page number is negative, return a null list
             if (pageNumber < 0)
             {
                 return null;
             }
 
+            // If the given start index is greater than the overall list length, return a null list
             if ((pageNumber * PAGE_SIZE) > product.CommentList.Count) {
                 return null;
             }
 
+            // Retrieve the whole list
             var comments = product.CommentList;
 
+            // Create a result list
             List<string> result = new List<string>();
 
+            // Create two variables, one for the start index, one for the end index
             int startIndex = pageNumber * PAGE_SIZE, endIndex = (pageNumber + 1) * PAGE_SIZE;
 
+            // If the end index is greater than the whole list length, reassign the end to the end of the
+            // whole list length
             if (endIndex > comments.Count)
             {
                 endIndex = comments.Count;
             }
 
+            // Scoop out the comments between start and end
             for (int i = startIndex; i < endIndex; i++)
             {
                 var comment = comments[i];
                 result.Add(comment.Comment);
             }
 
+            // Return the result list
             return result;
         }
 
