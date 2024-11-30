@@ -188,6 +188,32 @@
     {
         // Add the comment to the Selected Product
         ProductService.AddComment(SelectedProductId, model);
+        comments = ProductService.GetPageOfComments(SelectedProductId, PageNumber);
+    }
+
+    /// <summary>
+    /// Increments the page number after a check
+    /// </summary>
+    public void IncrementPageNumber()
+    {
+        List<string> NextPage = ProductService.GetPageOfComments(SelectedProductId, PageNumber + 1);
+        if (NextPage != null)
+        {
+            PageNumber += 1;
+            comments = NextPage;
+        }
+    }
+
+    /// <summary>
+    /// Decrements the page number after a check
+    /// </summary>
+    public void DecrementPageNumber()
+    {
+        if (PageNumber > 0)
+        {
+            PageNumber -= 1;
+        }
+        comments = ProductService.GetPageOfComments(SelectedProductId, PageNumber);
     }
 
     public string SearchTerm { get; set; } = string.Empty; // Holds the search term
