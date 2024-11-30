@@ -84,25 +84,32 @@
                         // Display checked or unchecked star based on current rating
                         <span class="fa fa-star @(i <= CurrentRating ? "checked" : "")" @onclick="() => SubmitRating(SelectedProduct.Id, currentStar)"></span>
                     }
-                </div>
                 <EditForm Model="model" OnValidSubmit="SubmitComment">
                     <DataAnnotationsValidator />
                     <ValidationSummary />
 
-                    <div>
+                        <div class ="form-group">
                         <label for="Comment">Comment: </label>
-                        <textarea @bind=model.Comment></textarea>
+                            <textarea class="form-control" @bind=model.Comment></textarea>
                         <ValidationMessage For="@(() => model.Comment)"></ValidationMessage>
-                    </div>
 
-                    <div>
-                        <button onclick="submit">
+                            <button class="btn btn-primary" onclick="submit">
                             Submit Comment
                         </button>
                     </div>
                 </EditForm>
-
+                    <div>
+                        <ul class="list-group">
+                            @foreach (string comment in comments)
+                            {
+                                <li class="list-group-item text-wrap text-break">@comment</li>
+                            }
+                        </ul>
+                        <button class="btn btn-primary" onclick="@(() => DecrementPageNumber())">Last Page</button>
+                        <button class="btn btn-primary" onclick="@(() => IncrementPageNumber())">Next Page</button>
             </div>
+        </div>
+    </div>
         </div>
     </div>
 }
