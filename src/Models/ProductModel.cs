@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Components.Forms;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
@@ -49,7 +50,7 @@ namespace ContosoCrafts.WebSite.Models
         // Size Field
         public string Size {  get; set; }
         // Store the Comments entered by the users on this product
-        public List<CommentModel> CommentList { get; set; } = new List<CommentModel>();
+        public List<CommentModel> CommentList { get; set; }
 
         // ToString Override method which converts the object into JSON
         public override string ToString() => JsonSerializer.Serialize<ProductModel>(this);
