@@ -37,6 +37,7 @@ namespace ContosoCrafts.WebSite.Services
         // Mutex lock for saving data
         private static Mutex SaveDataLock;
 
+        public const int PAGE_SIZE = 10;
         
         // Property to retrieve the JSON file path
         private string JsonFileName
