@@ -120,6 +120,8 @@
     public ProductModel SelectedProduct { get; set; } // Currently selected product
     public string SelectedProductId { get; set; } // ID of the selected product
     public CommentModel model = new CommentModel();
+    public int PageNumber = 0;
+    public List<string> comments;
 
     /// <summary>
     /// Method to select a product and fetch its current rating
