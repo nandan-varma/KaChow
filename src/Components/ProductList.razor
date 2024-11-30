@@ -1,5 +1,6 @@
 ﻿@using ContosoCrafts.WebSite.Models
 @using ContosoCrafts.WebSite.Services
+@using Microsoft.AspNetCore.Components.Forms
 @using Microsoft.AspNetCore.Components.Web
 @inject JsonFileProductService ProductService
 @* Service for product data *@
@@ -84,6 +85,23 @@
                         <span class="fa fa-star @(i <= CurrentRating ? "checked" : "")" @onclick="() => SubmitRating(SelectedProduct.Id, currentStar)"></span>
                     }
                 </div>
+                <EditForm Model="model" OnValidSubmit="SubmitComment">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+
+                    <div>
+                        <label for="Comment">Comment: </label>
+                        <textarea @bind=model.Comment></textarea>
+                        <ValidationMessage For="@(() => model.Comment)"></ValidationMessage>
+                    </div>
+
+                    <div>
+                        <button onclick="submit">
+                            Submit Comment
+                        </button>
+                    </div>
+                </EditForm>
+
             </div>
         </div>
     </div>
@@ -94,6 +112,7 @@
 {
     public ProductModel SelectedProduct { get; set; } // Currently selected product
     public string SelectedProductId { get; set; } // ID of the selected product
+    public CommentModel model = new CommentModel();
 
     /// <summary>
     /// Method to select a product and fetch its current rating
@@ -150,6 +169,15 @@
 
         // Update the selected product
         SelectProduct(productId);
+    }
+
+    /// <summary>
+    /// Method to submit a new comment
+    /// </summary>
+    public void SubmitComment()
+    {
+        // Add the comment to the Selected Product
+        ProductService.AddComment(SelectedProductId, model);
     }
 
     public string SearchTerm { get; set; } = string.Empty; // Holds the search term
