@@ -184,6 +184,71 @@ namespace ContosoCrafts.WebSite.Services
 
             return true;
         }
+
+        /// <summary>
+        /// Gets the length of the comment list for the given product
+        /// </summary>
+        /// <param name="ProductId"></param>
+        /// <returns></returns>
+        public int GetCommentListSize(string ProductId)
+        {
+            if (string.IsNullOrEmpty(ProductId))
+            {
+                return 0;
+            }
+
+            var products = GetAllData();
+
+            var product = products.FirstOrDefault(x=> x.Id.Equals(ProductId));
+
+            return product.CommentList.Count;
+        }
+
+        public List<string> GetPageOfComments(string productId, int pageNumber)
+        {
+            if (string.IsNullOrEmpty(productId))
+            {
+                return null;
+            }
+
+            var products = GetAllData();
+
+            var product = products.FirstOrDefault(x=>x.Id.Equals(productId));
+
+            if (product == null)
+            {
+                return null;
+            }
+
+            if (pageNumber < 0)
+            {
+                return null;
+            }
+
+            if ((pageNumber * PAGE_SIZE) > product.CommentList.Count) {
+                return null;
+            }
+
+            var comments = product.CommentList;
+
+            List<string> result = new List<string>();
+
+            int startIndex = pageNumber * PAGE_SIZE, endIndex = (pageNumber + 1) * PAGE_SIZE;
+
+            if (endIndex > comments.Count)
+            {
+                endIndex = comments.Count;
+            }
+
+            for (int i = startIndex; i < endIndex; i++)
+            {
+                var comment = comments[i];
+                result.Add(comment.Comment);
+            }
+
+            return result;
+        }
+
         /// <summary>
         /// Find the data record
         /// Update the fields
