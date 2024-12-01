@@ -669,6 +669,22 @@ namespace UnitTests.Services
             Assert.That(Comments, Is.EqualTo(null));
         }
 
+        /// <summary>
+        /// Non initialized Comment List Product should return null list
+        /// </summary>
+        [Test]
+        public void GetPageOfComments_Valid_Product_No_Comments_Should_Return_Null_List()
+        {
+            // Arrange
+            var Product = TestHelper.ProductService.CreateData();
+
+            // Act
+            var Comments = TestHelper.ProductService.GetPageOfComments(Product.Id, 0);
+
+            // Assert
+            Assert.That(Comments, Is.EqualTo(null));
+        }
+
         #endregion GetPageOfComments
 
     }
