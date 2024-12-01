@@ -4,8 +4,9 @@ using NUnit.Framework;
 // Namespace for Model UnitTests
 namespace UnitTests.Models
 {
-    public class CommentModelTests
+    public class CommentModelTest
     {
+        #region Constructor_Id_Should_Initialize_With_Unique_Guid
         [Test]
         /// <summary>
         /// Tests that the constructor initializes Id with a unique Guid.
@@ -13,15 +14,19 @@ namespace UnitTests.Models
         public void Constructor_Id_Should_Initialize_With_Unique_Guid()
         {
             // Arrange & Act
-            var Comment1 = new CommentModel();
-            var Comment2 = new CommentModel();
+            var result1 = new CommentModel();
+            var result2 = new CommentModel();
+
+            // Reset
 
             // Assert
-            Assert.That(Comment1.Id, Is.Not.Null);
-            Assert.That(Comment2.Id, Is.Not.Null);
-            Assert.That(Comment1.Id, Is.Not.EqualTo(Comment2.Id));
+            Assert.That(result1.Id, Is.Not.Null);
+            Assert.That(result2.Id, Is.Not.Null);
+            Assert.That(result1.Id, Is.Not.EqualTo(result2.Id));
         }
+        #endregion Constructor_Id_Should_Initialize_With_Unique_Guid
 
+        #region Comment_Property_Set_Get_Value_Should_Return_ExpectedValue
         [Test]
         /// <summary>
         /// Tests that the Comment property can be set and retrieved with the expected value.
@@ -29,17 +34,21 @@ namespace UnitTests.Models
         public void Comment_Property_Set_Get_Value_Should_Return_ExpectedValue()
         {
             // Arrange
-            var Comment = new CommentModel();
-            var ExpectedComment = "This is a test comment.";
+            var result = new CommentModel();
+            var expectedComment = "This is a test comment.";
 
             // Act
-            Comment.Comment = ExpectedComment;
-            var ActualComment = Comment.Comment;
+            result.Comment = expectedComment;
+            var actualComment = result.Comment;
+
+            // Reset
 
             // Assert
-            Assert.That(ActualComment, Is.EqualTo(ExpectedComment));
+            Assert.That(actualComment, Is.EqualTo(expectedComment));
         }
+        #endregion Comment_Property_Set_Get_Value_Should_Return_ExpectedValue
 
+        #region Id_Property_Set_Get_Value_Should_Return_ExpectedValue
         [Test]
         /// <summary>
         /// Tests that the Id property can be set and retrieved with the expected value.
@@ -47,15 +56,18 @@ namespace UnitTests.Models
         public void Id_Property_Set_Get_Value_Should_Return_ExpectedValue()
         {
             // Arrange
-            var Comment = new CommentModel();
-            var ExpectedId = "test-id";
+            var result = new CommentModel();
+            var expectedId = "test-id";
 
             // Act
-            Comment.Id = ExpectedId;
-            var ActualId = Comment.Id;
+            result.Id = expectedId;
+            var actualId = result.Id;
+
+            // Reset
 
             // Assert
-            Assert.That(ActualId, Is.EqualTo(ExpectedId));
+            Assert.That(actualId, Is.EqualTo(expectedId));
         }
+        #endregion Id_Property_Set_Get_Value_Should_Return_ExpectedValue
     }
 }
