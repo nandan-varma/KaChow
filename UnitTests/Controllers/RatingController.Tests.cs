@@ -11,28 +11,38 @@ using System.Linq;
 
 namespace UnitTests.Controllers
 {
-    public class RatingControllerTests
+    public class RatingControllerTest
     {
-        private RatingService RatingService;
-        private JsonFileProductService ProductService;
-        private RatingController Controller;
-        private DefaultHttpContext HttpContext;
-        private IHttpContextAccessor HttpContextAccessor;
+        #region TestSetup
+
+        private RatingService _ratingService;
+        private JsonFileProductService _productService;
+        private RatingController _controller;
+        private DefaultHttpContext _httpContext;
+        private IHttpContextAccessor _httpContextAccessor;
 
         [SetUp]
-        public void SetUp()
+        public void TestInitialize()
         {
-            HttpContext = new DefaultHttpContext();
-            HttpContextAccessor = new HttpContextAccessor { HttpContext = HttpContext };
-            RatingService = new RatingService(HttpContextAccessor);
-            ProductService = TestHelper.ProductService;
-            Controller = new RatingController(RatingService, ProductService);
+            // Arrange
+            _httpContext = new DefaultHttpContext();
+            _httpContextAccessor = new HttpContextAccessor { HttpContext = _httpContext };
+            _ratingService = new RatingService(_httpContextAccessor);
+            _productService = TestHelper.ProductService;
+            _controller = new RatingController(_ratingService, _productService);
+
+            // Reset
         }
 
         [TearDown]
-        public void TearDown()
+        public void TestCleanup()
         {
+            // Reset
         }
+
+        #endregion TestSetup
+
+        #region AddRating_InvalidRating_Should_Return_BadRequest
 
         [Test]
         /// <summary>
@@ -41,15 +51,21 @@ namespace UnitTests.Controllers
         public void AddRating_InvalidRating_Should_Return_BadRequest()
         {
             // Arrange
-            var ProductId = "testProductId";
-            var Rating = -1;
+            var productId = "testProductId";
+            var rating = -1;
 
             // Act
-            var Result = Controller.AddRating(ProductId, Rating);
+            var result = _controller.AddRating(productId, rating);
+
+            // Reset
 
             // Assert
-            Assert.That(Result, Is.InstanceOf<BadRequestObjectResult>());
+            Assert.That(result, Is.InstanceOf<BadRequestObjectResult>());
         }
+
+        #endregion AddRating_InvalidRating_Should_Return_BadRequest
+
+        #region AddRating_NonExistentProduct_Should_Return_NotFound
 
         [Test]
         /// <summary>
@@ -58,16 +74,22 @@ namespace UnitTests.Controllers
         public void AddRating_NonExistentProduct_Should_Return_NotFound()
         {
             // Arrange
-            var ProductId = "nonExistentProductId";
-            var Rating = 3;
+            var productId = "nonExistentProductId";
+            var rating = 3;
 
             // Act
-            var Result = Controller.AddRating(ProductId, Rating);
+            var result = _controller.AddRating(productId, rating);
+
+            // Reset
 
             // Assert
-            Assert.That(Result, Is.InstanceOf<NotFoundObjectResult>());
-            Assert.That(((NotFoundObjectResult)Result).Value, Is.EqualTo("Product not found."));
+            Assert.That(result, Is.InstanceOf<NotFoundObjectResult>());
+            Assert.That(((NotFoundObjectResult)result).Value, Is.EqualTo("Product not found."));
         }
+
+        #endregion AddRating_NonExistentProduct_Should_Return_NotFound
+
+        #region AddRating_ValidRating_Should_Return_Ok
 
         [Test]
         /// <summary>
@@ -76,15 +98,21 @@ namespace UnitTests.Controllers
         public void AddRating_ValidRating_Should_Return_Ok()
         {
             // Arrange
-            var ProductId = ProductService.GetAllData().First().Id;
-            var Rating = 5;
+            var productId = _productService.GetAllData().First().Id;
+            var rating = 5;
 
             // Act
-            var Result = Controller.AddRating(ProductId, Rating);
+            var result = _controller.AddRating(productId, rating);
+
+            // Reset
 
             // Assert
-            Assert.That(Result, Is.InstanceOf<OkResult>());
+            Assert.That(result, Is.InstanceOf<OkResult>());
         }
+
+        #endregion AddRating_ValidRating_Should_Return_Ok
+
+        #region AddRating_NullOrEmptyProductId_Should_Return_BadRequest
 
         [Test]
         /// <summary>
@@ -93,26 +121,34 @@ namespace UnitTests.Controllers
         public void AddRating_NullOrEmptyProductId_Should_Return_BadRequest()
         {
             // Arrange
-            string ProductId = null;
-            var Rating = 3;
+            string productId = null;
+            var rating = 3;
 
             // Act
-            var Result = Controller.AddRating(ProductId, Rating);
+            var result = _controller.AddRating(productId, rating);
+
+            // Reset
 
             // Assert
-            Assert.That(Result, Is.InstanceOf<BadRequestObjectResult>());
-            Assert.That(((BadRequestObjectResult)Result).Value, Is.EqualTo("Product ID cannot be null or empty."));
+            Assert.That(result, Is.InstanceOf<BadRequestObjectResult>());
+            Assert.That(((BadRequestObjectResult)result).Value, Is.EqualTo("Product ID cannot be null or empty."));
 
             // Arrange with empty string
-            ProductId = string.Empty;
+            productId = string.Empty;
 
             // Act
-            Result = Controller.AddRating(ProductId, Rating);
+            result = _controller.AddRating(productId, rating);
+
+            // Reset
 
             // Assert
-            Assert.That(Result, Is.InstanceOf<BadRequestObjectResult>());
-            Assert.That(((BadRequestObjectResult)Result).Value, Is.EqualTo("Product ID cannot be null or empty."));
+            Assert.That(result, Is.InstanceOf<BadRequestObjectResult>());
+            Assert.That(((BadRequestObjectResult)result).Value, Is.EqualTo("Product ID cannot be null or empty."));
         }
+
+        #endregion AddRating_NullOrEmptyProductId_Should_Return_BadRequest
+
+        #region AddRating_UserAlreadyRatedProduct_Should_Return_NotFound
 
         [Test]
         /// <summary>
@@ -121,18 +157,24 @@ namespace UnitTests.Controllers
         public void AddRating_UserAlreadyRatedProduct_Should_Return_NotFound()
         {
             // Arrange
-            var ProductId = "testProductId";
-            var Rating = 5;
+            var productId = "testProductId";
+            var rating = 5;
 
-            var UserRatings = new Dictionary<string, int> { { ProductId, Rating } };
-            HttpContext.Items["UserRatings"] = UserRatings;
+            var userRatings = new Dictionary<string, int> { { productId, rating } };
+            _httpContext.Items["UserRatings"] = userRatings;
 
             // Act
-            var Result = Controller.AddRating(ProductId, Rating);
+            var result = _controller.AddRating(productId, rating);
+
+            // Reset
 
             // Assert
-            Assert.That(Result, Is.InstanceOf<NotFoundObjectResult>());
+            Assert.That(result, Is.InstanceOf<NotFoundObjectResult>());
         }
+
+        #endregion AddRating_UserAlreadyRatedProduct_Should_Return_NotFound
+
+        #region AddRating_ValidCall_Should_Return_Ok_And_AddRating
 
         [Test]
         /// <summary>
@@ -141,18 +183,24 @@ namespace UnitTests.Controllers
         public void AddRating_ValidCall_Should_Return_Ok_And_AddRating()
         {
             // Arrange
-            var ProductId = ProductService.GetAllData().First().Id;
-            var Rating = 5;
+            var productId = _productService.GetAllData().First().Id;
+            var rating = 5;
 
-            var Controller = new RatingController(new RatingService(new HttpContextAccessor()), ProductService);
+            var controller = new RatingController(new RatingService(new HttpContextAccessor()), _productService);
 
             // Act
-            var Result = Controller.AddRating(ProductId, Rating) as OkResult;
+            var result = controller.AddRating(productId, rating) as OkResult;
+
+            // Reset
 
             // Assert
-            Assert.That(Result, Is.Not.Null);
-            Assert.That(Result.StatusCode, Is.EqualTo(StatusCodes.Status200OK));
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.StatusCode, Is.EqualTo(StatusCodes.Status200OK));
         }
+
+        #endregion AddRating_ValidCall_Should_Return_Ok_And_AddRating
+
+        #region AddRating_UserAlreadyRated_Should_Return_NotFound
 
         [Test]
         /// <summary>
@@ -161,18 +209,22 @@ namespace UnitTests.Controllers
         public void AddRating_UserAlreadyRated_Should_Return_NotFound()
         {
             // Arrange
-            var ProductId = "testProductId";
-            var Rating = 5;
+            var productId = "testProductId";
+            var rating = 5;
 
-            var UserRatings = new Dictionary<string, int> { { ProductId, Rating } };
-            HttpContext.Items["UserRatings"] = UserRatings;
+            var userRatings = new Dictionary<string, int> { { productId, rating } };
+            _httpContext.Items["UserRatings"] = userRatings;
 
             // Act
-            var Result = Controller.AddRating(ProductId, Rating);
+            var result = _controller.AddRating(productId, rating);
+
+            // Reset
 
             // Assert
-            Assert.That(Result, Is.InstanceOf<NotFoundObjectResult>());
-            Assert.That(((NotFoundObjectResult)Result).Value, Is.EqualTo("Product not found."));
+            Assert.That(result, Is.InstanceOf<NotFoundObjectResult>());
+            Assert.That(((NotFoundObjectResult)result).Value, Is.EqualTo("Product not found."));
         }
+
+        #endregion AddRating_UserAlreadyRated_Should_Return_NotFound
     }
 }
