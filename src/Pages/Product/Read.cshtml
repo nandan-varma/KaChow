@@ -54,4 +54,9 @@
             </div>
         </div>
     </div>
+    
+
+    @(await Html.RenderComponentAsync<CommentSection>(RenderMode.ServerPrerendered, new { Id = product.Id }))
+
+    <script src="_framework/blazor.server.js"></script>
 }
