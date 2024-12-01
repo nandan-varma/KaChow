@@ -636,7 +636,7 @@ namespace UnitTests.Services
             // Assert
             Assert.That(CommentPage, Is.EqualTo(null));
         }
-        
+
         /// <summary>
         /// Non null or Empty Id not in DataBase should return Null List
         /// </summary>
@@ -680,6 +680,22 @@ namespace UnitTests.Services
 
             // Act
             var Comments = TestHelper.ProductService.GetPageOfComments(Product.Id, 0);
+
+            // Assert
+            Assert.That(Comments, Is.EqualTo(null));
+        }
+
+        /// <summary>
+        /// Valid Product, PageNumber > (Product.Comments.Count / 10) should return null list
+        /// </summary>
+        [Test]
+        public void GetPageOfComments_Valid_Product_Has_Comments_InValid_Page_Number_Greater_Than_Number_Of_Comments_Should_Return_Null_List()
+        {
+            // Arrange
+            var Product = TestHelper.ProductService.GetAllData().First();
+
+            // Act
+            var Comments = TestHelper.ProductService.GetPageOfComments(Product.Id, Product.CommentList.Count);
 
             // Assert
             Assert.That(Comments, Is.EqualTo(null));
