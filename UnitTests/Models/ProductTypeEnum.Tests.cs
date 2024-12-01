@@ -4,8 +4,10 @@ using NUnit.Framework;
 // Namespace for Model UnitTests
 namespace UnitTests.Models
 {
-    public class ProductTypeEnumTests
+    public class ProductTypeEnumTest
     {
+        #region DisplayName_Amature_Should_Return_HandMadeItems
+
         [Test]
         /// <summary>
         /// Tests that the DisplayName for Amature returns "Hand Made Items".
@@ -13,14 +15,20 @@ namespace UnitTests.Models
         public void DisplayName_Amature_Should_Return_HandMadeItems()
         {
             // Arrange
-            var ProductType = ProductTypeEnum.Amature;
+            var productType = ProductTypeEnum.Amature;
 
             // Act
-            var DisplayName = ProductType.DisplayName();
+            var displayName = productType.DisplayName();
+
+            // Reset
 
             // Assert
-            Assert.That(DisplayName, Is.EqualTo("Hand Made Items"));
+            Assert.That(displayName, Is.EqualTo("Hand Made Items"));
         }
+
+        #endregion DisplayName_Amature_Should_Return_HandMadeItems
+
+        #region DisplayName_Antique_Should_Return_Antiques
 
         [Test]
         /// <summary>
@@ -29,14 +37,20 @@ namespace UnitTests.Models
         public void DisplayName_Antique_Should_Return_Antiques()
         {
             // Arrange
-            var ProductType = ProductTypeEnum.Antique;
+            var productType = ProductTypeEnum.Antique;
 
             // Act
-            var DisplayName = ProductType.DisplayName();
+            var displayName = productType.DisplayName();
+
+            // Reset
 
             // Assert
-            Assert.That(DisplayName, Is.EqualTo("Antiques"));
+            Assert.That(displayName, Is.EqualTo("Antiques"));
         }
+
+        #endregion DisplayName_Antique_Should_Return_Antiques
+
+        #region DisplayName_Collectable_Should_Return_Collectables
 
         [Test]
         /// <summary>
@@ -45,14 +59,20 @@ namespace UnitTests.Models
         public void DisplayName_Collectable_Should_Return_Collectables()
         {
             // Arrange
-            var ProductType = ProductTypeEnum.Collectable;
+            var productType = ProductTypeEnum.Collectable;
 
             // Act
-            var DisplayName = ProductType.DisplayName();
+            var displayName = productType.DisplayName();
+
+            // Reset
 
             // Assert
-            Assert.That(DisplayName, Is.EqualTo("Collectables"));
+            Assert.That(displayName, Is.EqualTo("Collectables"));
         }
+
+        #endregion DisplayName_Collectable_Should_Return_Collectables
+
+        #region DisplayName_Commercial_Should_Return_CommercialGoods
 
         [Test]
         /// <summary>
@@ -61,14 +81,20 @@ namespace UnitTests.Models
         public void DisplayName_Commercial_Should_Return_CommercialGoods()
         {
             // Arrange
-            var ProductType = ProductTypeEnum.Commercial;
+            var productType = ProductTypeEnum.Commercial;
 
             // Act
-            var DisplayName = ProductType.DisplayName();
+            var displayName = productType.DisplayName();
+
+            // Reset
 
             // Assert
-            Assert.That(DisplayName, Is.EqualTo("Commercial goods"));
+            Assert.That(displayName, Is.EqualTo("Commercial goods"));
         }
+
+        #endregion DisplayName_Commercial_Should_Return_CommercialGoods
+
+        #region DisplayName_Undefined_Should_Return_EmptyString
 
         [Test]
         /// <summary>
@@ -77,14 +103,20 @@ namespace UnitTests.Models
         public void DisplayName_Undefined_Should_Return_EmptyString()
         {
             // Arrange
-            var ProductType = ProductTypeEnum.Undefined;
+            var productType = ProductTypeEnum.Undefined;
 
             // Act
-            var DisplayName = ProductType.DisplayName();
+            var displayName = productType.DisplayName();
+
+            // Reset
 
             // Assert
-            Assert.That(DisplayName, Is.EqualTo(""));
+            Assert.That(displayName, Is.EqualTo(""));
         }
+
+        #endregion DisplayName_Undefined_Should_Return_EmptyString
+
+        #region DisplayName_UnknownEnumValue_Should_Return_EmptyString
 
         [Test]
         /// <summary>
@@ -93,13 +125,17 @@ namespace UnitTests.Models
         public void DisplayName_UnknownEnumValue_Should_Return_EmptyString()
         {
             // Arrange
-            var ProductType = (ProductTypeEnum)999;
+            var productType = (ProductTypeEnum)999;
 
             // Act
-            var DisplayName = ProductType.DisplayName();
+            var displayName = productType.DisplayName();
+
+            // Reset
 
             // Assert
-            Assert.That(DisplayName, Is.EqualTo(""));
+            Assert.That(displayName, Is.EqualTo(""));
         }
+
+        #endregion DisplayName_UnknownEnumValue_Should_Return_EmptyString
     }
 }
