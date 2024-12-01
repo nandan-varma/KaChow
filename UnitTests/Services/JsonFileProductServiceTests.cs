@@ -637,6 +637,22 @@ namespace UnitTests.Services
             Assert.That(CommentPage, Is.EqualTo(null));
         }
         
+        /// <summary>
+        /// Non null or Empty Id not in DataBase should return Null List
+        /// </summary>
+        [Test]
+        public void GetPageOfComments_InValid_Non_Null_Or_Empty_Id_Should_Return_Null_List()
+        {
+            // Arrange
+            string Id = "Random_Non_Null_Or_Empty";
+
+            // Act
+            var CommentPage = TestHelper.ProductService.GetPageOfComments(Id, 0);
+
+            // Assert
+            Assert.That(CommentPage, Is.EqualTo(null));
+        }
+
         #endregion GetPageOfComments
 
     }
