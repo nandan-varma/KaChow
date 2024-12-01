@@ -668,3 +668,24 @@ body:not(.dark-theme) .about-us li, body:not(.dark-theme) .privacy-policy li{
 body.dark-theme .theme-toggle {
     color: var(--dark-theme-toggle-color);
 }
+
+/* Button styling */
+.contact-us-button {
+    position: fixed; /* Makes the button static on the screen */
+    bottom: 20px; /* Margin from the bottom */
+    left: 20px; /* Margin from the left */
+    padding: 10px 20px;
+    background: linear-gradient(110deg, var(--highlight-color) 40%, #E02A1C 80% );
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    z-index: 1000; /* Ensures it stays above other elements */
+}
+
+    /* Button hover effect */
+    .contact-us-button:hover {
+        background-color: #0056b3;
+    }
