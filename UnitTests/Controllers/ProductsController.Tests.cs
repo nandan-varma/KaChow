@@ -11,22 +11,32 @@ using System.Linq;
 // Namespace for Controller UnitTests
 namespace UnitTests.Controllers
 {
-    public class ProductsControllerTests
+    public class ProductsControllerTest
     {
-        private ProductsController Controller;
-        private JsonFileProductService ProductService;
+        #region TestSetup
+
+        private ProductsController _controller;
+        private JsonFileProductService _productService;
 
         [SetUp]
-        public void Setup()
+        public void TestInitialize()
         {
-            ProductService = TestHelper.ProductService;
-            Controller = new ProductsController(ProductService);
+            // Arrange
+            _productService = TestHelper.ProductService;
+            _controller = new ProductsController(_productService);
+
+            // Reset
         }
 
         [TearDown]
-        public void TearDown()
+        public void TestCleanup()
         {
+            // Reset
         }
+
+        #endregion TestSetup
+
+        #region Get_Should_Return_All_Products_When_Products_Exist
 
         [Test]
         /// <summary>
@@ -35,14 +45,21 @@ namespace UnitTests.Controllers
         public void Get_Should_Return_All_Products_When_Products_Exist()
         {
             // Arrange
+
             // Act
-            var Result = Controller.Get() as IEnumerable<ProductModel>;
+            var result = _controller.Get() as IEnumerable<ProductModel>;
+
+            // Reset
 
             // Assert
-            Assert.That(Result, Is.Not.Null);
-            Assert.That(Result, Is.Not.Empty);
-            Assert.That(Result.Count(), Is.EqualTo(ProductService.GetAllData().Count()));
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.Not.Empty);
+            Assert.That(result.Count(), Is.EqualTo(_productService.GetAllData().Count()));
         }
+
+        #endregion Get_Should_Return_All_Products_When_Products_Exist
+
+        #region Patch_ValidRating_Should_Return_Ok
 
         [Test]
         /// <summary>
@@ -51,25 +68,31 @@ namespace UnitTests.Controllers
         public void Patch_ValidRating_Should_Return_Ok()
         {
             // Arrange
-            var ValidProduct = ProductService.CreateData();
+            var validProduct = _productService.CreateData();
 
-            var OriginalData = ProductService.GetAllData().ToList();
-            OriginalData.Add(ValidProduct);
-            ProductService.SaveData(OriginalData);
+            var originalData = _productService.GetAllData().ToList();
+            originalData.Add(validProduct);
+            _productService.SaveData(originalData);
 
-            var Request = new ProductsController.RatingRequest
+            var request = new ProductsController.RatingRequest
             {
-                ProductId = ValidProduct.Id,
+                ProductId = validProduct.Id,
                 Rating = 4
             };
 
             // Act
-            var Result = Controller.Patch(Request);
+            var result = _controller.Patch(request);
+
+            // Reset
 
             // Assert
-            Assert.That(Result, Is.Not.Null);
-            Assert.That(Result, Is.InstanceOf<OkResult>());
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result, Is.InstanceOf<OkResult>());
         }
+
+        #endregion Patch_ValidRating_Should_Return_Ok
+
+        #region Patch_NullProductId_Should_Return_BadRequest
 
         [Test]
         /// <summary>
@@ -78,18 +101,24 @@ namespace UnitTests.Controllers
         public void Patch_NullProductId_Should_Return_BadRequest()
         {
             // Arrange
-            var Request = new ProductsController.RatingRequest
+            var request = new ProductsController.RatingRequest
             {
                 ProductId = null,
                 Rating = 3
             };
 
             // Act
-            var Result = Controller.Patch(Request);
+            var result = _controller.Patch(request);
+
+            // Reset
 
             // Assert
-            Assert.That(Result, Is.InstanceOf<BadRequestResult>());
+            Assert.That(result, Is.InstanceOf<BadRequestResult>());
         }
+
+        #endregion Patch_NullProductId_Should_Return_BadRequest
+
+        #region Patch_RatingOutOfBounds_Should_Return_BadRequest
 
         [Test]
         /// <summary>
@@ -98,18 +127,24 @@ namespace UnitTests.Controllers
         public void Patch_RatingOutOfBounds_Should_Return_BadRequest()
         {
             // Arrange
-            var Request = new ProductsController.RatingRequest
+            var request = new ProductsController.RatingRequest
             {
                 ProductId = "test-product-id",
                 Rating = 6
             };
 
             // Act
-            var Result = Controller.Patch(Request);
+            var result = _controller.Patch(request);
+
+            // Reset
 
             // Assert
-            Assert.That(Result, Is.InstanceOf<BadRequestResult>());
+            Assert.That(result, Is.InstanceOf<BadRequestResult>());
         }
+
+        #endregion Patch_RatingOutOfBounds_Should_Return_BadRequest
+
+        #region Patch_InvalidProductId_Should_Return_BadRequest
 
         [Test]
         /// <summary>
@@ -118,18 +153,24 @@ namespace UnitTests.Controllers
         public void Patch_InvalidProductId_Should_Return_BadRequest()
         {
             // Arrange
-            var Request = new ProductsController.RatingRequest
+            var request = new ProductsController.RatingRequest
             {
                 ProductId = "invalid-product-id",
                 Rating = 3
             };
 
             // Act
-            var Result = Controller.Patch(Request);
+            var result = _controller.Patch(request);
+
+            // Reset
 
             // Assert
-            Assert.That(Result, Is.InstanceOf<BadRequestResult>());
+            Assert.That(result, Is.InstanceOf<BadRequestResult>());
         }
+
+        #endregion Patch_InvalidProductId_Should_Return_BadRequest
+
+        #region Patch_ValidRating_Should_Increase_Product_Rating
 
         [Test]
         /// <summary>
@@ -138,20 +179,26 @@ namespace UnitTests.Controllers
         public void Patch_ValidRating_Should_Increase_Product_Rating()
         {
             // Arrange
-            var ExistingProduct = ProductService.GetAllData().First();
-            var Request = new ProductsController.RatingRequest
+            var existingProduct = _productService.GetAllData().First();
+            var request = new ProductsController.RatingRequest
             {
-                ProductId = ExistingProduct.Id,
+                ProductId = existingProduct.Id,
                 Rating = 5
             };
 
             // Act
-            Controller.Patch(Request);
-            var UpdatedProduct = ProductService.GetAllData().First(p => p.Id == Request.ProductId);
+            _controller.Patch(request);
+            var updatedProduct = _productService.GetAllData().First(p => p.Id == request.ProductId);
+
+            // Reset
 
             // Assert
-            Assert.That(UpdatedProduct.Ratings, Does.Contain(5));
+            Assert.That(updatedProduct.Ratings, Does.Contain(5));
         }
+
+        #endregion Patch_ValidRating_Should_Increase_Product_Rating
+
+        #region Patch_InvalidRating_Should_Not_Change_Ratings
 
         [Test]
         /// <summary>
@@ -160,21 +207,27 @@ namespace UnitTests.Controllers
         public void Patch_InvalidRating_Should_Not_Change_Ratings()
         {
             // Arrange
-            var ExistingProduct = ProductService.GetAllData().First();
-            var Request = new ProductsController.RatingRequest
+            var existingProduct = _productService.GetAllData().First();
+            var request = new ProductsController.RatingRequest
             {
-                ProductId = ExistingProduct.Id,
+                ProductId = existingProduct.Id,
                 Rating = 7
             };
-            var OriginalRatings = ExistingProduct.Ratings.ToArray();
+            var originalRatings = existingProduct.Ratings.ToArray();
 
             // Act
-            Controller.Patch(Request);
-            var UpdatedProduct = ProductService.GetAllData().First(p => p.Id == Request.ProductId);
+            _controller.Patch(request);
+            var updatedProduct = _productService.GetAllData().First(p => p.Id == request.ProductId);
+
+            // Reset
 
             // Assert
-            Assert.That(UpdatedProduct.Ratings, Is.EqualTo(OriginalRatings));
+            Assert.That(updatedProduct.Ratings, Is.EqualTo(originalRatings));
         }
+
+        #endregion Patch_InvalidRating_Should_Not_Change_Ratings
+
+        #region Patch_NonexistentProductId_Should_Not_Add_Rating
 
         [Test]
         /// <summary>
@@ -183,18 +236,24 @@ namespace UnitTests.Controllers
         public void Patch_NonexistentProductId_Should_Not_Add_Rating()
         {
             // Arrange
-            var Request = new ProductsController.RatingRequest
+            var request = new ProductsController.RatingRequest
             {
                 ProductId = "nonexistent-product-id",
                 Rating = 3
             };
 
             // Act
-            var Result = Controller.Patch(Request);
+            var result = _controller.Patch(request);
+
+            // Reset
 
             // Assert
-            Assert.That(Result, Is.InstanceOf<BadRequestResult>());
+            Assert.That(result, Is.InstanceOf<BadRequestResult>());
         }
+
+        #endregion Patch_NonexistentProductId_Should_Not_Add_Rating
+
+        #region Patch_EmptyProductId_Should_Return_BadRequest
 
         [Test]
         /// <summary>
@@ -203,17 +262,21 @@ namespace UnitTests.Controllers
         public void Patch_EmptyProductId_Should_Return_BadRequest()
         {
             // Arrange
-            var Request = new ProductsController.RatingRequest
+            var request = new ProductsController.RatingRequest
             {
                 ProductId = "",
                 Rating = 3
             };
 
             // Act
-            var Result = Controller.Patch(Request);
+            var result = _controller.Patch(request);
+
+            // Reset
 
             // Assert
-            Assert.That(Result, Is.InstanceOf<BadRequestResult>());
+            Assert.That(result, Is.InstanceOf<BadRequestResult>());
         }
+
+        #endregion Patch_EmptyProductId_Should_Return_BadRequest
     }
 }
