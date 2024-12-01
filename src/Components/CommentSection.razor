@@ -1,0 +1,87 @@
+﻿@using ContosoCrafts.WebSite.Models
+@using ContosoCrafts.WebSite.Services
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Web
+
+@inject JsonFileProductService ProductService
+
+<EditForm Model="model" OnValidSubmit="@(() => SubmitComment())">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+        <div class ="form-group">
+        <label for="Comment">Comment: </label>
+            <textarea class="form-control" @bind=model.Comment></textarea>
+        <ValidationMessage For="@(() => model.Comment)"></ValidationMessage>
+
+            <button class="btn btn-primary" onclick="submit">
+            Submit Comment
+        </button>
+    </div>
+</EditForm>
+<div>
+    <ul class="list-group">
+        @foreach (string comment in comments)
+        {
+            <li class="list-group-item text-wrap text-break">@comment</li>
+        }
+    </ul>
+    <button class="btn btn-primary" onclick="@(() => DecrementPageNumber())">Last Page</button>
+    <button class="btn btn-primary" onclick="@(() => IncrementPageNumber())">Next Page</button>
+</div>
+
+
+@code {
+    [Parameter]
+    public string Id { get; set; } 
+    public string productId { get; set; }
+    public CommentModel model = new CommentModel();
+    public int PageNumber = 0;
+    public List<string> comments;
+
+    /// <summary>
+    /// Method to submit a new comment
+    /// </summary>
+    public void SubmitComment()
+    {
+        // Add the comment to the Selected Product
+        ProductService.AddComment(productId, model);
+        comments = ProductService.GetPageOfComments(productId, PageNumber);
+    }
+
+    /// <summary>
+    /// Increments the page number after a check
+    /// </summary>
+    public void IncrementPageNumber()
+    {
+        List<string> NextPage = ProductService.GetPageOfComments(productId, PageNumber + 1);
+        if (NextPage != null)
+        {
+            PageNumber += 1;
+            comments = NextPage;
+        }
+    }
+
+    /// <summary>
+    /// Decrements the page number after a check
+    /// </summary>
+    public void DecrementPageNumber()
+    {
+        if (PageNumber > 0)
+        {
+            PageNumber -= 1;
+        }
+        comments = ProductService.GetPageOfComments(productId, PageNumber);
+    }
+
+    protected override void OnParametersSet()
+    {
+        productId = Id;
+        comments = ProductService.GetPageOfComments(productId, PageNumber);
+    }
+
+    protected override void OnInitialized()
+    {
+        Console.WriteLine("Initialized Read Comment Section");
+    }
+}

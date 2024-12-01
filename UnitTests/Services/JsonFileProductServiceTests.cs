@@ -603,5 +603,26 @@ namespace UnitTests.Services
         }
 
         #endregion FilterProductsByRating
+
+        #region GetPageOfComments
+        /// <summary>
+        /// Null Product Id should return null Comment List
+        /// </summary>
+        [Test]
+        public void GetPageOfComments_InValid_Null_Id_Should_Return_Null_List()
+        {
+            // Arrange
+            string Id = null;
+
+            // Act
+            var CommentPage = TestHelper.ProductService.GetPageOfComments(Id, 0);
+
+            // Assert
+            Assert.That(CommentPage, Is.EqualTo(null));
+        }
+
+        
+        #endregion GetPageOfComments
+
     }
 }
