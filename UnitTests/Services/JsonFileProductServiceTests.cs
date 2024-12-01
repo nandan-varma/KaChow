@@ -653,6 +653,22 @@ namespace UnitTests.Services
             Assert.That(CommentPage, Is.EqualTo(null));
         }
 
+        /// <summary>
+        /// Negative Page number, Valid Product Id should return null Comment List
+        /// </summary>
+        [Test]
+        public void GetPageOfComments_InValid_Negative_Page_Number_Should_Return_Null_List()
+        {
+            // Arrange
+            string Id = TestHelper.ProductService.GetAllData().First().Id;
+
+            // Act
+            var Comments = TestHelper.ProductService.GetPageOfComments(Id, -1);
+
+            // Assert
+            Assert.That(Comments, Is.EqualTo(null));
+        }
+
         #endregion GetPageOfComments
 
     }
