@@ -242,6 +242,12 @@ namespace ContosoCrafts.WebSite.Services
                 return null;
             }
 
+            // If the Product has no initialized Comment List, return a null list
+            if (product.CommentList == null)
+            {
+                return null;
+            }
+
             // If the given start index is greater than the overall list length, return a null list
             if ((pageNumber * PAGE_SIZE) > product.CommentList.Count) {
                 return null;
