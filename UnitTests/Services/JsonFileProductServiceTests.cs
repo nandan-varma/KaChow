@@ -815,5 +815,9 @@ namespace UnitTests.Services
         }
 
         #endregion GetCommentListSize
+
+        #region AddComment
+
+        #endregion AddComment
     }
 }
