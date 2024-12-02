@@ -722,6 +722,23 @@ namespace UnitTests.Services
             Assert.That(ListSize, Is.EqualTo(0));
         }
 
+        /// <summary>
+        /// Empty string id should return 0
+        /// </summary>
+        [Test]
+        public void GetCommentListSize_Empty_Id_Should_Return_Zero()
+        {
+            // Arrange
+            string Id = string.Empty;
+
+            // Act
+            var ListSize = TestHelper.ProductService.GetCommentListSize(Id);
+
+            // Assert
+            Assert.That(ListSize, Is.EqualTo(0));
+
+        }
+
         #endregion GetCommentListSize
     }
 }
