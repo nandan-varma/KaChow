@@ -320,9 +320,11 @@ namespace ContosoCrafts.WebSite.Services
             productData.Description = data.Description.Trim();
             productData.Url = data.Url;
             productData.Image = data.Image;
-
+            productData.Ratings = data.Ratings;
+            productData.Stock = data.Stock;
             productData.Price = data.Price;
-
+            productData.Material = data.Material;
+            productData.Size = data.Size;
             productData.CommentList = data.CommentList;
 
             // Save the updated product list
