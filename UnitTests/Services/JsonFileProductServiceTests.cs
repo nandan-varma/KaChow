@@ -739,6 +739,22 @@ namespace UnitTests.Services
 
         }
 
+        /// <summary>
+        /// Valid Id, non product, should return 0
+        /// </summary>
+        [Test]
+        public void GetCommentListSize_Valid_Id_InValid_Product_Should_Return_Zero()
+        {
+            // Arrange
+            var Id = "Random_Non_Null_Or_Empty";
+
+            // Act
+            var ListSize = TestHelper.ProductService.GetCommentListSize(Id);
+
+            // Assert
+            Assert.That(ListSize, Is.EqualTo(0));
+        }
+
         #endregion GetCommentListSize
     }
 }
