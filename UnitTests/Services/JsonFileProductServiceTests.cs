@@ -883,6 +883,24 @@ namespace UnitTests.Services
             // Assert
             Assert.That(result, Is.False);
         }
+
+        /// <summary>
+        /// Empty Comment String should return false
+        /// </summary>
+        [Test]
+        public void AddComment_Empty_Comment_String_Should_Return_False()
+        {
+            // Arrange
+            string id = TestHelper.ProductService.GetAllData().First().Id;
+            CommentModel model = new CommentModel();
+            model.Comment = string.Empty;
+
+            // Act
+            var result = TestHelper.ProductService.AddComment(id, model);
+
+            // Assert
+            Assert.That(result, Is.False);
+        }
         #endregion AddComment
     }
 }
