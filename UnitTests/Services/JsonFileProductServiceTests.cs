@@ -849,6 +849,22 @@ namespace UnitTests.Services
             // Assert
             Assert.That(result, Is.False);
         }
+
+        /// <summary>
+        /// Null comment model should return false
+        /// </summary>
+        [Test]
+        public void AddComment_Null_Comment_Should_Return_False()
+        {
+            // Arrange
+            var id = "";
+
+            // Act
+            var result = TestHelper.ProductService.AddComment(id, null);
+
+            // Assert
+            Assert.That(result, Is.False);
+        }
         #endregion AddComment
     }
 }
