@@ -8,130 +8,123 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace UnitTests.Pages.Product
 {
-    public class UpdateTests
+    public class UpdateTest
     {
         #region TestSetup
-        public static DefaultHttpContext HttpContextDefault;
-        public static ModelStateDictionary ModelState;
-        public static ActionContext ActionContext;
-        public static EmptyModelMetadataProvider ModelMetadataProvider;
-        public static ViewDataDictionary ViewData;
-        public static TempDataDictionary TempData;
-        public static PageContext PageContext;
 
-        public static UpdateModel PageModel;
-        public static JsonFileProductService ProductService;
+        private DefaultHttpContext _httpContextDefault;
+        private ModelStateDictionary _modelState;
+        private ActionContext _actionContext;
+        private ViewDataDictionary _viewData;
+        private TempDataDictionary _tempData;
+        private PageContext _pageContext;
+
+        private UpdateModel _pageModel;
+        private JsonFileProductService _productService;
 
         [SetUp]
         public void TestInitialize()
         {
-            HttpContextDefault = new DefaultHttpContext();
+            // Arrange
+            _httpContextDefault = new DefaultHttpContext();
+            _modelState = new ModelStateDictionary();
+            _actionContext = new ActionContext(_httpContextDefault, _httpContextDefault.GetRouteData(), new PageActionDescriptor(), _modelState);
+            var modelMetadataProvider = new EmptyModelMetadataProvider();
+            _viewData = new ViewDataDictionary(modelMetadataProvider, _modelState);
+            _tempData = new TempDataDictionary(_httpContextDefault, Mock.Of<ITempDataProvider>());
 
-            ModelState = new ModelStateDictionary();
+            _pageContext = new PageContext(_actionContext) { ViewData = _viewData };
 
-            ActionContext = new ActionContext(HttpContextDefault, HttpContextDefault.GetRouteData(), new PageActionDescriptor(), ModelState);
+            _productService = TestHelper.ProductService;
+            _pageModel = new UpdateModel(_productService);
 
-            ModelMetadataProvider = new EmptyModelMetadataProvider();
-            ViewData = new ViewDataDictionary(ModelMetadataProvider, ModelState);
-            TempData = new TempDataDictionary(HttpContextDefault, Mock.Of<ITempDataProvider>());
-
-            PageContext = new PageContext(ActionContext)
-            {
-                ViewData = ViewData,
-            };
-
-            ProductService = TestHelper.ProductService;
-
-            PageModel = new UpdateModel(ProductService);
+            // Reset
         }
 
         [TearDown]
         public void TestCleanup()
         {
+            // Reset
         }
 
         #endregion TestSetup
 
-        #region UpdateTests
+        #region OnGet
 
-        /// <summary>
-        /// Tests that OnGet returns null product when given an invalid product ID.
-        /// </summary>
         [Test]
         public void Update_OnGet_Invalid_Product_Id_Should_Have_Null_Product()
         {
-            // Arrange
-
             // Act
-            PageModel.OnGet("non_null_or_empty");
+            _pageModel.OnGet("non_null_or_empty");
+
+            // Reset
 
             // Assert
-            Assert.That(PageModel.ModelState.IsValid, Is.True);
-            Assert.That(PageModel.Product, Is.Null);
+            Assert.That(_pageModel.ModelState.IsValid, Is.True);
+            Assert.That(_pageModel.Product, Is.Null);
         }
 
-        /// <summary>
-        /// Tests that OnGet returns a non-null product when given a valid product ID.
-        /// </summary>
         [Test]
         public void Update_OnGet_Valid_Product_Id_Should_Have_Non_Null_Product()
         {
             // Arrange
-            var Data = ProductService.GetAllData().First();
+            var data = _productService.GetAllData().First();
 
             // Act
-            PageModel.OnGet(Data.Id);
+            _pageModel.OnGet(data.Id);
+
+            // Reset
 
             // Assert
-            Assert.That(PageModel.ModelState.IsValid, Is.True);
-            Assert.That(PageModel.Product.Id, Is.EqualTo(Data.Id));
+            Assert.That(_pageModel.ModelState.IsValid, Is.True);
+            Assert.That(_pageModel.Product.Id, Is.EqualTo(data.Id));
         }
 
-        /// <summary>
-        /// Tests that OnPost redirects to the index page after a successful update.
-        /// </summary>
+        #endregion OnGet
+
+        #region OnPost
+
         [Test]
         public void Update_OnPost_Should_Redirect_To_Index_Page()
         {
             // Arrange
-            PageModel.OnGet(ProductService.GetAllData().First().Id);
-            var product = ProductService.CreateData();
-            PageModel.Product = product;
+            _pageModel.OnGet(_productService.GetAllData().First().Id);
+            var product = _productService.CreateData();
+            _pageModel.Product = product;
 
             // Act
-            var Result = (RedirectToPageResult)PageModel.OnPost();
+            var result = (RedirectToPageResult)_pageModel.OnPost();
+
+            // Reset
 
             // Assert
-            Assert.That(PageModel.ModelState.IsValid, Is.True);
-            Assert.That(PageModel.Product, Is.EqualTo(product));
-            Assert.That(Result.PageName, Is.EqualTo("./Index"));
+            Assert.That(_pageModel.ModelState.IsValid, Is.True);
+            Assert.That(_pageModel.Product, Is.EqualTo(product));
+            Assert.That(result.PageName, Is.EqualTo("./Index"));
         }
 
-        /// <summary>
-        /// Tests that OnPost returns PageResult when the model state is invalid.
-        /// </summary>
         [Test]
         public void Update_OnPost_Invalid_ModelState_Should_Return_Page_Result()
         {
             // Arrange
-            PageModel.Product = ProductService.GetAllData().First();
-            PageModel.ModelState.AddModelError("Sigma", "You must be Sigma");
+            _pageModel.Product = _productService.GetAllData().First();
+            _pageModel.ModelState.AddModelError("Error", "Invalid model state");
 
             // Act
-            var Result = (PageResult)PageModel.OnPost();
+            var result = (PageResult)_pageModel.OnPost();
+
+            // Reset
 
             // Assert
-            Assert.That(PageModel.ModelState.IsValid, Is.False);
+            Assert.That(_pageModel.ModelState.IsValid, Is.False);
         }
 
-        #endregion UpdateTests
+        #endregion OnPost
     }
 }

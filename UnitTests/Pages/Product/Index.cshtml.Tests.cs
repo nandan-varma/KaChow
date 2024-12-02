@@ -13,82 +13,81 @@ using System.Linq;
 
 namespace UnitTests.Pages.Product
 {
-    public class IndexTests
+    public class IndexTest
     {
         #region TestSetup
-        private static DefaultHttpContext HttpContextDefault;
-        private static ModelStateDictionary ModelState;
-        private static PageContext PageContext;
-        private static IndexModel PageModel;
-        private static JsonFileProductService ProductService;
+
+        private static DefaultHttpContext _httpContextDefault;
+        private static ModelStateDictionary _modelState;
+        private static PageContext _pageContext;
+        private static IndexModel _pageModel;
+        private static JsonFileProductService _productService;
 
         [SetUp]
         public void TestInitialize()
         {
-            HttpContextDefault = new DefaultHttpContext();
-            ModelState = new ModelStateDictionary();
-            var actionContext = new ActionContext(HttpContextDefault, HttpContextDefault.GetRouteData(), new PageActionDescriptor(), ModelState);
+            // Arrange
+            _httpContextDefault = new DefaultHttpContext();
+            _modelState = new ModelStateDictionary();
+            var actionContext = new ActionContext(_httpContextDefault, _httpContextDefault.GetRouteData(), new PageActionDescriptor(), _modelState);
             var modelMetadataProvider = new EmptyModelMetadataProvider();
-            var viewData = new ViewDataDictionary(modelMetadataProvider, ModelState);
-            var tempData = new TempDataDictionary(HttpContextDefault, Mock.Of<ITempDataProvider>());
+            var viewData = new ViewDataDictionary(modelMetadataProvider, _modelState);
+            var tempData = new TempDataDictionary(_httpContextDefault, Mock.Of<ITempDataProvider>());
 
-            PageContext = new PageContext(actionContext) { ViewData = viewData };
+            _pageContext = new PageContext(actionContext) { ViewData = viewData };
 
-            ProductService = TestHelper.ProductService;
-            PageModel = new IndexModel(ProductService);
+            _productService = TestHelper.ProductService;
+            _pageModel = new IndexModel(_productService);
+
+            // Reset
         }
+
+        [TearDown]
+        public void TestCleanup()
+        {
+            // Reset
+        }
+
         #endregion TestSetup
 
         #region OnGet
-        /// <summary>
-        /// Test to check if OnGet method retrieves and returns products correctly.
-        /// </summary>
+
         [Test]
         public void OnGet_Valid_Should_Return_Products()
         {
             // Arrange
-            var expectedProductCount = ProductService.GetAllData().Count();
+            var expectedProductCount = _productService.GetAllData().Count();
 
             // Act
-            PageModel.OnGet();
+            _pageModel.OnGet();
+
+            // Reset
 
             // Assert
-            Assert.That(PageModel.ModelState.IsValid, Is.True);
-            Assert.That(PageModel.Products.ToList().Count, Is.EqualTo(expectedProductCount));
+            Assert.That(_pageModel.ModelState.IsValid, Is.True);
+            Assert.That(_pageModel.Products.ToList().Count, Is.EqualTo(expectedProductCount));
         }
 
-        /// <summary>
-        /// Test to verify if OnGet method sets the Products property with data.
-        /// </summary>
         [Test]
         public void OnGet_Should_Set_Products_Property()
         {
-            // Arrange
-
             // Act
-            PageModel.OnGet();
+            _pageModel.OnGet();
+
+            // Reset
 
             // Assert
-            Assert.That(PageModel.Products, Is.Not.Null);
-            Assert.That(PageModel.Products.Any(), Is.True);
+            Assert.That(_pageModel.Products, Is.Not.Null);
+            Assert.That(_pageModel.Products.Any(), Is.True);
         }
 
-        /// <summary>
-        /// Test to confirm that OnGet method completes without throwing exceptions.
-        /// </summary>
         [Test]
         public void OnGet_Should_Not_Throw_Exception()
         {
-            // Arrange
-
             // Act & Assert
-            Assert.DoesNotThrow(() => PageModel.OnGet());
+            Assert.DoesNotThrow(() => _pageModel.OnGet());
         }
-        #endregion OnGet
 
-        [TearDown]
-        public void TearDown()
-        {
-        }
+        #endregion OnGet
     }
 }

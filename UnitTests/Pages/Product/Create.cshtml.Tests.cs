@@ -8,40 +8,44 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Moq;
 using NUnit.Framework;
-using System.Collections.Generic;
 
 // Namespace for Product Page UnitTests
 namespace UnitTests.Pages.Product
 {
-    public class CreateTests
+    public class CreateTest
     {
         #region TestSetup
-        private static DefaultHttpContext HttpContextDefault;
-        private static ModelStateDictionary ModelState;
-        private static ActionContext ActionContext;
-        private static ViewDataDictionary ViewData;
-        private static TempDataDictionary TempData;
-        private static PageContext PageContext;
-        private static CreateModel PageModel;
-        private static JsonFileProductService ProductService;
+
+        private static DefaultHttpContext _httpContextDefault;
+        private static ModelStateDictionary _modelState;
+        private static ActionContext _actionContext;
+        private static ViewDataDictionary _viewData;
+        private static TempDataDictionary _tempData;
+        private static PageContext _pageContext;
+        private static CreateModel _pageModel;
+        private static JsonFileProductService _productService;
 
         [SetUp]
         public void TestInitialize()
         {
-            HttpContextDefault = new DefaultHttpContext();
-            ModelState = new ModelStateDictionary();
-            ActionContext = new ActionContext(HttpContextDefault, new Microsoft.AspNetCore.Routing.RouteData(), new PageActionDescriptor(), ModelState);
-            ViewData = new ViewDataDictionary(new EmptyModelMetadataProvider(), ModelState);
-            TempData = new TempDataDictionary(HttpContextDefault, Mock.Of<ITempDataProvider>());
-            PageContext = new PageContext(ActionContext) { ViewData = ViewData };
+            // Arrange
+            _httpContextDefault = new DefaultHttpContext();
+            _modelState = new ModelStateDictionary();
+            _actionContext = new ActionContext(_httpContextDefault, new Microsoft.AspNetCore.Routing.RouteData(), new PageActionDescriptor(), _modelState);
+            _viewData = new ViewDataDictionary(new EmptyModelMetadataProvider(), _modelState);
+            _tempData = new TempDataDictionary(_httpContextDefault, Mock.Of<ITempDataProvider>());
+            _pageContext = new PageContext(_actionContext) { ViewData = _viewData };
 
-            ProductService = TestHelper.ProductService;
-            PageModel = new CreateModel(ProductService) { PageContext = PageContext };
+            _productService = TestHelper.ProductService;
+            _pageModel = new CreateModel(_productService) { PageContext = _pageContext };
+
+            // Reset
         }
 
         [TearDown]
         public void TestCleanup()
         {
+            // Reset
         }
 
         #endregion TestSetup
@@ -49,13 +53,12 @@ namespace UnitTests.Pages.Product
         #region OnGet
 
         [Test]
-        /// <summary>
-        /// Tests that OnGet returns a PageResult.
-        /// </summary>
         public void OnGet_Should_Return_Page()
         {
             // Act
-            var result = PageModel.OnGet();
+            var result = _pageModel.OnGet();
+
+            // Reset
 
             // Assert
             Assert.That(result, Is.TypeOf<PageResult>());
@@ -66,38 +69,36 @@ namespace UnitTests.Pages.Product
         #region OnPost
 
         [Test]
-        /// <summary>
-        /// Tests that OnPost creates a product and redirects to Index when model state is valid.
-        /// </summary>
         public void OnPost_Valid_ModelState_Should_Create_Product_And_Redirect_To_Index()
         {
             // Arrange
-            PageModel.Product = ProductService.CreateData();
-            PageModel.ModelState.Clear(); // Ensure model state is valid
+            _pageModel.Product = _productService.CreateData();
+            _pageModel.ModelState.Clear(); // Ensure model state is valid
 
             // Act
-            var result = (RedirectToPageResult)PageModel.OnPost();
+            var result = (RedirectToPageResult)_pageModel.OnPost();
+
+            // Reset
 
             // Assert
-            Assert.That(PageModel.ModelState.IsValid, Is.True);
+            Assert.That(_pageModel.ModelState.IsValid, Is.True);
             Assert.That(result.PageName, Is.EqualTo("./Index"));
         }
 
         [Test]
-        /// <summary>
-        /// Tests that OnPost returns a PageResult when model state is invalid.
-        /// </summary>
         public void OnPost_Invalid_ModelState_Should_Return_PageResult()
         {
             // Arrange
-            PageModel.Product = new ProductModel();
-            PageModel.ModelState.AddModelError("Name", "Name is required");
+            _pageModel.Product = new ProductModel();
+            _pageModel.ModelState.AddModelError("Name", "Name is required");
 
             // Act
-            var result = PageModel.OnPost();
+            var result = _pageModel.OnPost();
+
+            // Reset
 
             // Assert
-            Assert.That(PageModel.ModelState.IsValid, Is.False);
+            Assert.That(_pageModel.ModelState.IsValid, Is.False);
             Assert.That(result, Is.TypeOf<PageResult>());
         }
 

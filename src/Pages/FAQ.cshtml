@@ -1,0 +1,101 @@
+﻿@page
+@model FAQModel
+@{
+    ViewData["Title"] = "FAQ";
+}
+<div class="faq">
+    <h1>FAQ</h1>
+
+    <section class="faq-section bg-light py-5">
+        <div class="container">
+            <h2 class="text-center mb-5">Frequently Asked Questions</h2>
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="accordion" id="faqAccordion">
+                        <!-- FAQ Item 1 -->
+                        <div class="card mb-3">
+                            <div class="card-header" id="headingOne">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        What is Kachow Plushies?
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                                 data-parent="#faqAccordion">
+                                <div class="card-body">
+                                    Kachow Plushies is a website where you can find adorable plush toys inspired by characters from The Cars movie, perfect for fans of all ages!
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- FAQ Item 2 -->
+                        <div class="card mb-3">
+                            <div class="card-header" id="headingTwo">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                        Are the plushies official Disney merchandise?
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#faqAccordion">
+                                <div class="card-body">
+                                    Our plushies are inspired by the beloved The Cars movie and are crafted with care to bring joy to fans. However, they are not official Disney merchandise.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- FAQ Item 3 -->
+                        <div class="card mb-3">
+                            <div class="card-header" id="headingThree">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                        What materials are the plushies made of?
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
+                                 data-parent="#faqAccordion">
+                                <div class="card-body">
+                                    Our plushies are made from high-quality, soft, and hypoallergenic materials, making them safe and perfect for snuggling.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- FAQ Item 4 -->
+                        <div class="card mb-3">
+                            <div class="card-header" id="headingTwo">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                        Can I customize a plushie with my name or message?
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#faqAccordion">
+                                <div class="card-body">
+                                    At this time, we don’t offer customization options. However, we’re working on adding this feature in the future!
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- FAQ Item 5 -->
+                        <div class="card mb-3">
+                            <div class="card-header" id="headingTwo">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                        Are these plushies suitable for kids?
+                                    </button>
+                                </h5>
+                            </div>
+                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#faqAccordion">
+                                <div class="card-body">
+                                    Yes! All our plushies are kid-friendly and comply with safety standards. They’re perfect for children ages 3 and up.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

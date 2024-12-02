@@ -17,145 +17,144 @@ using System.Linq;
 // Namespace for Product Page UnitTests
 namespace UnitTests.Pages.Product
 {
-    public class DeleteTests
+    public class DeleteTest
     {
         #region TestSetup
-        private static DefaultHttpContext HttpContextDefault;
-        private static IWebHostEnvironment WebHostEnvironment;
-        private static ModelStateDictionary ModelState;
-        private static PageContext PageContext;
 
-        private static DeleteModel PageModel;
-        private static JsonFileProductService ProductService;
+        private static DefaultHttpContext _httpContextDefault;
+        private static ModelStateDictionary _modelState;
+        private static PageContext _pageContext;
+        private static DeleteModel _pageModel;
+        private static JsonFileProductService _productService;
 
         [SetUp]
         public void TestInitialize()
         {
-            HttpContextDefault = new DefaultHttpContext();
-            ModelState = new ModelStateDictionary();
+            // Arrange
+            _httpContextDefault = new DefaultHttpContext();
+            _modelState = new ModelStateDictionary();
 
-            var ActionContext = new ActionContext(HttpContextDefault, new RouteData(), new PageActionDescriptor(), ModelState);
-            var ModelMetadataProvider = new EmptyModelMetadataProvider();
-            var ViewData = new ViewDataDictionary(ModelMetadataProvider, ModelState);
-            var TempData = new TempDataDictionary(HttpContextDefault, Mock.Of<ITempDataProvider>());
+            var actionContext = new ActionContext(_httpContextDefault, new RouteData(), new PageActionDescriptor(), _modelState);
+            var modelMetadataProvider = new EmptyModelMetadataProvider();
+            var viewData = new ViewDataDictionary(modelMetadataProvider, _modelState);
+            var tempData = new TempDataDictionary(_httpContextDefault, Mock.Of<ITempDataProvider>());
 
-            PageContext = new PageContext(ActionContext)
-            {
-                ViewData = ViewData,
-            };
+            _pageContext = new PageContext(actionContext) { ViewData = viewData };
 
-            ProductService = TestHelper.ProductService;
+            _productService = TestHelper.ProductService;
+            _pageModel = new DeleteModel(_productService);
 
-            PageModel = new DeleteModel(ProductService);
+            // Reset
         }
 
         [TearDown]
         public void TestCleanup()
         {
+            // Reset
         }
 
         #endregion TestSetup
 
-        #region DeleteTests
+        #region OnGet
 
         [Test]
-        /// <summary>
-        /// Tests that OnGet returns null product when given an invalid product ID.
-        /// </summary>
         public void Delete_OnGet_Invalid_Product_Id_Should_Have_Null_Product()
         {
-            // Arrange
-
             // Act
-            PageModel.OnGet("non_null_or_empty");
+            _pageModel.OnGet("non_null_or_empty");
+
+            // Reset
 
             // Assert
-            Assert.That(PageModel.ModelState.IsValid, Is.True);
-            Assert.That(PageModel.Product, Is.Null);
+            Assert.That(_pageModel.ModelState.IsValid, Is.True);
+            Assert.That(_pageModel.Product, Is.Null);
         }
 
         [Test]
-        /// <summary>
-        /// Tests that OnGet returns a non-null product when given a valid product ID.
-        /// </summary>
         public void Delete_OnGet_Valid_Product_Id_Should_Have_Non_Null_Product()
         {
             // Arrange
-            var data = ProductService.GetAllData().First();
+            var data = _productService.GetAllData().First();
 
             // Act
-            PageModel.OnGet(data.Id);
+            _pageModel.OnGet(data.Id);
+
+            // Reset
 
             // Assert
-            Assert.That(PageModel.ModelState.IsValid, Is.True);
-            Assert.That(PageModel.Product.Id, Is.EqualTo(data.Id));
+            Assert.That(_pageModel.ModelState.IsValid, Is.True);
+            Assert.That(_pageModel.Product.Id, Is.EqualTo(data.Id));
         }
 
+        #endregion OnGet
+
+        #region OnPost
+
         [Test]
-        /// <summary>
-        /// Tests that OnPost redirects to the index page after a successful delete.
-        /// </summary>
         public void Delete_OnPost_Should_Redirect_To_Index_Page()
         {
             // Arrange
-            PageModel.OnGet(ProductService.GetAllData().First().Id);
+            _pageModel.OnGet(_productService.GetAllData().First().Id);
 
             // Act
-            var result = (RedirectToPageResult)PageModel.OnPost();
+            var result = (RedirectToPageResult)_pageModel.OnPost();
+
+            // Reset
 
             // Assert
-            Assert.That(PageModel.ModelState.IsValid, Is.True);
+            Assert.That(_pageModel.ModelState.IsValid, Is.True);
             Assert.That(result.PageName, Is.EqualTo("./Index"));
         }
 
         [Test]
-        /// <summary>
-        /// Tests that OnPost returns PageResult when the model state is invalid.
-        /// </summary>
         public void Delete_OnPost_Invalid_ModelState_Should_Return_Page_Result()
         {
             // Arrange
-            PageModel.Product = ProductService.GetAllData().First();
-            PageModel.ModelState.AddModelError("Error", "Invalid Model State");
+            _pageModel.Product = _productService.GetAllData().First();
+            _pageModel.ModelState.AddModelError("Error", "Invalid Model State");
 
             // Act
-            var result = (PageResult)PageModel.OnPost();
+            var result = (PageResult)_pageModel.OnPost();
+
+            // Reset
 
             // Assert
-            Assert.That(PageModel.ModelState.IsValid, Is.False);
+            Assert.That(_pageModel.ModelState.IsValid, Is.False);
         }
-        
+
         [Test]
-        /// <summary>
-        /// Tests that OnPost adds an error message to ModelState and returns Page when deletion fails.
-        /// </summary>
         public void Delete_OnPost_Delete_Fails_Should_Add_Error_To_ModelState_And_Return_Page()
         {
             // Arrange
-            var product = ProductService.CreateData();
-            PageModel = new DeleteModel(ProductService) { Product = product };
-            ProductService.DeleteData(product.Id);
+            var product = _productService.CreateData();
+            _pageModel = new DeleteModel(_productService) { Product = product };
+            _productService.DeleteData(product.Id);
 
             // Act
-            var result = PageModel.OnPost();
+            var result = _pageModel.OnPost();
+
+            // Reset
 
             // Assert
-            Assert.That(PageModel.ModelState.IsValid, Is.False);
-            Assert.That(PageModel.ModelState[string.Empty].Errors.First().ErrorMessage, Is.EqualTo("Product not found or could not be deleted."));
+            Assert.That(_pageModel.ModelState.IsValid, Is.False);
+            Assert.That(_pageModel.ModelState[string.Empty].Errors.First().ErrorMessage, Is.EqualTo("Product not found or could not be deleted."));
             Assert.That(result, Is.TypeOf<PageResult>());
         }
 
+        #endregion OnPost
+
+        #region CreateProduct
+
         [Test]
-        /// <summary>
-        /// Tests that CreateProduct assigns a unique GUID and returns true when valid data is provided.
-        /// </summary>
         public void CreateProduct_Valid_Data_Should_Assign_Guid_And_Return_True()
         {
             // Arrange
-            var newProduct = ProductService.CreateData();
+            var newProduct = _productService.CreateData();
 
             // Act
-            var result = ProductService.CreateProduct(newProduct);
+            var result = _productService.CreateProduct(newProduct);
+
+            // Reset
 
             // Assert
             Assert.That(result, Is.True, "CreateProduct should return true for valid data");
@@ -163,6 +162,6 @@ namespace UnitTests.Pages.Product
             Assert.That(Guid.TryParse(newProduct.Id, out _), Is.True, "Assigned ID should be a valid GUID");
         }
 
-        #endregion DeleteTests
+        #endregion CreateProduct
     }
 }

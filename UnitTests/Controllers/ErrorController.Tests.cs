@@ -4,20 +4,30 @@ using Moq;
 
 namespace UnitTests.Controllers
 {
-    public class ErrorControllerTests
+    public class ErrorControllerTest
     {
-        private ErrorController Controller;
+        #region TestSetup
+
+        private ErrorController _controller;
 
         [SetUp]
-        public void SetUp()
+        public void TestInitialize()
         {
-            Controller = new ErrorController();
+            // Arrange
+            _controller = new ErrorController();
+
+            // Reset
         }
 
         [TearDown]
-        public void TearDown()
+        public void TestCleanup()
         {
+            // Reset
         }
+
+        #endregion TestSetup
+
+        #region HandleError_ValidStatusCode_Should_Return_ErrorView
 
         [Test]
         /// <summary>
@@ -29,12 +39,18 @@ namespace UnitTests.Controllers
             var statusCode = 404;
 
             // Act
-            var Result = Controller.HandleError(statusCode) as ViewResult;
+            var result = _controller.HandleError(statusCode) as ViewResult;
+
+            // Reset
 
             // Assert
-            Assert.That(Result, Is.Not.Null);
-            Assert.That(Result.ViewName, Is.EqualTo("Error"));
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.ViewName, Is.EqualTo("Error"));
         }
+
+        #endregion HandleError_ValidStatusCode_Should_Return_ErrorView
+
+        #region HandleError_DifferentStatusCodes_Should_Return_ErrorView
 
         [Test]
         /// <summary>
@@ -48,13 +64,19 @@ namespace UnitTests.Controllers
             foreach (var statusCode in statusCodes)
             {
                 // Act
-                var Result = Controller.HandleError(statusCode) as ViewResult;
+                var result = _controller.HandleError(statusCode) as ViewResult;
+
+                // Reset
 
                 // Assert
-                Assert.That(Result, Is.Not.Null);
-                Assert.That(Result.ViewName, Is.EqualTo("Error"));
+                Assert.That(result, Is.Not.Null);
+                Assert.That(result.ViewName, Is.EqualTo("Error"));
             }
         }
+
+        #endregion HandleError_DifferentStatusCodes_Should_Return_ErrorView
+
+        #region HandleError_InvalidStatusCode_Should_Return_ErrorView
 
         [Test]
         /// <summary>
@@ -66,11 +88,15 @@ namespace UnitTests.Controllers
             var invalidStatusCode = -1;
 
             // Act
-            var Result = Controller.HandleError(invalidStatusCode) as ViewResult;
+            var result = _controller.HandleError(invalidStatusCode) as ViewResult;
+
+            // Reset
 
             // Assert
-            Assert.That(Result, Is.Not.Null);
-            Assert.That(Result.ViewName, Is.EqualTo("Error"));
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.ViewName, Is.EqualTo("Error"));
         }
+
+        #endregion HandleError_InvalidStatusCode_Should_Return_ErrorView
     }
 }

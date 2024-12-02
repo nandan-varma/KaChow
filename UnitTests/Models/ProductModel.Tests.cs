@@ -7,16 +7,17 @@ using System.Text.Json;
 // Namespace for Model UnitTests
 namespace UnitTests.Models
 {
-    public class ProductModelTests
+    public class ProductModelTest
     {
         #region TestSetup
 
-        private ProductModel Product;
+        private ProductModel _product;
 
         [SetUp]
         public void TestInitialize()
         {
-            Product = new ProductModel
+            // Arrange
+            _product = new ProductModel
             {
                 Id = "1",
                 Image = "image.png",
@@ -31,11 +32,13 @@ namespace UnitTests.Models
                     new CommentModel { Comment = "Great product!" }
                 }
             };
+
+            // Reset
         }
 
         #endregion TestSetup
 
-        #region PropertyTests
+        #region PropertyTests_Valid_Properties_Should_Return_Expected_Values
 
         [Test]
         /// <summary>
@@ -46,21 +49,21 @@ namespace UnitTests.Models
             // Arrange & Act are implicit in property initialization
 
             // Assert
-            Assert.That(Product.Id, Is.EqualTo("1"));
-            Assert.That(Product.Image, Is.EqualTo("image.png"));
-            Assert.That(Product.Url, Is.EqualTo("http://example.com"));
-            Assert.That(Product.Name, Is.EqualTo("Test Product"));
-            Assert.That(Product.Model, Is.EqualTo("Model X"));
-            Assert.That(Product.Description, Is.EqualTo("This is a test product."));
-            Assert.That(new int[] { 5, 4, 3 }, Is.EqualTo(Product.Ratings));
-            Assert.That(Product.Price, Is.EqualTo(50));
-            Assert.That(Product.CommentList.Count, Is.EqualTo(1));
-            Assert.That(Product.CommentList[0].Comment, Is.EqualTo("Great product!"));
+            Assert.That(_product.Id, Is.EqualTo("1"));
+            Assert.That(_product.Image, Is.EqualTo("image.png"));
+            Assert.That(_product.Url, Is.EqualTo("http://example.com"));
+            Assert.That(_product.Name, Is.EqualTo("Test Product"));
+            Assert.That(_product.Model, Is.EqualTo("Model X"));
+            Assert.That(_product.Description, Is.EqualTo("This is a test product."));
+            Assert.That(new int[] { 5, 4, 3 }, Is.EqualTo(_product.Ratings));
+            Assert.That(_product.Price, Is.EqualTo(50));
+            Assert.That(_product.CommentList.Count, Is.EqualTo(1));
+            Assert.That(_product.CommentList[0].Comment, Is.EqualTo("Great product!"));
         }
 
-        #endregion PropertyTests
+        #endregion PropertyTests_Valid_Properties_Should_Return_Expected_Values
 
-        #region ValidationTests
+        #region ValidationTests_Name_Empty_Should_Return_False
 
         [Test]
         /// <summary>
@@ -69,16 +72,22 @@ namespace UnitTests.Models
         public void ValidationTests_Name_Empty_Should_Return_False()
         {
             // Arrange
-            var Context = new ValidationContext(Product) { MemberName = "Name" };
-            var Results = new List<ValidationResult>();
+            var context = new ValidationContext(_product) { MemberName = "Name" };
+            var results = new List<ValidationResult>();
 
             // Act
-            Product.Name = ""; // Invalid
-            bool IsValid = Validator.TryValidateProperty(Product.Name, Context, Results);
+            _product.Name = ""; // Invalid
+            var isValid = Validator.TryValidateProperty(_product.Name, context, results);
+
+            // Reset
 
             // Assert
-            Assert.That(IsValid, Is.False);
+            Assert.That(isValid, Is.False);
         }
+
+        #endregion ValidationTests_Name_Empty_Should_Return_False
+
+        #region ValidationTests_Name_Valid_Should_Return_True
 
         [Test]
         /// <summary>
@@ -87,16 +96,22 @@ namespace UnitTests.Models
         public void ValidationTests_Name_Valid_Should_Return_True()
         {
             // Arrange
-            var Context = new ValidationContext(Product) { MemberName = "Name" };
-            var Results = new List<ValidationResult>();
+            var context = new ValidationContext(_product) { MemberName = "Name" };
+            var results = new List<ValidationResult>();
 
             // Act
-            Product.Name = "Valid Name"; // Valid
-            bool IsValid = Validator.TryValidateProperty(Product.Name, Context, Results);
+            _product.Name = "Valid Name"; // Valid
+            var isValid = Validator.TryValidateProperty(_product.Name, context, results);
+
+            // Reset
 
             // Assert
-            Assert.That(IsValid, Is.True);
+            Assert.That(isValid, Is.True);
         }
+
+        #endregion ValidationTests_Name_Valid_Should_Return_True
+
+        #region ValidationTests_Price_Negative_Should_Return_False
 
         [Test]
         /// <summary>
@@ -105,16 +120,22 @@ namespace UnitTests.Models
         public void ValidationTests_Price_Negative_Should_Return_False()
         {
             // Arrange
-            var Context = new ValidationContext(Product) { MemberName = "Price" };
-            var Results = new List<ValidationResult>();
+            var context = new ValidationContext(_product) { MemberName = "Price" };
+            var results = new List<ValidationResult>();
 
             // Act
-            Product.Price = -2; // Invalid
-            bool IsValid = Validator.TryValidateProperty(Product.Price, Context, Results);
+            _product.Price = -2; // Invalid
+            var isValid = Validator.TryValidateProperty(_product.Price, context, results);
+
+            // Reset
 
             // Assert
-            Assert.That(IsValid, Is.False);
+            Assert.That(isValid, Is.False);
         }
+
+        #endregion ValidationTests_Price_Negative_Should_Return_False
+
+        #region ValidationTests_Price_Valid_Should_Return_True
 
         [Test]
         /// <summary>
@@ -123,20 +144,22 @@ namespace UnitTests.Models
         public void ValidationTests_Price_Valid_Should_Return_True()
         {
             // Arrange
-            var Context = new ValidationContext(Product) { MemberName = "Price" };
-            var Results = new List<ValidationResult>();
+            var context = new ValidationContext(_product) { MemberName = "Price" };
+            var results = new List<ValidationResult>();
 
             // Act
-            Product.Price = 50; // Valid
-            bool IsValid = Validator.TryValidateProperty(Product.Price, Context, Results);
+            _product.Price = 50; // Valid
+            var isValid = Validator.TryValidateProperty(_product.Price, context, results);
+
+            // Reset
 
             // Assert
-            Assert.That(IsValid, Is.True);
+            Assert.That(isValid, Is.True);
         }
 
-        #endregion ValidationTests
+        #endregion ValidationTests_Price_Valid_Should_Return_True
 
-        #region ToStringTest
+        #region ToStringTest_Valid_Product_Should_Return_Expected_Json
 
         [Test]
         /// <summary>
@@ -145,15 +168,17 @@ namespace UnitTests.Models
         public void ToStringTest_Valid_Product_Should_Return_Expected_Json()
         {
             // Arrange
-            string ExpectedJson = JsonSerializer.Serialize(Product);
+            var expectedJson = JsonSerializer.Serialize(_product);
 
             // Act
-            string ActualJson = Product.ToString();
+            var actualJson = _product.ToString();
+
+            // Reset
 
             // Assert
-            Assert.That(ActualJson, Is.EqualTo(ExpectedJson));
+            Assert.That(actualJson, Is.EqualTo(expectedJson));
         }
 
-        #endregion ToStringTest
+        #endregion ToStringTest_Valid_Product_Should_Return_Expected_Json
     }
 }
