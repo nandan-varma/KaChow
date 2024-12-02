@@ -818,6 +818,21 @@ namespace UnitTests.Services
 
         #region AddComment
 
+        /// <summary>
+        /// Null id should return false
+        /// </summary>
+        [Test]
+        public void AddComment_Null_Id_Should_return_False()
+        {
+            // Arrange
+            string id = null;
+
+            // Act
+            var result = TestHelper.ProductService.AddComment(id, new CommentModel());
+
+            // Assert
+            Assert.That(result, Is.False);
+        }
         #endregion AddComment
     }
 }
