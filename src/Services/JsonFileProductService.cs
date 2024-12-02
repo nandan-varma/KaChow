@@ -156,6 +156,12 @@ namespace ContosoCrafts.WebSite.Services
                 return false;
             }
 
+            // If comment is null return false
+            if (comment == null)
+            {
+                return false;
+            }
+
             // Get all products
             var products = GetAllData();
 
