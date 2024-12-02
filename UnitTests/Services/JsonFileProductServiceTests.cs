@@ -771,6 +771,26 @@ namespace UnitTests.Services
             Assert.That(ListSize, Is.EqualTo(0));
         }
 
+        /// <summary>
+        /// List with comments should reutrn positive non zero number
+        /// </summary>
+        [Test]
+        public void GetCommentListSize_Product_With_Comments_Should_Return_Positive_Non_Zero_Count()
+        {
+            // Arrange
+            var Product = new ProductModel();
+            Product.CommentList = new List<CommentModel>();
+            Product.CommentList.Add(new CommentModel());
+            TestHelper.ProductService.CreateProduct(Product);
+            var Id = Product.Id;
+
+            // Act
+            var ListSize = TestHelper.ProductService.GetCommentListSize(Id);
+
+            // Assert
+            Assert.That(ListSize, Is.GreaterThan(0));
+        }
+
         #endregion GetCommentListSize
     }
 }
