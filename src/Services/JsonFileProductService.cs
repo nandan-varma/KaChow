@@ -207,6 +207,16 @@ namespace ContosoCrafts.WebSite.Services
 
             var product = products.FirstOrDefault(x=> x.Id.Equals(ProductId));
 
+            if (product == null)
+            {
+                return 0;
+            }
+
+            if (product.CommentList == null)
+            {
+                return 0;
+            }
+
             return product.CommentList.Count;
         }
 
