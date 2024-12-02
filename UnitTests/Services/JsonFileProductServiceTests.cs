@@ -755,6 +755,22 @@ namespace UnitTests.Services
             Assert.That(ListSize, Is.EqualTo(0));
         }
 
+        /// <summary>
+        /// Non initialized comment list should return 0
+        /// </summary>
+        [Test]
+        public void GetCommentListSize_Non_Iniitialized_Comment_List_Should_Return_Zero()
+        {
+            // Arrange
+            var Id = TestHelper.ProductService.GetAllData().Last().Id;
+
+            // Act
+            var ListSize = TestHelper.ProductService.GetCommentListSize(Id);
+
+            // Assert
+            Assert.That(ListSize, Is.EqualTo(0));
+        }
+
         #endregion GetCommentListSize
     }
 }
