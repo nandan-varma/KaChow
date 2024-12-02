@@ -184,6 +184,7 @@ namespace UnitTests.Components
             // Arrange
             var product = TestHelper.ProductService.GetAllData().First();
             product.Ratings = new int[] { 5, 4, 3 };
+            TestHelper.ProductService.UpdateData(product);
 
             var component = RenderComponent<ProductList>();
             component.Instance.SelectProduct(product.Id);
@@ -205,6 +206,7 @@ namespace UnitTests.Components
             // Arrange
             var product = TestHelper.ProductService.GetAllData().First();
             product.Ratings = new int[] { 5, 4, 3 };
+            TestHelper.ProductService.UpdateData(product);
 
             var component = RenderComponent<ProductList>();
             component.Instance.SelectProduct(product.Id);
@@ -237,6 +239,7 @@ namespace UnitTests.Components
             // Arrange
             var product = TestHelper.ProductService.GetAllData().First();
             product.Ratings = null;
+            TestHelper.ProductService.UpdateData(product);
 
             var component = RenderComponent<ProductList>();
             component.Instance.SelectProduct(product.Id);
