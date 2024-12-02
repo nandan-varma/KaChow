@@ -144,6 +144,13 @@ namespace ContosoCrafts.WebSite.Services
         /// <returns></returns>
         public bool AddComment(string productId, CommentModel comment)
         {
+
+            // If comment is null return false
+            if (comment == null)
+            {
+                return false;
+            }
+
             // If the comment is null or empty return false
             if (string.IsNullOrEmpty(comment.Comment))
             {
@@ -152,12 +159,6 @@ namespace ContosoCrafts.WebSite.Services
 
             // If the ProductID is invalid, return
             if (string.IsNullOrEmpty(productId))
-            {
-                return false;
-            }
-
-            // If comment is null return false
-            if (comment == null)
             {
                 return false;
             }
