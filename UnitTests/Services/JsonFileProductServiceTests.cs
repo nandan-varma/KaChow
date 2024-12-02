@@ -901,6 +901,25 @@ namespace UnitTests.Services
             // Assert
             Assert.That(result, Is.False);
         }
+
+        /// <summary>
+        /// Valid Id, not in database should return false
+        /// </summary>
+        [Test]
+        public void AddComment_InValid_Product_Should_Return_False()
+        {
+            // Arrange
+            var id = "Random_Not_Null_Or_Empty";
+            CommentModel model = new CommentModel();
+            model.Comment = "Hello";
+
+            // Act
+            var result = TestHelper.ProductService.AddComment(id, model);
+
+            // Assert
+            Assert.That(result, Is.False);
+        }
+
         #endregion AddComment
     }
 }
