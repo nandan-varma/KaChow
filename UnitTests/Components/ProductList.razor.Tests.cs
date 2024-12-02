@@ -158,7 +158,7 @@ namespace UnitTests.Components
             // Arrange
             var product = TestHelper.ProductService.GetAllData().First();
             var component = RenderComponent<ProductList>();
-            component.Instance.SelectedProduct = product;
+            component.Instance.SelectProduct(product.Id);
             component.Instance.GetCurrentRating();
 
             // Act
@@ -186,7 +186,7 @@ namespace UnitTests.Components
             product.Ratings = new int[] { 5, 4, 3 };
 
             var component = RenderComponent<ProductList>();
-            component.Instance.SelectedProduct = product;
+            component.Instance.SelectProduct(product.Id);
             component.Instance.GetCurrentRating();
 
             // Act
@@ -207,7 +207,7 @@ namespace UnitTests.Components
             product.Ratings = new int[] { 5, 4, 3 };
 
             var component = RenderComponent<ProductList>();
-            component.Instance.SelectedProduct = product;
+            component.Instance.SelectProduct(product.Id);
             component.Instance.GetCurrentRating();
 
             // Act
@@ -239,7 +239,7 @@ namespace UnitTests.Components
             product.Ratings = null;
 
             var component = RenderComponent<ProductList>();
-            component.Instance.SelectedProduct = product;
+            component.Instance.SelectProduct(product.Id);
             component.Instance.GetCurrentRating();
 
             // Act
