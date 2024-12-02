@@ -830,7 +830,7 @@ namespace UnitTests.Services
             model.Comment = "Hello";
 
             // Act
-            var result = TestHelper.ProductService.AddComment(id, new CommentModel());
+            var result = TestHelper.ProductService.AddComment(id, model);
 
             // Assert
             Assert.That(result, Is.False);
@@ -848,7 +848,7 @@ namespace UnitTests.Services
             model.Comment = "Hello";
 
             // Act
-            var result = TestHelper.ProductService.AddComment(id, new CommentModel());
+            var result = TestHelper.ProductService.AddComment(id, model);
 
             // Assert
             Assert.That(result, Is.False);
