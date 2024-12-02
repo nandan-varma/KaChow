@@ -689,16 +689,19 @@ namespace UnitTests.Services
         /// Valid Product, PageNumber > (Product.Comments.Count / 10) should return null list
         /// </summary>
         [Test]
-        public void GetPageOfComments_Valid_Product_Has_Comments_InValid_Page_Number_Greater_Than_Number_Of_Comments_Should_Return_Empty_List()
+        public void GetPageOfComments_Valid_Product_Has_Comments_InValid_Page_Number_Greater_Than_Number_Of_Comments_Should_Return_Null_List()
         {
             // Arrange
-            var Product = TestHelper.ProductService.GetAllData().First();
+            ProductModel model = new ProductModel();
+            model.CommentList = new List<CommentModel>(); 
+            model.CommentList.Add(new CommentModel());
+            TestHelper.ProductService.CreateProduct(model);
 
             // Act
-            var Comments = TestHelper.ProductService.GetPageOfComments(Product.Id, Product.CommentList.Count);
+            var Comments = TestHelper.ProductService.GetPageOfComments(model.Id, model.CommentList.Count);
 
             // Assert
-            Assert.That(Comments, Is.Empty);
+            Assert.That(Comments, Is.EqualTo(null));
         }
 
         #endregion GetPageOfComments
