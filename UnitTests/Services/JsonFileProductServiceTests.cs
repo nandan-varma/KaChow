@@ -826,6 +826,8 @@ namespace UnitTests.Services
         {
             // Arrange
             string id = null;
+            CommentModel model = new CommentModel();
+            model.Comment = "Hello";
 
             // Act
             var result = TestHelper.ProductService.AddComment(id, new CommentModel());
@@ -842,6 +844,8 @@ namespace UnitTests.Services
         {
             // Arrange
             string id = string.Empty;
+            CommentModel model = new CommentModel();
+            model.Comment = "Hello";
 
             // Act
             var result = TestHelper.ProductService.AddComment(id, new CommentModel());
