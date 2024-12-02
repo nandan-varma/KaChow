@@ -704,6 +704,26 @@ namespace UnitTests.Services
             Assert.That(Comments, Is.EqualTo(null));
         }
 
+        /// <summary>
+        /// Asking for page of comments on a product with valid page data should return a comment list
+        /// </summary>
+        [Test]
+        public void GetPageOfComments_Valid_Id_Valid_Product_With_Comments_Valid_Page_Number_Should_Return_Non_Null_List()
+        {
+            // Arrange
+            ProductModel product = new ProductModel();
+            product.CommentList = new List<CommentModel>();
+            product.CommentList.Add(new CommentModel());
+            TestHelper.ProductService.CreateProduct(product);
+
+            // Act
+            var CommentList = TestHelper.ProductService.GetPageOfComments(product.Id, 0);
+
+            // Assert
+            Assert.That(CommentList.Count, Is.GreaterThan(0));
+
+        }
+
         #endregion GetPageOfComments
 
         #region GetCommentListSize
