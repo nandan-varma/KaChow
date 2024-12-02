@@ -924,6 +924,24 @@ namespace UnitTests.Services
             Assert.That(result, Is.False);
         }
 
+        [Test]
+        public void AddComment_Valid_Id_Valid_Product_Non_Initialized_CommentList_Should_Create_List_And_Add_Comment()
+        {
+            // Arrange
+            ProductModel product = new ProductModel();
+            TestHelper.ProductService.CreateProduct(product);
+            CommentModel model = new CommentModel();
+            model.Comment = "Hello";
+
+            // Act
+            var result = TestHelper.ProductService.AddComment(product.Id, model);
+
+            // Assert
+            Assert.That(TestHelper.ProductService.GetProductById(product.Id).CommentList, Is.Not.Null);
+            Assert.That(result, Is.True);
+            Assert.That(TestHelper.ProductService.GetProductById(product.Id).CommentList[0].Comment, Is.EqualTo("Hello"));
+        }
+
         #endregion AddComment
     }
 }
