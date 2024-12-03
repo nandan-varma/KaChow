@@ -180,6 +180,31 @@ namespace UnitTests.Components
             Assert.That(TestHelper.ProductService.GetCommentListSize(product.Id), Is.EqualTo(commentListSize));
         }
 
+        /// <summary>
+        /// Valid non empty comment should be submitted when form submits
+        /// </summary>
+        [Test]
+        public void EditForm_Should_Submit_Valid_Non_Empty_Comment()
+        {
+            // Arrange
+            var product = TestHelper.ProductService.GetAllData().First();
+            var component = RenderComponent<CommentSection>(parameters => parameters.Add(p => p.Id, product.Id));
+            var textArea = component.Find("textarea");
+            textArea.SetAttribute("value", "Comment");
+            textArea.Change("Comment");
+            var value = textArea.GetAttribute("value");
+            var button = component.Find("#submit-button");
+            var commentListSize = TestHelper.ProductService.GetCommentListSize(product.Id);
+
+            // Act
+            button.Click();
+
+            // Assert
+            Assert.That(value, Is.EqualTo("Comment"));
+            Assert.That(TestHelper.ProductService.GetProductById(product.Id).CommentList.Last().Comment, Is.EqualTo("Comment"));
+            Assert.That(TestHelper.ProductService.GetCommentListSize(product.Id), Is.EqualTo(commentListSize + 1));
+        }
+
         #endregion Components
     }
 }
