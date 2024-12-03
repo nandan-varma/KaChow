@@ -23,7 +23,7 @@
 <div class="card-columns">
     @foreach (var product in FilteredProducts) // Loop through each filtered product
     {
-        <div class="card">
+        <div class="card appear-box">
             <!-- Link to product detail page -->
             <div onclick="window.location.href='/Product/Read/@product.Id'" class="card-img" style="background-image: url('@product.Image'); cursor: pointer;">
             </div>
