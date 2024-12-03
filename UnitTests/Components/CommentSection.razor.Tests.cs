@@ -44,6 +44,22 @@ namespace UnitTests.Components
 
         #region SubmitComment
 
+        /// <summary>
+        /// Submit comment should not throw errors under no circumstances
+        /// </summary>
+        [Test]
+        public void SubmitComment_Should_Not_Throw_Errors()
+        {
+            // Arrange
+            var component = RenderComponent<CommentSection>(parameters => parameters.Add(p => p.Id, "hello"));
+
+            // Act
+            component.Instance.SubmitComment();
+
+            // Assert
+        }
+
+
         #endregion SubmitComment
 
         #region IncrementPageNumber
