@@ -158,6 +158,28 @@ namespace UnitTests.Components
 
         #region Components
 
+        /// <summary>
+        /// Empty comment string should not submit comment
+        /// </summary>
+        [Test]
+        public void Edit_Form_Should_Not_Submit_InValid_Empty_Comment()
+        {
+            // Arrange
+            var product = TestHelper.ProductService.GetAllData().First();
+            var component = RenderComponent<CommentSection>(parameters => parameters.Add(p => p.Id, product.Id));
+            var textArea = component.Find("textarea");
+            var value = textArea.GetAttribute("value");
+            var button = component.Find("#submit-button");
+            var commentListSize = TestHelper.ProductService.GetCommentListSize(product.Id);
+
+            // Act
+            button.Click();
+
+            // Assert
+            Assert.That(value, Is.EqualTo(null));
+            Assert.That(TestHelper.ProductService.GetCommentListSize(product.Id), Is.EqualTo(commentListSize));
+        }
+
         #endregion Components
     }
 }
