@@ -155,5 +155,9 @@ namespace UnitTests.Components
         }
 
         #endregion DecrementPageNumber
+
+        #region Components
+
+        #endregion Components
     }
 }
