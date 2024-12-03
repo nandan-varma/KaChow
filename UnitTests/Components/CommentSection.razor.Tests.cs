@@ -90,6 +90,32 @@ namespace UnitTests.Components
             Assert.That(component.Instance.PageNumber, Is.EqualTo(model.CommentList.Count / 10));
         }
 
+        /// <summary>
+        /// PageNumber * PAGE_SIZE < commentlist.Count should increment
+        /// </summary>
+        [Test]
+        public void IncrementPageNumber_Should_Increment_When_Page_Number_Is_Less_Than_Comment_List_Size_Divided_By_Page_Size_Minus_One()
+        {
+            // Arrange
+            ProductModel model = new ProductModel();
+            model.CommentList = new List<CommentModel>();
+            for (int i = 0; i < 20; i++)
+            {
+                CommentModel commentModel = new CommentModel();
+                commentModel.Comment = i.ToString();
+                model.CommentList.Add(commentModel);
+            }
+            TestHelper.ProductService.CreateProduct(model);
+            var component = RenderComponent<CommentSection>(parameters => parameters.Add(p => p.Id, model.Id));
+            var PageNumber = component.Instance.PageNumber;
+
+            // Act
+            component.Instance.IncrementPageNumber();
+
+            // Assert
+            Assert.That(component.Instance.PageNumber, Is.EqualTo(PageNumber + 1));
+        }
+
         #endregion IncrementPageNumber
 
         #region DecrementPageNumber
