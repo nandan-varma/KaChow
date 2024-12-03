@@ -1,0 +1,134 @@
+﻿@using System.Threading
+@using ContosoCrafts.WebSite.Models
+@using Microsoft.AspNetCore.Components.Web
+@using System.Net.Http.Json
+@using System.Net.Http
+
+@if (!_isChatBotVisible)
+{
+    <button id="chatbot-button" @onclick="ToggleChatBotVisibility">🗨️</button>
+}
+
+@if (_isChatBotVisible)
+{
+    <div class="chatbot-container">
+        <div class="chatbot-header">
+            ChatBot
+            <button class="close-button" @onclick="ToggleChatBotVisibility">✖️</button>
+        </div>
+        <div class="chatbot-messages" @ref="_chatContainer">
+            @if (_error != null)
+            {
+                <div class="alert alert-danger" role="alert">
+                    <strong>Error:</strong>
+                    <span>@_error</span>
+                </div>
+            }
+
+            @foreach (var message in _messages)
+            {
+                <div class="d-flex @(message.Role == "user" ? "justify-content-end" : "justify-content-start") mb-3">
+                    <div class="p-3 rounded"
+                        style="max-width: 18rem; background-color: @(message.Role == "user" ? "#0d6efd" : "#ff1919");">
+                        <p class="mb-0">@message.Content</p>
+                    </div>
+                </div>
+            }
+
+            @if (_isLoading)
+            {
+                <div class="d-flex justify-content-start">
+                    <div class="p-3 bg-light rounded">
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="spinner-grow text-secondary spinner-grow-sm" role="status"></div>
+                            <div class="spinner-grow text-secondary spinner-grow-sm" role="status"
+                                style="animation-delay: 0.2s"></div>
+                            <div class="spinner-grow text-secondary spinner-grow-sm" role="status"
+                                style="animation-delay: 0.4s"></div>
+                            <div class="spinner-grow text-secondary spinner-grow-sm" role="status"
+                                style="animation-delay: 0.4s"></div>
+                            <div class="spinner-grow text-secondary spinner-grow-sm" role="status"
+                                style="animation-delay: 0.2s"></div>
+                            <div class="spinner-grow text-secondary spinner-grow-sm" role="status"></div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="chatbot-input">
+            <input type="text" placeholder="Type your message..." @bind="_userInput" @onkeydown="@HandleKeyPress" />
+            <button @onclick="SendMessage" disabled="@(_isLoading || string.IsNullOrWhiteSpace(_userInput))">
+                Send
+            </button>
+        </div>
+    </div>
+}
+
+@code {
+    public List<ChatMessage> _messages = new();
+    public bool _isChatBotVisible = false;
+    public bool _isLoading;
+    public string _error;
+    public HttpClient _httpClient = new HttpClient();
+    public string _userInput;
+    private string _threadId;
+    private ElementReference _chatContainer;
+
+    private async Task HandleKeyPress(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter" && _userInput != "" && _userInput != null)
+        {
+            await SendMessage();
+        }
+    }
+
+    private async Task<List<ChatMessage>> SendMessageAsync(List<ChatMessage> messages)
+    {
+        messages = messages.Where(m => m.Role != "system").ToList();
+        var response = await _httpClient.PostAsJsonAsync("https://kachow.nandan.fyi/api", messages);
+        response.EnsureSuccessStatusCode();
+        var result = await response.Content.ReadFromJsonAsync<AiResponse>();
+        return result.Messages;
+    }
+
+    public async Task SendMessage()
+    {
+        if (_isLoading || string.IsNullOrWhiteSpace(_userInput))
+            return;
+
+        _isLoading = true;
+        _error = null;
+
+        var userMessage = new ChatMessage
+        {
+            Role = "user",
+            Content = _userInput,
+            Timestamp = DateTime.UtcNow
+        };
+
+        _messages.Add(userMessage);
+        _userInput = "";
+
+        await InvokeAsync(StateHasChanged);
+
+        try
+        {
+            var responseMessages = await SendMessageAsync(_messages);
+            _messages = responseMessages;
+        }
+        catch (Exception ex)
+        {
+            _error = "Failed to get response: " + ex.Message;
+        }
+        finally
+        {
+            _isLoading = false;
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    private void ToggleChatBotVisibility()
+    {
+        _isChatBotVisible = !_isChatBotVisible;
+    }
+}
