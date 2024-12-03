@@ -205,6 +205,29 @@ namespace UnitTests.Components
             Assert.That(TestHelper.ProductService.GetCommentListSize(product.Id), Is.EqualTo(commentListSize + 1));
         }
 
+        /// <summary>
+        /// PageNumber should not be incremented when button is clicked and on last page
+        /// </summary>
+        [Test]
+        public void IncrementButton_Should_Not_Increment_Past_Comment_List_Size_Divided_By_Page_Size()
+        {
+            // Arrange
+            var product = TestHelper.ProductService.GetAllData().First();
+            var component = RenderComponent<CommentSection>(parameters => parameters.Add(p => p.Id, product.Id));
+            var button = component.Find("#Increment-button");
+            product.CommentList.Add(new CommentModel());
+            TestHelper.ProductService.UpdateData(product);
+            var originalPageNumber = component.Instance.PageNumber;
+            var commentListSize = TestHelper.ProductService.GetCommentListSize(product.Id);
+
+            // Act
+            button.Click();
+
+            // Assert
+            Assert.That(commentListSize, Is.EqualTo(1));
+            Assert.That(originalPageNumber, Is.EqualTo(component.Instance.PageNumber));
+        }
+
         #endregion Components
     }
 }
