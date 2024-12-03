@@ -11,10 +11,10 @@
 
         <div class ="form-group">
         <label for="Comment">Comment: </label>
-            <textarea class="form-control" @bind=model.Comment></textarea>
+            <textarea id="comment-box" class="form-control" @bind=model.Comment></textarea>
         <ValidationMessage For="@(() => model.Comment)"></ValidationMessage>
 
-            <button class="btn btn-primary" onclick="submit">
+            <button id="submit-button" class="btn btn-primary" onclick="submit">
             Submit Comment
         </button>
     </div>
@@ -26,8 +26,8 @@
             <li class="list-group-item text-wrap text-break">@comment</li>
         }
     </ul>
-    <button class="btn btn-primary" onclick="@(() => DecrementPageNumber())">Last Page</button>
-    <button class="btn btn-primary" onclick="@(() => IncrementPageNumber())">Next Page</button>
+    <button id="Decrement-button" class="btn btn-primary" onclick="@(() => DecrementPageNumber())">Last Page</button>
+    <button id="Increment-button" class="btn btn-primary" onclick="@(() => IncrementPageNumber())">Next Page</button>
 </div>
 
 
