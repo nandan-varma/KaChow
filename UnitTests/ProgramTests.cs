@@ -1,5 +1,7 @@
 ﻿using ContosoCrafts.WebSite;
 using NUnit.Framework;
+using System.Threading;
+using System.Threading.Tasks;
 
 // Namespace for base site UnitTests
 namespace UnitTests
@@ -13,11 +15,11 @@ namespace UnitTests
         {
             // Arrange
             string[] args = new string[0];
+            var cts = new CancellationTokenSource();
+            var token = cts.Token;
 
             // Act
-            // Instead of running, we simulate what would happen
-            var hostBuilder = Program.CreateHostBuilder(args);
-            var host = hostBuilder.Build();
+            Task t = Task.Factory.StartNew(() => Program.Main(args), token);
 
             // Reset
 
@@ -27,6 +29,7 @@ namespace UnitTests
                 // Directly invoking Run is not possible without blocking,
                 // so we won't call it. Just simulate its presence.
             });
+            cts.Cancel();
         }
 
         #endregion Main_ShouldNotThrowException_WhenCalled
