@@ -82,6 +82,10 @@
     {
         productId = Id;
         comments = ProductService.GetPageOfComments(productId, PageNumber);
+        if (comments == null)
+        {
+            comments = new List<string>();
+        }
     }
 
     protected override void OnInitialized()
