@@ -119,6 +119,23 @@ namespace UnitTests.Components
         #endregion IncrementPageNumber
 
         #region DecrementPageNumber
+        
+        /// <summary>
+        /// PageNumber should never decrement lower than 0
+        /// </summary>
+        [Test]
+        public void DecrementPageNumber_Should_Not_Decrement_Past_Zero()
+        {
+            // Arrange
+            var component = RenderComponent<CommentSection>(parameters => parameters.Add(p => p.Id, "1"));
+            component.Instance.PageNumber = 0;
+
+            // Act
+            component.Instance.DecrementPageNumber();
+
+            // Assert
+            Assert.That(component.Instance.PageNumber, Is.EqualTo(0));
+        }
 
         #endregion DecrementPageNumber
     }
