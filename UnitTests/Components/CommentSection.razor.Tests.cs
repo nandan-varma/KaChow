@@ -41,5 +41,17 @@ namespace UnitTests.Components
         }
 
         #endregion TestSetup
+
+        #region SubmitComment
+
+        #endregion SubmitComment
+
+        #region IncrementPageNumber
+
+        #endregion IncrementPageNumber
+
+        #region DecrementPageNumber
+
+        #endregion DecrementPageNumber
     }
 }
