@@ -84,30 +84,7 @@
                         // Display checked or unchecked star based on current rating
                         <span class="fa fa-star @(i <= CurrentRating ? "checked" : "")" @onclick="() => SubmitRating(SelectedProduct.Id, currentStar)"></span>
                     }
-                    <EditForm Model="model" OnValidSubmit="SubmitComment">
-                        <DataAnnotationsValidator />
-                        <ValidationSummary />
-
-                            <div class ="form-group">
-                            <label for="Comment">Comment: </label>
-                                <textarea class="form-control" @bind=model.Comment></textarea>
-                            <ValidationMessage For="@(() => model.Comment)"></ValidationMessage>
-
-                                <button class="btn btn-primary" onclick="submit">
-                                Submit Comment
-                            </button>
-                        </div>
-                    </EditForm>
-                    <div>
-                        <ul class="list-group">
-                            @foreach (string comment in comments)
-                            {
-                                <li class="list-group-item text-wrap text-break">@comment</li>
-                            }
-                        </ul>
-                        <button class="btn btn-primary" onclick="@(() => DecrementPageNumber())">Last Page</button>
-                        <button class="btn btn-primary" onclick="@(() => IncrementPageNumber())">Next Page</button>
-                    </div>
+                    <CommentSection Id="@SelectedProductId"></CommentSection>
                 </div>
             </div>
         </div>
@@ -119,9 +96,6 @@
 {
     public ProductModel SelectedProduct { get; set; } // Currently selected product
     public string SelectedProductId { get; set; } // ID of the selected product
-    public CommentModel model = new CommentModel();
-    public int PageNumber = 0;
-    public List<string> comments;
 
     /// <summary>
     /// Method to select a product and fetch its current rating
@@ -183,41 +157,6 @@
 
         // Update the selected product
         SelectProduct(productId);
-    }
-
-    /// <summary>
-    /// Method to submit a new comment
-    /// </summary>
-    public void SubmitComment()
-    {
-        // Add the comment to the Selected Product
-        ProductService.AddComment(SelectedProductId, model);
-        comments = ProductService.GetPageOfComments(SelectedProductId, PageNumber);
-    }
-
-    /// <summary>
-    /// Increments the page number after a check
-    /// </summary>
-    public void IncrementPageNumber()
-    {
-        List<string> NextPage = ProductService.GetPageOfComments(SelectedProductId, PageNumber + 1);
-        if (NextPage != null)
-        {
-            PageNumber += 1;
-            comments = NextPage;
-        }
-    }
-
-    /// <summary>
-    /// Decrements the page number after a check
-    /// </summary>
-    public void DecrementPageNumber()
-    {
-        if (PageNumber > 0)
-        {
-            PageNumber -= 1;
-        }
-        comments = ProductService.GetPageOfComments(SelectedProductId, PageNumber);
     }
 
     public string SearchTerm { get; set; } = string.Empty; // Holds the search term
