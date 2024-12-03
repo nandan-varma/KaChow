@@ -137,6 +137,23 @@ namespace UnitTests.Components
             Assert.That(component.Instance.PageNumber, Is.EqualTo(0));
         }
 
+        /// <summary>
+        /// If PageNumber is positive non zero, PageNumber should decrement
+        /// </summary>
+        [Test]
+        public void DecrementPageNumber_Should_Decrement_If_Page_Number_Is_Greater_Than_Zero()
+        {
+            // Arrange
+            var component = RenderComponent<CommentSection>(parameters => parameters.Add(p => p.Id, "1"));
+            component.Instance.PageNumber = 1;
+
+            // Act
+            component.Instance.DecrementPageNumber();
+
+            // Assert
+            Assert.That(component.Instance.PageNumber, Is.EqualTo(0));
+        }
+
         #endregion DecrementPageNumber
     }
 }
