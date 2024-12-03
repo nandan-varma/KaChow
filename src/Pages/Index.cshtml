@@ -61,6 +61,7 @@
     <a class="btn-primary surprise-me-button" href="/Product/Read/@product.Id">Surprise me!</a>
 </div>
 
+@(await Html.RenderComponentAsync<ChatBot>(RenderMode.ServerPrerendered))
 @(await Html.RenderComponentAsync<ProductList>(RenderMode.ServerPrerendered))
 
 <script src="_framework/blazor.server.js"></script>
