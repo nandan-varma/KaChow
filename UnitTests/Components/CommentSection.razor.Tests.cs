@@ -254,6 +254,25 @@ namespace UnitTests.Components
             Assert.That(originalPageNumber + 1, Is.EqualTo(component.Instance.PageNumber));
         }
 
+        /// <summary>
+        /// Decrement button should not decrement past 0 when clicked
+        /// </summary>
+        [Test]
+        public void DecrementButton_Should_Not_Decrement_Lower_Than_Zero()
+        {
+            // Arrange
+            var product = TestHelper.ProductService.GetAllData().First();
+            var component = RenderComponent<CommentSection>(parameters => parameters.Add(p => p.Id, product.Id));
+            var button = component.Find("#Decrement-button");
+            component.Instance.PageNumber = 0;
+
+            // Act
+            button.Click();
+
+            // Assert
+            Assert.That(component.Instance.PageNumber, Is.EqualTo(0));
+        }
+
         #endregion Components
     }
 }
