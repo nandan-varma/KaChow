@@ -273,6 +273,26 @@ namespace UnitTests.Components
             Assert.That(component.Instance.PageNumber, Is.EqualTo(0));
         }
 
+        /// <summary>
+        /// Decrement button should decrement when PageNumber > 0
+        /// </summary>
+        [Test]
+        public void DecrementButton_Should_Decrement_When_PageNumber_Greater_Than_Zero()
+        {
+            // Arrange
+            var product = TestHelper.ProductService.GetAllData().First();
+            var component = RenderComponent<CommentSection>(parameters => parameters.Add(p => p.Id, product.Id));
+            var button = component.Find("#Decrement-button");
+            component.Instance.PageNumber = 1;
+            var originalPageNumber = component.Instance.PageNumber;
+
+            // Act
+            button.Click();
+
+            // Assert
+            Assert.That(component.Instance.PageNumber, Is.EqualTo(originalPageNumber - 1));
+        }
+
         #endregion Components
     }
 }
