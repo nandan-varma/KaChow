@@ -390,11 +390,10 @@ namespace UnitTests.Components
             var component = RenderComponent<ProductList>();
             var searchTerm = "Product";
             var minRating = 3;
-            var productService = TestHelper.ProductService;
-            var product = productService.CreateData();
+            var product = TestHelper.ProductService.CreateData();
             product.Name = "Product Match";
             product.Ratings = new int[] { 5, 4, 4 };
-            productService.SaveData(productService.GetAllData().Append(product));
+            TestHelper.ProductService.UpdateData(product);
             component.Instance.SearchTerm = searchTerm;
             component.Instance.MinRating = minRating;
 
@@ -407,7 +406,7 @@ namespace UnitTests.Components
             Assert.That(component.Instance.FilteredProducts.Any(p => p.Id == product.Id), Is.True);
 
             // Cleanup
-            productService.DeleteData(product.Id);
+            TestHelper.ProductService.DeleteData(product.Id);
         }
 
         [Test]
@@ -423,7 +422,7 @@ namespace UnitTests.Components
             var product = productService.CreateData();
             product.Name = "MatchInName";
             product.Description = "Unrelated Description";
-            productService.SaveData(productService.GetAllData().Append(product));
+            productService.UpdateData(product);
             component.Instance.SearchTerm = searchTerm;
 
             // Act
@@ -448,7 +447,7 @@ namespace UnitTests.Components
             var product = productService.CreateData();
             product.Name = "Unrelated Name";
             product.Description = "MatchInDescription";
-            productService.SaveData(productService.GetAllData().Append(product));
+            productService.UpdateData(product);
             component.Instance.SearchTerm = searchTerm;
 
             // Act
