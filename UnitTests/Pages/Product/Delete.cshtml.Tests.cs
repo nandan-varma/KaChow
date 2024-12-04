@@ -58,6 +58,9 @@ namespace UnitTests.Pages.Product
         #region OnGet
 
         [Test]
+        /// <summary>
+        /// Tests that OnGet returns null product when given an invalid product ID.
+        /// </summary>
         public void Delete_OnGet_Invalid_Product_Id_Should_Have_Null_Product()
         {
             // Act
@@ -71,6 +74,9 @@ namespace UnitTests.Pages.Product
         }
 
         [Test]
+        /// <summary>
+        /// Tests that OnGet returns a non-null product when given a valid product ID.
+        /// </summary>
         public void Delete_OnGet_Valid_Product_Id_Should_Have_Non_Null_Product()
         {
             // Arrange
@@ -91,6 +97,9 @@ namespace UnitTests.Pages.Product
         #region OnPost
 
         [Test]
+        /// <summary>
+        /// Tests that OnPost redirects to the index page after a successful delete.
+        /// </summary>
         public void Delete_OnPost_Should_Redirect_To_Index_Page()
         {
             // Arrange
@@ -107,6 +116,9 @@ namespace UnitTests.Pages.Product
         }
 
         [Test]
+        /// <summary>
+        /// Tests that OnPost returns PageResult when the model state is invalid.
+        /// </summary>
         public void Delete_OnPost_Invalid_ModelState_Should_Return_Page_Result()
         {
             // Arrange
@@ -123,6 +135,9 @@ namespace UnitTests.Pages.Product
         }
 
         [Test]
+        /// <summary>
+        /// Tests that OnPost adds an error message to ModelState and returns Page when deletion fails.
+        /// </summary>
         public void Delete_OnPost_Delete_Fails_Should_Add_Error_To_ModelState_And_Return_Page()
         {
             // Arrange
@@ -146,6 +161,9 @@ namespace UnitTests.Pages.Product
         #region CreateProduct
 
         [Test]
+        /// <summary>
+        /// Tests that CreateProduct assigns a unique GUID and returns true when valid data is provided.
+        /// </summary>
         public void CreateProduct_Valid_Data_Should_Assign_Guid_And_Return_True()
         {
             // Arrange
