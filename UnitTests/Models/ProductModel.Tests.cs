@@ -40,12 +40,12 @@ namespace UnitTests.Models
 
         #endregion TestSetup
 
-        #region PropertyTests_Valid_Properties_Should_Return_Expected_Values
+        #region Property
 
-        [Test]
         /// <summary>
         /// Tests that valid properties return the expected values.
         /// </summary>
+        [Test]
         public void PropertyTests_Valid_Properties_Should_Return_Expected_Values()
         {
             // Arrange & Act are implicit in property initialization
@@ -65,14 +65,14 @@ namespace UnitTests.Models
             Assert.That(_product.Size, Is.EqualTo(ProductSizeEnum.M));
         }
 
-        #endregion PropertyTests_Valid_Properties_Should_Return_Expected_Values
+        #endregion Property
 
-        #region ValidationTests_Name_Empty_Should_Return_False
+        #region Validation
 
-        [Test]
         /// <summary>
         /// Tests that an empty Name property returns false for validation.
         /// </summary>
+        [Test]
         public void ValidationTests_Name_Empty_Should_Return_False()
         {
             // Arrange
@@ -89,14 +89,10 @@ namespace UnitTests.Models
             Assert.That(isValid, Is.False);
         }
 
-        #endregion ValidationTests_Name_Empty_Should_Return_False
-
-        #region ValidationTests_Name_Valid_Should_Return_True
-
-        [Test]
         /// <summary>
         /// Tests that a valid Name property returns true for validation.
         /// </summary>
+        [Test]
         public void ValidationTests_Name_Valid_Should_Return_True()
         {
             // Arrange
@@ -113,14 +109,10 @@ namespace UnitTests.Models
             Assert.That(isValid, Is.True);
         }
 
-        #endregion ValidationTests_Name_Valid_Should_Return_True
-
-        #region ValidationTests_Price_Negative_Should_Return_False
-
-        [Test]
         /// <summary>
         /// Tests that a negative Price property returns false for validation.
         /// </summary>
+        [Test]
         public void ValidationTests_Price_Negative_Should_Return_False()
         {
             // Arrange
@@ -137,14 +129,10 @@ namespace UnitTests.Models
             Assert.That(isValid, Is.False);
         }
 
-        #endregion ValidationTests_Price_Negative_Should_Return_False
-
-        #region ValidationTests_Price_Valid_Should_Return_True
-
-        [Test]
         /// <summary>
         /// Tests that a valid Price property returns true for validation.
         /// </summary>
+        [Test]
         public void ValidationTests_Price_Valid_Should_Return_True()
         {
             // Arrange
@@ -161,10 +149,9 @@ namespace UnitTests.Models
             Assert.That(isValid, Is.True);
         }
 
-        #endregion ValidationTests_Price_Valid_Should_Return_True
-
-        #region ValidationTests_Material_Valid_Should_Return_True
-
+        /// <summary>
+        /// Tests that a valid Material property returns true for validation.
+        /// </summary>
         [Test]
         public void ValidationTests_Material_Valid_Should_Return_True()
         {
@@ -180,10 +167,9 @@ namespace UnitTests.Models
             Assert.That(isValid, Is.True);
         }
 
-        #endregion ValidationTests_Material_Valid_Should_Return_True
-
-        #region ValidationTests_Size_Valid_Should_Return_True
-
+        /// <summary>
+        /// Tests that a valid Size property returns true for validation.
+        /// </summary>
         [Test]
         public void ValidationTests_Size_Valid_Should_Return_True()
         {
@@ -199,32 +185,9 @@ namespace UnitTests.Models
             Assert.That(isValid, Is.True);
         }
 
-        #endregion ValidationTests_Size_Valid_Should_Return_True
-
-        #region ToStringTest_Valid_Product_Should_Return_Expected_Json
-
-        [Test]
         /// <summary>
-        /// Tests that ToString returns the expected JSON representation of the product.
+        /// Tests that an empty Model property returns false for validation.
         /// </summary>
-        public void ToStringTest_Valid_Product_Should_Return_Expected_Json()
-        {
-            // Arrange
-            var expectedJson = JsonSerializer.Serialize(_product);
-
-            // Act
-            var actualJson = _product.ToString();
-
-            // Reset
-
-            // Assert
-            Assert.That(actualJson, Is.EqualTo(expectedJson));
-        }
-
-        #endregion ToStringTest_Valid_Product_Should_Return_Expected_Json
-
-        #region ValidationTests_Model_Empty_Should_Return_False
-
         [Test]
         public void ValidationTests_Model_Empty_Should_Return_False()
         {
@@ -240,10 +203,9 @@ namespace UnitTests.Models
             Assert.That(isValid, Is.False);
         }
 
-        #endregion ValidationTests_Model_Empty_Should_Return_False
-
-        #region ValidationTests_Model_Valid_Should_Return_True
-
+        /// <summary>
+        /// Tests that a valid Model property returns true for validation.
+        /// </summary>
         [Test]
         public void ValidationTests_Model_Valid_Should_Return_True()
         {
@@ -259,10 +221,9 @@ namespace UnitTests.Models
             Assert.That(isValid, Is.True);
         }
 
-        #endregion ValidationTests_Model_Valid_Should_Return_True
-
-        #region ValidationTests_Description_Too_Long_Should_Return_False
-
+        /// <summary>
+        /// Tests that a too long Description property returns false for validation.
+        /// </summary>
         [Test]
         public void ValidationTests_Description_Too_Long_Should_Return_False()
         {
@@ -278,10 +239,9 @@ namespace UnitTests.Models
             Assert.That(isValid, Is.False);
         }
 
-        #endregion ValidationTests_Description_Too_Long_Should_Return_False
-
-        #region ValidationTests_Description_Valid_Should_Return_True
-
+        /// <summary>
+        /// Tests that a valid Description property returns true for validation.
+        /// </summary>
         [Test]
         public void ValidationTests_Description_Valid_Should_Return_True()
         {
@@ -297,10 +257,9 @@ namespace UnitTests.Models
             Assert.That(isValid, Is.True);
         }
 
-        #endregion ValidationTests_Description_Valid_Should_Return_True
-
-        #region ValidationTests_Ratings_Valid_Should_Return_True
-
+        /// <summary>
+        /// Tests that a valid Ratings property returns true for validation.
+        /// </summary>
         [Test]
         public void ValidationTests_Ratings_Valid_Should_Return_True()
         {
@@ -316,10 +275,9 @@ namespace UnitTests.Models
             Assert.That(isValid, Is.True);
         }
 
-        #endregion ValidationTests_Ratings_Valid_Should_Return_True
-
-        #region ValidationTests_Stock_Negative_Should_Return_False
-
+        /// <summary>
+        /// Tests that a negative Stock property returns false for validation.
+        /// </summary>
         [Test]
         public void ValidationTests_Stock_Negative_Should_Return_False()
         {
@@ -335,10 +293,9 @@ namespace UnitTests.Models
             Assert.That(isValid, Is.False);
         }
 
-        #endregion ValidationTests_Stock_Negative_Should_Return_False
-
-        #region ValidationTests_Stock_Valid_Should_Return_True
-
+        /// <summary>
+        /// Tests that a valid Stock property returns true for validation.
+        /// </summary>
         [Test]
         public void ValidationTests_Stock_Valid_Should_Return_True()
         {
@@ -354,6 +311,28 @@ namespace UnitTests.Models
             Assert.That(isValid, Is.True);
         }
 
-        #endregion ValidationTests_Stock_Valid_Should_Return_True
+        #endregion Validation
+
+        #region ToString
+
+        /// <summary>
+        /// Tests that ToString returns the expected JSON representation of the product.
+        /// </summary>
+        [Test]
+        public void ToStringTest_Valid_Product_Should_Return_Expected_Json()
+        {
+            // Arrange
+            var expectedJson = JsonSerializer.Serialize(_product);
+
+            // Act
+            var actualJson = _product.ToString();
+
+            // Reset
+
+            // Assert
+            Assert.That(actualJson, Is.EqualTo(expectedJson));
+        }
+
+        #endregion ToString
     }
 }
