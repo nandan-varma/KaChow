@@ -1,6 +1,7 @@
 ﻿@page "{id}" 
 @* Route parameter for the product ID to identify which product to update *@
 @using ContosoCrafts.WebSite.Services @* Importing the product service to handle product data *@
+@using ContosoCrafts.WebSite.Models @* Importing the models to handle product data *@
 @inject JsonFileProductService productService // Injecting the product service for access to product data
 @model ContosoCrafts.WebSite.Pages.Product.UpdateModel // Setting the page model for the Update product page
 @{
@@ -43,7 +44,7 @@
         <!-- Form field for updating the product URL -->
         <div class="form-group">
             <label asp-for="Product.Url"></label>
-            <input asp-for="Product.Url" class="form-control" />
+            <input asp-for="Product.Url" class="form-control" pattern="https?://.+" />
             <span asp-validation-for="Product.Url" class="text-danger"></span>
         </div>
 
@@ -71,14 +72,14 @@
         <!-- Form field for the product Material -->
         <div class="form-group">
             <label asp-for="Product.Material"></label>
-            <input asp-for="Product.Material" class="form-control" />
+            <select asp-for="Product.Material" class="form-control" asp-items="Html.GetEnumSelectList<ProductTypeEnum>()"></select>
             <span asp-validation-for="Product.Material" class="text-danger"></span>
         </div>
 
         <!-- Form field for the product Size -->
         <div class="form-group">
             <label asp-for="Product.Size"></label>
-            <input asp-for="Product.Size" class="form-control" />
+            <select asp-for="Product.Size" class="form-control" asp-items="Html.GetEnumSelectList<ProductSizeEnum>()"></select>
             <span asp-validation-for="Product.Size" class="text-danger"></span>
         </div>
 
