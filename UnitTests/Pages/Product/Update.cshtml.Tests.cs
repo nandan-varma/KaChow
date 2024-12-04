@@ -125,6 +125,26 @@ namespace UnitTests.Pages.Product
             Assert.That(_pageModel.ModelState.IsValid, Is.False);
         }
 
+        [Test]
+        public void Update_OnPost_Should_Update_Material_And_Size()
+        {
+            // Arrange
+            _pageModel.OnGet(_productService.GetAllData().First().Id);
+            var product = _productService.CreateData();
+            product.Material = ProductTypeEnum.Wool;
+            product.Size = ProductSizeEnum.L;
+            _pageModel.Product = product;
+
+            // Act
+            var result = (RedirectToPageResult)_pageModel.OnPost();
+
+            // Assert
+            Assert.That(_pageModel.ModelState.IsValid, Is.True);
+            Assert.That(_pageModel.Product.Material, Is.EqualTo(ProductTypeEnum.Wool));
+            Assert.That(_pageModel.Product.Size, Is.EqualTo(ProductSizeEnum.L));
+            Assert.That(result.PageName, Is.EqualTo("./Index"));
+        }
+
         #endregion OnPost
     }
 }
