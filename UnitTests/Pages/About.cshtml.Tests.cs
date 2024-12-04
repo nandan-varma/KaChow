@@ -27,6 +27,9 @@ namespace UnitTests.Pages
 
         #region OnGet
         [Test]
+        /// <summary>
+        /// Tests that OnGet is valid and sets the ModelState correctly when the activity is valid.
+        /// </summary>
         public void OnGet_Valid_Activity_Set_Should_Return_RequestId()
         {
             // Arrange
