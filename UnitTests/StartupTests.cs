@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using NUnit.Framework;
 
+// Namespace for base site UnitTests
 namespace UnitTests
 {
     public class StartupTest
@@ -29,6 +30,9 @@ namespace UnitTests
             // Reset
         }
 
+        /// <summary>
+        /// ConfigureServices Valid Registers Required Services Should Return True
+        /// </summary>
         #endregion TestSetup
 
         #region ConfigureServices
@@ -55,6 +59,9 @@ namespace UnitTests
             Assert.That(serviceProvider.GetService<Microsoft.AspNetCore.Mvc.Controllers.IControllerActivator>(), Is.Not.Null);
         }
 
+        /// <summary>
+        /// Configure Valid Configures Middleware Should Return True
+        /// </summary>
         #endregion ConfigureServices
 
         #region Configure
@@ -74,9 +81,13 @@ namespace UnitTests
             // Reset
 
             // Assert
+            // Ensure the app runs without throwing an exception
             Assert.That(app, Is.Not.Null);
         }
 
+        /// <summary>
+        /// Configure Valid Sets Up Endpoints Should Return True
+        /// </summary>
         [Test]
         public void Configure_Valid_Sets_Up_Endpoints_Should_Return_True()
         {
@@ -88,6 +99,8 @@ namespace UnitTests
 
             // Act
             _startup.Configure(app, new Mock<IWebHostEnvironment>().Object);
+
+            // Manually build the endpoint route
             app.UseRouting();
             app.UseEndpoints(endpoints => endpoints.MapControllers());
             var endpointsDataSources = app.Services.GetRequiredService<EndpointDataSource>();
