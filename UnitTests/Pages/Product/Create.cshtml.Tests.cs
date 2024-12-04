@@ -102,6 +102,26 @@ namespace UnitTests.Pages.Product
             Assert.That(result, Is.TypeOf<PageResult>());
         }
 
+        [Test]
+        public void OnPost_Valid_ModelState_Should_Create_Product_With_Material_And_Size()
+        {
+            // Arrange
+            var product = _productService.CreateData();
+            product.Material = ProductTypeEnum.Cotton;
+            product.Size = ProductSizeEnum.M;
+            _pageModel.Product = product;
+            _pageModel.ModelState.Clear(); // Ensure model state is valid
+
+            // Act
+            var result = (RedirectToPageResult)_pageModel.OnPost();
+
+            // Assert
+            Assert.That(_pageModel.ModelState.IsValid, Is.True);
+            Assert.That(_pageModel.Product.Material, Is.EqualTo(ProductTypeEnum.Cotton));
+            Assert.That(_pageModel.Product.Size, Is.EqualTo(ProductSizeEnum.M));
+            Assert.That(result.PageName, Is.EqualTo("./Index"));
+        }
+
         #endregion OnPost
     }
 }
