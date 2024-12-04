@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Components.Forms;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
@@ -10,13 +9,13 @@ namespace ContosoCrafts.WebSite.Models
     /// A class which models a product
     /// </summary>
     public class ProductModel
-    {   
+    {
         // Id Field
         public string Id { get; set; }
 
         // Image URL Field
         [JsonPropertyName("img")]
-        [RegularExpression(@"^(https?:\/\/).*(\.(jpeg|png|webp|JPEG|PNG|WEBP))", 
+        [RegularExpression(@"^(https?:\/\/).*(\.(jpeg|png|webp|JPEG|PNG|WEBP))",
             ErrorMessage = "Image URL must be a Jpeg, PNG, or WebP file and must start with http:// or https://")]
         public string Image { get; set; }
 
