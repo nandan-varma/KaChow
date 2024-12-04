@@ -58,6 +58,9 @@ namespace UnitTests.Pages.Product
         #region OnGet
 
         [Test]
+        /// <summary>
+        /// Tests that OnGet returns null product when given an invalid product ID.
+        /// </summary>
         public void Update_OnGet_Invalid_Product_Id_Should_Have_Null_Product()
         {
             // Act
@@ -71,6 +74,9 @@ namespace UnitTests.Pages.Product
         }
 
         [Test]
+        /// <summary>
+        /// Tests that OnGet returns a non-null product when given a valid product ID.
+        /// </summary>
         public void Update_OnGet_Valid_Product_Id_Should_Have_Non_Null_Product()
         {
             // Arrange
@@ -91,6 +97,9 @@ namespace UnitTests.Pages.Product
         #region OnPost
 
         [Test]
+        /// <summary>
+        /// Tests that OnPost redirects to the index page after a successful update.
+        /// </summary>
         public void Update_OnPost_Should_Redirect_To_Index_Page()
         {
             // Arrange
@@ -110,6 +119,9 @@ namespace UnitTests.Pages.Product
         }
 
         [Test]
+        /// <summary>
+        /// Tests that OnPost returns PageResult when the model state is invalid.
+        /// </summary>
         public void Update_OnPost_Invalid_ModelState_Should_Return_Page_Result()
         {
             // Arrange
