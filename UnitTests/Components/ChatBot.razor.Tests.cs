@@ -15,13 +15,19 @@ namespace UnitTests.Components
         private Mock<HttpMessageHandler> _httpMessageHandlerMock;
         private HttpClient _httpClient;
 
+        #region Setup
         [SetUp]
         public void Setup()
         {
             _httpMessageHandlerMock = new Mock<HttpMessageHandler>();
             _httpClient = new HttpClient(_httpMessageHandlerMock.Object);
         }
+        #endregion
 
+        #region Visibility Tests
+        /// <summary>
+        /// Tests that the ChatBot component toggles visibility when the button is clicked.
+        /// </summary>
         [Test]
         public void ChatBot_ToggleVisibility_Should_Show_And_Hide_ChatBot()
         {
@@ -42,7 +48,12 @@ namespace UnitTests.Components
             // Assert
             Assert.That(cut.Instance._isChatBotVisible, Is.False);
         }
+        #endregion
 
+        #region KeyPress Tests
+        /// <summary>
+        /// Tests that a message is sent when the Enter key is pressed with non-empty input.
+        /// </summary>
         [Test]
         public async Task ChatBot_HandleKeyPress_Should_Send_Message_On_Enter()
         {
@@ -62,6 +73,9 @@ namespace UnitTests.Components
             Assert.That(cut.Instance._messages[0].Content, Is.EqualTo("test"));
         }
 
+        /// <summary>
+        /// Tests that a message is sent when the Enter key is pressed with non-empty input.
+        /// </summary>
         [Test]
         public async Task ChatBot_HandleKeyPress_Should_Send_Message_On_Enter_With_Non_Empty_Input()
         {
@@ -81,6 +95,9 @@ namespace UnitTests.Components
             Assert.That(cut.Instance._messages[0].Content, Is.EqualTo("test"));
         }
 
+        /// <summary>
+        /// Tests that no message is sent when the Enter key is pressed with empty input.
+        /// </summary>
         [Test]
         public async Task ChatBot_HandleKeyPress_Should_Not_Send_Message_On_Empty_Input()
         {
@@ -98,6 +115,9 @@ namespace UnitTests.Components
             Assert.That(cut.Instance._messages.Count, Is.EqualTo(0));
         }
 
+        /// <summary>
+        /// Tests that no message is sent when the Enter key is pressed with null input.
+        /// </summary>
         [Test]
         public async Task ChatBot_HandleKeyPress_Should_Not_Send_Message_On_Null_Input()
         {
@@ -115,6 +135,9 @@ namespace UnitTests.Components
             Assert.That(cut.Instance._messages.Count, Is.EqualTo(0));
         }
 
+        /// <summary>
+        /// Tests that no message is sent when the Enter key is pressed with whitespace input.
+        /// </summary>
         [Test]
         public async Task ChatBot_HandleKeyPress_Should_Not_Send_Message_On_Whitespace_Input()
         {
@@ -131,7 +154,12 @@ namespace UnitTests.Components
             // Assert
             Assert.That(cut.Instance._messages.Count, Is.EqualTo(0));
         }
+        #endregion
 
+        #region SendMessage Tests
+        /// <summary>
+        /// Tests that no message is sent when the send button is clicked with empty input.
+        /// </summary>
         [Test]
         public async Task ChatBot_SendMessage_Should_Not_Send_Empty_Message()
         {
@@ -148,6 +176,9 @@ namespace UnitTests.Components
             Assert.That(cut.Instance._messages.Count, Is.EqualTo(0));
         }
 
+        /// <summary>
+        /// Tests that no message is sent when the ChatBot is loading.
+        /// </summary>
         [Test]
         public async Task ChatBot_SendMessage_Should_Not_Send_When_Loading()
         {
@@ -166,6 +197,9 @@ namespace UnitTests.Components
             Assert.That(cut.Instance._messages.Count, Is.EqualTo(0));
         }
 
+        /// <summary>
+        /// Tests that a successful response is handled correctly.
+        /// </summary>
         [Test]
         public async Task ChatBot_SendMessage_Should_Handle_Successful_Response()
         {
@@ -194,6 +228,9 @@ namespace UnitTests.Components
             Assert.That(cut.Instance._messages[0].Content, Is.EqualTo("response"));
         }
 
+        /// <summary>
+        /// Tests that a failed response is handled correctly.
+        /// </summary>
         [Test]
         public async Task ChatBot_SendMessage_Should_Handle_Failed_Response()
         {
@@ -216,5 +253,6 @@ namespace UnitTests.Components
             // Assert
             Assert.That(cut.Instance._error, Is.EqualTo("Failed to get response: Request failed"));
         }
+        #endregion
     }
 }
