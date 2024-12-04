@@ -40,6 +40,9 @@ namespace UnitTests.Pages.Product
         #region OnGet
 
         [Test]
+        /// <summary>
+        /// Tests that OnGet returns NotFound when ID is null.
+        /// </summary>
         public void OnGet_NullId_Should_Return_NotFound()
         {
             // Act
@@ -52,6 +55,9 @@ namespace UnitTests.Pages.Product
         }
 
         [Test]
+        /// <summary>
+        /// Tests that OnGet returns NotFound when ID is empty.
+        /// </summary>
         public void OnGet_EmptyId_Should_Return_NotFound()
         {
             // Act
@@ -64,6 +70,9 @@ namespace UnitTests.Pages.Product
         }
 
         [Test]
+        /// <summary>
+        /// Tests that OnGet returns NotFound for a non-existent product ID.
+        /// </summary>
         public void OnGet_NonExistentProductId_Should_Return_NotFound()
         {
             // Arrange
@@ -79,6 +88,9 @@ namespace UnitTests.Pages.Product
         }
 
         [Test]
+        /// <summary>
+        /// Tests that OnGet returns the page when the product ID exists.
+        /// </summary>
         public void OnGet_ExistingProductId_Should_Return_Page()
         {
             // Arrange
@@ -96,6 +108,9 @@ namespace UnitTests.Pages.Product
         }
 
         [Test]
+        /// <summary>
+        /// Tests that OnGet returns NotFound for a whitespace ID.
+        /// </summary>
         public void OnGet_WhitespaceId_Should_Return_NotFound()
         {
             // Act
@@ -108,6 +123,9 @@ namespace UnitTests.Pages.Product
         }
 
         [Test]
+        /// <summary>
+        /// Tests that multiple calls with the same valid ID return the correct product.
+        /// </summary>
         public void OnGet_MultipleCalls_Should_Return_CorrectProduct()
         {
             // Arrange
@@ -127,6 +145,9 @@ namespace UnitTests.Pages.Product
         }
 
         [Test]
+        /// <summary>
+        /// Tests that OnGet returns NotFound for an invalid ID.
+        /// </summary>
         public void OnGet_InvalidId_Should_Return_NotFound()
         {
             // Arrange
@@ -142,6 +163,9 @@ namespace UnitTests.Pages.Product
         }
 
         [Test]
+        /// <summary>
+        /// Tests that OnGet returns NotFound when the product list is empty.
+        /// </summary>
         public void OnGet_EmptyProductList_Should_Return_NotFound()
         {
             // Arrange
