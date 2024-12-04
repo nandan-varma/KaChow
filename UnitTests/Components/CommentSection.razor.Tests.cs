@@ -228,7 +228,7 @@ namespace UnitTests.Components
             button.Click();
 
             // Assert
-            Assert.That(commentListSize, Is.EqualTo(1));
+            Assert.That(commentListSize, Is.EqualTo(TestHelper.ProductService.GetCommentListSize(product.Id)));
             Assert.That(originalPageNumber, Is.EqualTo(component.Instance.PageNumber));
         }
 
@@ -258,7 +258,7 @@ namespace UnitTests.Components
             button.Click();
 
             // Assert
-            Assert.That(commentListSize, Is.EqualTo(11));
+            Assert.That(commentListSize, Is.EqualTo(TestHelper.ProductService.GetCommentListSize(product.Id)));
             Assert.That(originalPageNumber + 1, Is.EqualTo(component.Instance.PageNumber));
         }
 
