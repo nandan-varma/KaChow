@@ -4,19 +4,25 @@
 @using System.Net.Http.Json
 @using System.Net.Http
 
+<!-- ChatBot button to toggle visibility -->
 @if (!_isChatBotVisible)
 {
     <button id="chatbot-button" @onclick="ToggleChatBotVisibility">🗨️</button>
 }
 
+<!-- ChatBot UI container when visible -->
 @if (_isChatBotVisible)
 {
     <div class="chatbot-container">
+        <!-- Header with close button -->
         <div class="chatbot-header">
             ChatBot
             <button class="close-button" @onclick="ToggleChatBotVisibility">✖️</button>
         </div>
+
+        <!-- Messages container -->
         <div class="chatbot-messages" @ref="_chatContainer">
+            <!-- Error message display -->
             @if (_error != null)
             {
                 <div class="alert alert-danger" role="alert">
@@ -25,38 +31,45 @@
                 </div>
             }
 
+            <!-- Loop to display chat messages -->
             @foreach (var message in _messages)
             {
                 <div class="d-flex @(message.Role == "user" ? "justify-content-end" : "justify-content-start") mb-3">
+                    <!-- Message bubble styled based on role -->
                     <div class="p-3 rounded"
-                        style="max-width: 18rem; background-color: @(message.Role == "user" ? "#0d6efd" : "#ff1919");">
+                         style="max-width: 18rem; background-color: @(message.Role == "user" ? "#0d6efd" : "#ff1919");">
                         <p class="mb-0">@message.Content</p>
                     </div>
                 </div>
             }
 
+            <!-- Loading indicator -->
             @if (_isLoading)
             {
                 <div class="d-flex justify-content-start">
                     <div class="p-3 bg-light rounded">
                         <div class="d-flex align-items-center gap-2">
+                            <!-- Spinner animations for loading -->
                             <div class="spinner-grow text-secondary spinner-grow-sm" role="status"></div>
                             <div class="spinner-grow text-secondary spinner-grow-sm" role="status"
-                                style="animation-delay: 0.2s"></div>
+                                 style="animation-delay: 0.2s"></div>
                             <div class="spinner-grow text-secondary spinner-grow-sm" role="status"
-                                style="animation-delay: 0.4s"></div>
+                                 style="animation-delay: 0.4s"></div>
                             <div class="spinner-grow text-secondary spinner-grow-sm" role="status"
-                                style="animation-delay: 0.4s"></div>
+                                 style="animation-delay: 0.4s"></div>
                             <div class="spinner-grow text-secondary spinner-grow-sm" role="status"
-                                style="animation-delay: 0.2s"></div>
+                                 style="animation-delay: 0.2s"></div>
                             <div class="spinner-grow text-secondary spinner-grow-sm" role="status"></div>
                         </div>
                     </div>
                 </div>
             }
         </div>
+
+        <!-- Input for user messages -->
         <div class="chatbot-input">
             <input type="text" placeholder="Type your message..." @bind="_userInput" @onkeydown="@HandleKeyPress" />
+            <!-- Send button disabled while loading or input is empty -->
             <button @onclick="SendMessage" disabled="@(_isLoading || string.IsNullOrWhiteSpace(_userInput))">
                 Send
             </button>
@@ -65,15 +78,25 @@
 }
 
 @code {
+    // List of chat messages
     public List<ChatMessage> _messages = new();
+    // Flag for ChatBot visibility
     public bool _isChatBotVisible = false;
+    // Loading state
     public bool _isLoading;
+    // Error message holder
     public string _error;
-    public HttpClient _httpClient = new HttpClient();
+    // HTTP client for API calls with timeout set
+    public HttpClient _httpClient = new HttpClient()
+        {
+            Timeout = TimeSpan.FromMinutes(5)
+        };
+    // Holds user input from the textbox
     public string _userInput;
-    private string _threadId;
-    private ElementReference _chatContainer;
+    private string _threadId; // Optional: thread ID for contextual conversations
+    private ElementReference _chatContainer; // Reference to chat message container for scrolling
 
+    // Handles Enter key press to send a message
     private async Task HandleKeyPress(KeyboardEventArgs e)
     {
         if (e.Key == "Enter" && _userInput != "" && _userInput != null)
@@ -82,51 +105,57 @@
         }
     }
 
+    // Sends messages to the backend API and retrieves responses
     private async Task<List<ChatMessage>> SendMessageAsync(List<ChatMessage> messages)
     {
+        // Filter out system messages before sending
         messages = messages.Where(m => m.Role != "system").ToList();
         var response = await _httpClient.PostAsJsonAsync("https://kachow.nandan.fyi/api", messages);
-        response.EnsureSuccessStatusCode();
+        response.EnsureSuccessStatusCode(); // Ensure successful HTTP response
         var result = await response.Content.ReadFromJsonAsync<AiResponse>();
-        return result.Messages;
+        return result.Messages; // Return response messages
     }
 
+    // Adds a new user message and processes API interaction
     public async Task SendMessage()
     {
         if (_isLoading || string.IsNullOrWhiteSpace(_userInput))
-            return;
+            return; // Prevent sending during loading or empty input
 
-        _isLoading = true;
-        _error = null;
+        _isLoading = true; // Set loading state
+        _error = null; // Clear previous errors
 
+        // Add user message to the list
         var userMessage = new ChatMessage
-        {
-            Role = "user",
-            Content = _userInput,
-            Timestamp = DateTime.UtcNow
-        };
+            {
+                Role = "user",
+                Content = _userInput,
+                Timestamp = DateTime.UtcNow
+            };
 
         _messages.Add(userMessage);
-        _userInput = "";
+        _userInput = ""; // Clear input field
 
-        await InvokeAsync(StateHasChanged);
+        await InvokeAsync(StateHasChanged); // Update UI
 
         try
         {
+            // Fetch response messages from API
             var responseMessages = await SendMessageAsync(_messages);
-            _messages = responseMessages;
+            _messages = responseMessages; // Update message list
         }
         catch (Exception ex)
         {
-            _error = "Failed to get response: " + ex.Message;
+            _error = "Failed to get response: " + ex.Message; // Handle errors
         }
         finally
         {
-            _isLoading = false;
-            await InvokeAsync(StateHasChanged);
+            _isLoading = false; // Reset loading state
+            await InvokeAsync(StateHasChanged); // Refresh UI
         }
     }
 
+    // Toggles ChatBot visibility
     private void ToggleChatBotVisibility()
     {
         _isChatBotVisible = !_isChatBotVisible;
