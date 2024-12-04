@@ -53,6 +53,9 @@ namespace UnitTests.Pages.Product
         #region OnGet
 
         [Test]
+        /// <summary>
+        /// Test to check if OnGet method retrieves and returns products correctly.
+        /// </summary>
         public void OnGet_Valid_Should_Return_Products()
         {
             // Arrange
@@ -69,6 +72,9 @@ namespace UnitTests.Pages.Product
         }
 
         [Test]
+        /// <summary>
+        /// Test to verify if OnGet method sets the Products property with data.
+        /// </summary>
         public void OnGet_Should_Set_Products_Property()
         {
             // Act
@@ -82,6 +88,9 @@ namespace UnitTests.Pages.Product
         }
 
         [Test]
+        /// <summary>
+        /// Test to confirm that OnGet method completes without throwing exceptions.
+        /// </summary>
         public void OnGet_Should_Not_Throw_Exception()
         {
             // Act & Assert
