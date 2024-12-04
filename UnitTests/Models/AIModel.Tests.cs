@@ -8,6 +8,9 @@ namespace UnitTests.Models
 {
     public class AiModelTests
     {
+        /// <summary>
+        /// Tests the AiResponse Model's Getters and Setters
+        /// </summary>
         [Test]
         public void AiResponse_GettersAndSetters_Should_Work_Correctly()
         {
