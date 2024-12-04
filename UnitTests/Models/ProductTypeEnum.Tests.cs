@@ -6,8 +6,11 @@ namespace UnitTests.Models
 {
     public class ProductTypeEnumTest
     {
-        #region DisplayName_ProductTypeEnum_Should_Return_Correct_DisplayName
+        #region ProductTypeEnum_DisplayName
 
+        /// <summary>
+        /// Tests that the display name for Cotton is returned correctly.
+        /// </summary>
         [Test]
         public void DisplayName_ProductTypeEnum_Cotton_Should_Return_Cotton()
         {
@@ -21,6 +24,9 @@ namespace UnitTests.Models
             Assert.That(displayName, Is.EqualTo("Cotton"));
         }
 
+        /// <summary>
+        /// Tests that the display name for Wool is returned correctly.
+        /// </summary>
         [Test]
         public void DisplayName_ProductTypeEnum_Wool_Should_Return_Wool()
         {
@@ -34,6 +40,9 @@ namespace UnitTests.Models
             Assert.That(displayName, Is.EqualTo("Wool"));
         }
 
+        /// <summary>
+        /// Tests that the display name for Nylon is returned correctly.
+        /// </summary>
         [Test]
         public void DisplayName_ProductTypeEnum_Nylon_Should_Return_Nylon()
         {
@@ -47,6 +56,9 @@ namespace UnitTests.Models
             Assert.That(displayName, Is.EqualTo("Nylon"));
         }
 
+        /// <summary>
+        /// Tests that the display name for Plastic is returned correctly.
+        /// </summary>
         [Test]
         public void DisplayName_ProductTypeEnum_Plastic_Should_Return_Plastic()
         {
@@ -60,6 +72,9 @@ namespace UnitTests.Models
             Assert.That(displayName, Is.EqualTo("Plastic"));
         }
 
+        /// <summary>
+        /// Tests that the display name for an unknown product type is returned as "Unknown".
+        /// </summary>
         [Test]
         public void DisplayName_ProductTypeEnum_Unknown_Should_Return_Unknown()
         {
@@ -73,10 +88,12 @@ namespace UnitTests.Models
             Assert.That(displayName, Is.EqualTo("Unknown"));
         }
 
-        #endregion DisplayName_ProductTypeEnum_Should_Return_Correct_DisplayName
+        #endregion ProductTypeEnum_DisplayName
+        #region ProductSizeEnum_DisplayName
 
-        #region DisplayName_ProductSizeEnum_Should_Return_Correct_DisplayName
-
+        /// <summary>
+        /// Tests that the display name for Extra Small size is returned correctly.
+        /// </summary>
         [Test]
         public void DisplayName_ProductSizeEnum_XS_Should_Return_ExtraSmall()
         {
@@ -90,6 +107,9 @@ namespace UnitTests.Models
             Assert.That(displayName, Is.EqualTo("Extra Small"));
         }
 
+        /// <summary>
+        /// Tests that the display name for Small size is returned correctly.
+        /// </summary>
         [Test]
         public void DisplayName_ProductSizeEnum_S_Should_Return_Small()
         {
@@ -103,6 +123,9 @@ namespace UnitTests.Models
             Assert.That(displayName, Is.EqualTo("Small"));
         }
 
+        /// <summary>
+        /// Tests that the display name for Medium size is returned correctly.
+        /// </summary>
         [Test]
         public void DisplayName_ProductSizeEnum_M_Should_Return_Medium()
         {
@@ -116,6 +139,9 @@ namespace UnitTests.Models
             Assert.That(displayName, Is.EqualTo("Medium"));
         }
 
+        /// <summary>
+        /// Tests that the display name for Large size is returned correctly.
+        /// </summary>
         [Test]
         public void DisplayName_ProductSizeEnum_L_Should_Return_Large()
         {
@@ -129,6 +155,9 @@ namespace UnitTests.Models
             Assert.That(displayName, Is.EqualTo("Large"));
         }
 
+        /// <summary>
+        /// Tests that the display name for Extra Large size is returned correctly.
+        /// </summary>
         [Test]
         public void DisplayName_ProductSizeEnum_XL_Should_Return_ExtraLarge()
         {
@@ -142,6 +171,9 @@ namespace UnitTests.Models
             Assert.That(displayName, Is.EqualTo("Extra Large"));
         }
 
+        /// <summary>
+        /// Tests that the display name for an unknown size is returned as "Unknown".
+        /// </summary>
         [Test]
         public void DisplayName_ProductSizeEnum_Unknown_Should_Return_Unknown()
         {
@@ -155,6 +187,6 @@ namespace UnitTests.Models
             Assert.That(displayName, Is.EqualTo("Unknown"));
         }
 
-        #endregion DisplayName_ProductSizeEnum_Should_Return_Correct_DisplayName
+        #endregion ProductSizeEnum_DisplayName
     }
 }
