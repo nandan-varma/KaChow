@@ -13,6 +13,9 @@ using NUnit.Framework;
 // Namespace for base site UnitTests
 namespace UnitTests
 {
+    /// <summary>
+    /// Unit tests for the Startup class.
+    /// </summary>
     public class StartupTest
     {
         #region TestSetup
@@ -20,6 +23,9 @@ namespace UnitTests
         private Startup _startup;
         private Mock<IConfiguration> _configurationMock;
 
+        /// <summary>
+        /// Initializes the test setup.
+        /// </summary>
         [SetUp]
         public void TestInitialize()
         {
@@ -30,13 +36,13 @@ namespace UnitTests
             // Reset
         }
 
-        /// <summary>
-        /// ConfigureServices Valid Registers Required Services Should Return True
-        /// </summary>
         #endregion TestSetup
 
         #region ConfigureServices
 
+        /// <summary>
+        /// Tests that ConfigureServices registers the required services.
+        /// </summary>
         [Test]
         public void ConfigureServices_Valid_Registers_Required_Services_Should_Return_True()
         {
@@ -59,13 +65,13 @@ namespace UnitTests
             Assert.That(serviceProvider.GetService<Microsoft.AspNetCore.Mvc.Controllers.IControllerActivator>(), Is.Not.Null);
         }
 
-        /// <summary>
-        /// Configure Valid Configures Middleware Should Return True
-        /// </summary>
         #endregion ConfigureServices
 
         #region Configure
 
+        /// <summary>
+        /// Tests that Configure sets up the middleware correctly.
+        /// </summary>
         [Test]
         public void Configure_Valid_Configures_Middleware_Should_Return_True()
         {
@@ -86,7 +92,7 @@ namespace UnitTests
         }
 
         /// <summary>
-        /// Configure Valid Sets Up Endpoints Should Return True
+        /// Tests that Configure sets up the endpoints correctly.
         /// </summary>
         [Test]
         public void Configure_Valid_Sets_Up_Endpoints_Should_Return_True()
@@ -111,6 +117,9 @@ namespace UnitTests
             Assert.That(endpointsDataSources, Is.Not.Null);
         }
 
+        /// <summary>
+        /// Tests that Configure uses the DeveloperExceptionPage in development environment.
+        /// </summary>
         [Test]
         public void Configure_Valid_Uses_DeveloperExceptionPage_In_Development()
         {
@@ -132,6 +141,9 @@ namespace UnitTests
             Assert.That(app, Is.Not.Null);
         }
 
+        /// <summary>
+        /// Tests that Configure uses StatusCodePagesWithReExecute in production environment.
+        /// </summary>
         [Test]
         public void Configure_Valid_Uses_StatusCodePagesWithReExecute()
         {
@@ -158,6 +170,9 @@ namespace UnitTests
 
         #region Configuration
 
+        /// <summary>
+        /// Tests that the Configuration property is initialized correctly.
+        /// </summary>
         [Test]
         public void Configuration_Property_Should_Be_Initialized()
         {
