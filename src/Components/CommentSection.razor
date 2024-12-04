@@ -5,39 +5,46 @@
 
 @inject JsonFileProductService ProductService
 
-<EditForm Model="model" OnValidSubmit="@(() => SubmitComment())">
+<EditForm Model="model" OnValidSubmit="@(() => SubmitComment())"> 
+    @* Form for submitting comments *@
     <DataAnnotationsValidator />
-    <ValidationSummary />
+    <ValidationSummary /> 
 
-        <div class ="form-group">
+    <div class="form-group">
+        @* Input field for adding a comment *@
         <label for="Comment">Comment: </label>
-            <textarea id="comment-box" class="form-control" @bind=model.Comment></textarea>
+        <textarea id="comment-box" class="form-control" @bind=model.Comment></textarea>
+        @* Displays validation message for the Comment field *@
         <ValidationMessage For="@(() => model.Comment)"></ValidationMessage>
 
-            <button id="submit-button" class="btn btn-primary" onclick="submit">
+        @* Button to submit the comment *@
+        <button id="submit-button" class="btn btn-primary">
             Submit Comment
         </button>
     </div>
 </EditForm>
+
 <div>
+    @* Displays a list of comments *@
     <ul class="list-group">
         @foreach (string comment in comments)
         {
             <li class="list-group-item text-wrap text-break">@comment</li>
         }
     </ul>
+
+    @* Buttons to navigate between pages of comments *@
     <button id="Decrement-button" class="btn btn-primary" onclick="@(() => DecrementPageNumber())">Last Page</button>
     <button id="Increment-button" class="btn btn-primary" onclick="@(() => IncrementPageNumber())">Next Page</button>
 </div>
 
-
 @code {
     [Parameter]
-    public string Id { get; set; } 
-    public string productId { get; set; }
-    public CommentModel model = new CommentModel();
-    public int PageNumber = 0;
-    public List<string> comments;
+    public string Id { get; set; } // Parameter for product ID (from parent or route)
+    public string productId { get; set; } // Internal representation of product ID
+    public CommentModel model = new CommentModel(); // Model for binding comment data
+    public int PageNumber = 0; // Current page number for pagination
+    public List<string> comments; // List to store and display comments
 
     /// <summary>
     /// Method to submit a new comment
@@ -77,7 +84,9 @@
         }
         comments = ProductService.GetPageOfComments(productId, PageNumber);
     }
-
+    /// <summary>
+    /// Method to fetch comments for the selected product
+    /// </summary>
     protected override void OnParametersSet()
     {
         productId = Id;
@@ -88,6 +97,9 @@
         }
     }
 
+    /// <summary>
+    /// Method to initialize the comment section
+    /// </summary>
     protected override void OnInitialized()
     {
         Console.WriteLine("Initialized Read Comment Section");
