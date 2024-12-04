@@ -112,6 +112,9 @@ namespace UnitTests.Pages.Product
         }
 
         [Test]
+        /// <summary>
+        /// Tests that OnPost Creates a product with material and size when model state is valid.
+        /// </summary>
         public void OnPost_Valid_ModelState_Should_Create_Product_With_Material_And_Size()
         {
             // Arrange
