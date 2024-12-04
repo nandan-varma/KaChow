@@ -3,7 +3,7 @@
 namespace UnitTests
 {
     [TestFixture]
-    internal class TestBUnitHelperTests : 
+    internal class TestBUnitHelperTests : BunitTestContext
     {
         /// <summary>
         /// Tests that the TestContext is set up and not null.
