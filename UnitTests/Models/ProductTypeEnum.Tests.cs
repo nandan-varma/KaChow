@@ -6,123 +6,62 @@ namespace UnitTests.Models
 {
     public class ProductTypeEnumTest
     {
-        #region DisplayName_Amature_Should_Return_HandMadeItems
+        #region DisplayName_ProductTypeEnum_Should_Return_Correct_DisplayName
 
         [Test]
-        /// <summary>
-        /// Tests that the DisplayName for Amature returns "Hand Made Items".
-        /// </summary>
-        public void DisplayName_Amature_Should_Return_HandMadeItems()
+        public void DisplayName_ProductTypeEnum_Cotton_Should_Return_Cotton()
         {
             // Arrange
-            var productType = ProductTypeEnum.Amature;
+            var productType = ProductTypeEnum.Cotton;
 
             // Act
             var displayName = productType.DisplayName();
 
-            // Reset
-
             // Assert
-            Assert.That(displayName, Is.EqualTo("Hand Made Items"));
+            Assert.That(displayName, Is.EqualTo("Cotton"));
         }
 
-        #endregion DisplayName_Amature_Should_Return_HandMadeItems
-
-        #region DisplayName_Antique_Should_Return_Antiques
-
         [Test]
-        /// <summary>
-        /// Tests that the DisplayName for Antique returns "Antiques".
-        /// </summary>
-        public void DisplayName_Antique_Should_Return_Antiques()
+        public void DisplayName_ProductTypeEnum_Wool_Should_Return_Wool()
         {
             // Arrange
-            var productType = ProductTypeEnum.Antique;
+            var productType = ProductTypeEnum.Wool;
 
             // Act
             var displayName = productType.DisplayName();
 
-            // Reset
-
             // Assert
-            Assert.That(displayName, Is.EqualTo("Antiques"));
+            Assert.That(displayName, Is.EqualTo("Wool"));
         }
 
-        #endregion DisplayName_Antique_Should_Return_Antiques
-
-        #region DisplayName_Collectable_Should_Return_Collectables
-
         [Test]
-        /// <summary>
-        /// Tests that the DisplayName for Collectable returns "Collectables".
-        /// </summary>
-        public void DisplayName_Collectable_Should_Return_Collectables()
+        public void DisplayName_ProductTypeEnum_Nylon_Should_Return_Nylon()
         {
             // Arrange
-            var productType = ProductTypeEnum.Collectable;
+            var productType = ProductTypeEnum.Nylon;
 
             // Act
             var displayName = productType.DisplayName();
 
-            // Reset
-
             // Assert
-            Assert.That(displayName, Is.EqualTo("Collectables"));
+            Assert.That(displayName, Is.EqualTo("Nylon"));
         }
 
-        #endregion DisplayName_Collectable_Should_Return_Collectables
-
-        #region DisplayName_Commercial_Should_Return_CommercialGoods
-
         [Test]
-        /// <summary>
-        /// Tests that the DisplayName for Commercial returns "Commercial goods".
-        /// </summary>
-        public void DisplayName_Commercial_Should_Return_CommercialGoods()
+        public void DisplayName_ProductTypeEnum_Plastic_Should_Return_Plastic()
         {
             // Arrange
-            var productType = ProductTypeEnum.Commercial;
+            var productType = ProductTypeEnum.Plastic;
 
             // Act
             var displayName = productType.DisplayName();
 
-            // Reset
-
             // Assert
-            Assert.That(displayName, Is.EqualTo("Commercial goods"));
+            Assert.That(displayName, Is.EqualTo("Plastic"));
         }
 
-        #endregion DisplayName_Commercial_Should_Return_CommercialGoods
-
-        #region DisplayName_Undefined_Should_Return_EmptyString
-
         [Test]
-        /// <summary>
-        /// Tests that the DisplayName for Undefined returns an empty string.
-        /// </summary>
-        public void DisplayName_Undefined_Should_Return_EmptyString()
-        {
-            // Arrange
-            var productType = ProductTypeEnum.Undefined;
-
-            // Act
-            var displayName = productType.DisplayName();
-
-            // Reset
-
-            // Assert
-            Assert.That(displayName, Is.EqualTo(""));
-        }
-
-        #endregion DisplayName_Undefined_Should_Return_EmptyString
-
-        #region DisplayName_UnknownEnumValue_Should_Return_EmptyString
-
-        [Test]
-        /// <summary>
-        /// Tests that the DisplayName for an unknown enum value returns an empty string.
-        /// </summary>
-        public void DisplayName_UnknownEnumValue_Should_Return_EmptyString()
+        public void DisplayName_ProductTypeEnum_Unknown_Should_Return_Unknown()
         {
             // Arrange
             var productType = (ProductTypeEnum)999;
@@ -130,12 +69,92 @@ namespace UnitTests.Models
             // Act
             var displayName = productType.DisplayName();
 
-            // Reset
-
             // Assert
-            Assert.That(displayName, Is.EqualTo(""));
+            Assert.That(displayName, Is.EqualTo("Unknown"));
         }
 
-        #endregion DisplayName_UnknownEnumValue_Should_Return_EmptyString
+        #endregion DisplayName_ProductTypeEnum_Should_Return_Correct_DisplayName
+
+        #region DisplayName_ProductSizeEnum_Should_Return_Correct_DisplayName
+
+        [Test]
+        public void DisplayName_ProductSizeEnum_XS_Should_Return_ExtraSmall()
+        {
+            // Arrange
+            var size = ProductSizeEnum.XS;
+
+            // Act
+            var displayName = size.DisplayName();
+
+            // Assert
+            Assert.That(displayName, Is.EqualTo("Extra Small"));
+        }
+
+        [Test]
+        public void DisplayName_ProductSizeEnum_S_Should_Return_Small()
+        {
+            // Arrange
+            var size = ProductSizeEnum.S;
+
+            // Act
+            var displayName = size.DisplayName();
+
+            // Assert
+            Assert.That(displayName, Is.EqualTo("Small"));
+        }
+
+        [Test]
+        public void DisplayName_ProductSizeEnum_M_Should_Return_Medium()
+        {
+            // Arrange
+            var size = ProductSizeEnum.M;
+
+            // Act
+            var displayName = size.DisplayName();
+
+            // Assert
+            Assert.That(displayName, Is.EqualTo("Medium"));
+        }
+
+        [Test]
+        public void DisplayName_ProductSizeEnum_L_Should_Return_Large()
+        {
+            // Arrange
+            var size = ProductSizeEnum.L;
+
+            // Act
+            var displayName = size.DisplayName();
+
+            // Assert
+            Assert.That(displayName, Is.EqualTo("Large"));
+        }
+
+        [Test]
+        public void DisplayName_ProductSizeEnum_XL_Should_Return_ExtraLarge()
+        {
+            // Arrange
+            var size = ProductSizeEnum.XL;
+
+            // Act
+            var displayName = size.DisplayName();
+
+            // Assert
+            Assert.That(displayName, Is.EqualTo("Extra Large"));
+        }
+
+        [Test]
+        public void DisplayName_ProductSizeEnum_Unknown_Should_Return_Unknown()
+        {
+            // Arrange
+            var size = (ProductSizeEnum)999;
+
+            // Act
+            var displayName = size.DisplayName();
+
+            // Assert
+            Assert.That(displayName, Is.EqualTo("Unknown"));
+        }
+
+        #endregion DisplayName_ProductSizeEnum_Should_Return_Correct_DisplayName
     }
 }

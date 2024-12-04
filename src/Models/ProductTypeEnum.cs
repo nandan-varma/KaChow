@@ -7,11 +7,19 @@ namespace ContosoCrafts.WebSite.Models
     /// </summary>
     public enum ProductTypeEnum
     {
-        Undefined = 0,
-        Amature = 1,
-        Antique = 5,
-        Collectable = 130,
-        Commercial = 55,
+        Cotton = 1,
+        Wool = 2,
+        Nylon = 3,
+        Plastic = 4
+    }
+
+    public enum ProductSizeEnum
+    {
+        XS = 1,
+        S = 2,
+        M = 3,
+        L = 4,
+        XL = 5
     }
 
     /// <summary>
@@ -28,13 +36,24 @@ namespace ContosoCrafts.WebSite.Models
         {
             return data switch
             {
-                ProductTypeEnum.Amature => "Hand Made Items",
-                ProductTypeEnum.Antique => "Antiques",
-                ProductTypeEnum.Collectable => "Collectables",
-                ProductTypeEnum.Commercial => "Commercial goods",
- 
-                // Default, Unknown
-                _ => "",
+                ProductTypeEnum.Cotton => "Cotton",
+                ProductTypeEnum.Wool => "Wool",
+                ProductTypeEnum.Nylon => "Nylon",
+                ProductTypeEnum.Plastic => "Plastic",
+                _ => "Unknown"
+            };
+        }
+
+        public static string DisplayName(this ProductSizeEnum data)
+        {
+            return data switch
+            {
+                ProductSizeEnum.XS => "Extra Small",
+                ProductSizeEnum.S => "Small",
+                ProductSizeEnum.M => "Medium",
+                ProductSizeEnum.L => "Large",
+                ProductSizeEnum.XL => "Extra Large",
+                _ => "Unknown"
             };
         }
     }

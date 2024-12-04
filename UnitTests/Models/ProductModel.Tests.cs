@@ -27,6 +27,8 @@ namespace UnitTests.Models
                 Description = "This is a test product.",
                 Ratings = new int[] { 5, 4, 3 },
                 Price = 50,
+                Material = ProductTypeEnum.Cotton,
+                Size = ProductSizeEnum.M,
                 CommentList = new List<CommentModel>
                 {
                     new CommentModel { Comment = "Great product!" }
@@ -59,6 +61,8 @@ namespace UnitTests.Models
             Assert.That(_product.Price, Is.EqualTo(50));
             Assert.That(_product.CommentList.Count, Is.EqualTo(1));
             Assert.That(_product.CommentList[0].Comment, Is.EqualTo("Great product!"));
+            Assert.That(_product.Material, Is.EqualTo(ProductTypeEnum.Cotton));
+            Assert.That(_product.Size, Is.EqualTo(ProductSizeEnum.M));
         }
 
         #endregion PropertyTests_Valid_Properties_Should_Return_Expected_Values
@@ -159,6 +163,44 @@ namespace UnitTests.Models
 
         #endregion ValidationTests_Price_Valid_Should_Return_True
 
+        #region ValidationTests_Material_Valid_Should_Return_True
+
+        [Test]
+        public void ValidationTests_Material_Valid_Should_Return_True()
+        {
+            // Arrange
+            var context = new ValidationContext(_product) { MemberName = "Material" };
+            var results = new List<ValidationResult>();
+
+            // Act
+            _product.Material = ProductTypeEnum.Wool; // Valid
+            var isValid = Validator.TryValidateProperty(_product.Material, context, results);
+
+            // Assert
+            Assert.That(isValid, Is.True);
+        }
+
+        #endregion ValidationTests_Material_Valid_Should_Return_True
+
+        #region ValidationTests_Size_Valid_Should_Return_True
+
+        [Test]
+        public void ValidationTests_Size_Valid_Should_Return_True()
+        {
+            // Arrange
+            var context = new ValidationContext(_product) { MemberName = "Size" };
+            var results = new List<ValidationResult>();
+
+            // Act
+            _product.Size = ProductSizeEnum.L; // Valid
+            var isValid = Validator.TryValidateProperty(_product.Size, context, results);
+
+            // Assert
+            Assert.That(isValid, Is.True);
+        }
+
+        #endregion ValidationTests_Size_Valid_Should_Return_True
+
         #region ToStringTest_Valid_Product_Should_Return_Expected_Json
 
         [Test]
@@ -180,5 +222,138 @@ namespace UnitTests.Models
         }
 
         #endregion ToStringTest_Valid_Product_Should_Return_Expected_Json
+
+        #region ValidationTests_Model_Empty_Should_Return_False
+
+        [Test]
+        public void ValidationTests_Model_Empty_Should_Return_False()
+        {
+            // Arrange
+            var context = new ValidationContext(_product) { MemberName = "Model" };
+            var results = new List<ValidationResult>();
+
+            // Act
+            _product.Model = ""; // Invalid
+            var isValid = Validator.TryValidateProperty(_product.Model, context, results);
+
+            // Assert
+            Assert.That(isValid, Is.False);
+        }
+
+        #endregion ValidationTests_Model_Empty_Should_Return_False
+
+        #region ValidationTests_Model_Valid_Should_Return_True
+
+        [Test]
+        public void ValidationTests_Model_Valid_Should_Return_True()
+        {
+            // Arrange
+            var context = new ValidationContext(_product) { MemberName = "Model" };
+            var results = new List<ValidationResult>();
+
+            // Act
+            _product.Model = "Valid Model"; // Valid
+            var isValid = Validator.TryValidateProperty(_product.Model, context, results);
+
+            // Assert
+            Assert.That(isValid, Is.True);
+        }
+
+        #endregion ValidationTests_Model_Valid_Should_Return_True
+
+        #region ValidationTests_Description_Too_Long_Should_Return_False
+
+        [Test]
+        public void ValidationTests_Description_Too_Long_Should_Return_False()
+        {
+            // Arrange
+            var context = new ValidationContext(_product) { MemberName = "Description" };
+            var results = new List<ValidationResult>();
+
+            // Act
+            _product.Description = new string('a', 201); // Invalid
+            var isValid = Validator.TryValidateProperty(_product.Description, context, results);
+
+            // Assert
+            Assert.That(isValid, Is.False);
+        }
+
+        #endregion ValidationTests_Description_Too_Long_Should_Return_False
+
+        #region ValidationTests_Description_Valid_Should_Return_True
+
+        [Test]
+        public void ValidationTests_Description_Valid_Should_Return_True()
+        {
+            // Arrange
+            var context = new ValidationContext(_product) { MemberName = "Description" };
+            var results = new List<ValidationResult>();
+
+            // Act
+            _product.Description = "Valid Description"; // Valid
+            var isValid = Validator.TryValidateProperty(_product.Description, context, results);
+
+            // Assert
+            Assert.That(isValid, Is.True);
+        }
+
+        #endregion ValidationTests_Description_Valid_Should_Return_True
+
+        #region ValidationTests_Ratings_Valid_Should_Return_True
+
+        [Test]
+        public void ValidationTests_Ratings_Valid_Should_Return_True()
+        {
+            // Arrange
+            var context = new ValidationContext(_product) { MemberName = "Ratings" };
+            var results = new List<ValidationResult>();
+
+            // Act
+            _product.Ratings = new int[] { 3 }; // Valid
+            var isValid = Validator.TryValidateProperty(_product.Ratings, context, results);
+
+            // Assert
+            Assert.That(isValid, Is.True);
+        }
+
+        #endregion ValidationTests_Ratings_Valid_Should_Return_True
+
+        #region ValidationTests_Stock_Negative_Should_Return_False
+
+        [Test]
+        public void ValidationTests_Stock_Negative_Should_Return_False()
+        {
+            // Arrange
+            var context = new ValidationContext(_product) { MemberName = "Stock" };
+            var results = new List<ValidationResult>();
+
+            // Act
+            _product.Stock = -1; // Invalid
+            var isValid = Validator.TryValidateProperty(_product.Stock, context, results);
+
+            // Assert
+            Assert.That(isValid, Is.False);
+        }
+
+        #endregion ValidationTests_Stock_Negative_Should_Return_False
+
+        #region ValidationTests_Stock_Valid_Should_Return_True
+
+        [Test]
+        public void ValidationTests_Stock_Valid_Should_Return_True()
+        {
+            // Arrange
+            var context = new ValidationContext(_product) { MemberName = "Stock" };
+            var results = new List<ValidationResult>();
+
+            // Act
+            _product.Stock = 10; // Valid
+            var isValid = Validator.TryValidateProperty(_product.Stock, context, results);
+
+            // Assert
+            Assert.That(isValid, Is.True);
+        }
+
+        #endregion ValidationTests_Stock_Valid_Should_Return_True
     }
 }

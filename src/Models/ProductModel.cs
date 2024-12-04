@@ -16,12 +16,12 @@ namespace ContosoCrafts.WebSite.Models
 
         // Image URL Field
         [JsonPropertyName("img")]
-        [RegularExpression(@"^(https:\/\/|http:\/\/).*(\.jpeg|\.png|\.webp)$", 
+        [RegularExpression(@"^(https?:\/\/).*(\.(jpeg|png|webp|JPEG|PNG|WEBP))", 
             ErrorMessage = "Image URL must be a Jpeg, PNG, or WebP file and must start with http:// or https://")]
         public string Image { get; set; }
 
         // URL Field
-        [RegularExpression(@"^http:\/\/|^https:\/\/", ErrorMessage = "URL must start with http:// or https://")]
+        [RegularExpression(@"^(https?:\/\/).*(\/.*)?$", ErrorMessage = "URL must start with http:// or https://")]
         public string Url { get; set; }
 
         // Name Field
@@ -29,9 +29,11 @@ namespace ContosoCrafts.WebSite.Models
         public string Name { get; set; }
 
         // Model Name Field
+        [Required(ErrorMessage = "Model is required")]
         public string Model { get; set; }
 
         // Description Field
+        [StringLength(maximumLength: 200, ErrorMessage = "Description cannot exceed {1} characters")]
         public string Description { get; set; }
 
         // Ratings Field
@@ -42,13 +44,14 @@ namespace ContosoCrafts.WebSite.Models
         public int Price { get; set; }
 
         // Stock Field
+        [Range(0, int.MaxValue, ErrorMessage = "Stock must be a non-negative number")]
         public int Stock { get; set; }
 
         // Material Field
-        public string Material {  get; set; }
+        public ProductTypeEnum Material { get; set; }
 
         // Size Field
-        public string Size {  get; set; }
+        public ProductSizeEnum Size { get; set; }
         // Store the Comments entered by the users on this product
         public List<CommentModel> CommentList { get; set; }
 
