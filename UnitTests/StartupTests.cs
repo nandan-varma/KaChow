@@ -151,7 +151,7 @@ namespace UnitTests
 
             // Assert
             var context = new DefaultHttpContext { Response = { StatusCode = 404 } };
-            Assert.DoesNotThrowAsync(() => app.StartAsync());
+            Assert.DoesNotThrow(() => app.StartAsync());
         }
 
         #endregion Configure
