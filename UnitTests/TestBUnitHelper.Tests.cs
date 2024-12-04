@@ -3,8 +3,11 @@
 namespace UnitTests
 {
     [TestFixture]
-    internal class TestBUnitHelperTests : BunitTestContext
+    internal class TestBUnitHelperTests : 
     {
+        /// <summary>
+        /// Tests that the TestContext is set up and not null.
+        /// </summary>
         [Test]
         public void Setup_Sets_TestContext_Should_Not_Be_Null()
         {
