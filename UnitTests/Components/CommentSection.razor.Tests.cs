@@ -215,6 +215,10 @@ namespace UnitTests.Components
             var product = TestHelper.ProductService.GetAllData().First();
             var component = RenderComponent<CommentSection>(parameters => parameters.Add(p => p.Id, product.Id));
             var button = component.Find("#Increment-button");
+            if (product.CommentList == null)
+            {
+                product.CommentList = new List<CommentModel>();
+            }
             product.CommentList.Add(new CommentModel());
             TestHelper.ProductService.UpdateData(product);
             var originalPageNumber = component.Instance.PageNumber;
@@ -238,6 +242,10 @@ namespace UnitTests.Components
             var product = TestHelper.ProductService.GetAllData().First();
             var component = RenderComponent<CommentSection>(parameters => parameters.Add(p => p.Id, product.Id));
             var button = component.Find("#Increment-button");
+            if (product.CommentList == null)
+            {
+                product.CommentList = new List<CommentModel>();
+            }
             for (int i = 0; i < 11; i++)
             {
                 product.CommentList.Add(new CommentModel());
@@ -263,6 +271,11 @@ namespace UnitTests.Components
             // Arrange
             var product = TestHelper.ProductService.GetAllData().First();
             var component = RenderComponent<CommentSection>(parameters => parameters.Add(p => p.Id, product.Id));
+            if (product.CommentList == null)
+            {
+                product.CommentList = new List<CommentModel>();
+            }
+            TestHelper.ProductService.UpdateData(product);
             var button = component.Find("#Decrement-button");
             component.Instance.PageNumber = 0;
 
@@ -282,6 +295,11 @@ namespace UnitTests.Components
             // Arrange
             var product = TestHelper.ProductService.GetAllData().First();
             var component = RenderComponent<CommentSection>(parameters => parameters.Add(p => p.Id, product.Id));
+            if (product.CommentList == null)
+            {
+                product.CommentList = new List<CommentModel>();
+            }
+            TestHelper.ProductService.UpdateData(product);
             var button = component.Find("#Decrement-button");
             component.Instance.PageNumber = 1;
             var originalPageNumber = component.Instance.PageNumber;
