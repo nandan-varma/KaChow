@@ -44,6 +44,11 @@ namespace ContosoCrafts.WebSite.Models
             };
         }
 
+        /// <summary>
+        /// Returns the display name for the product size input
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public static string DisplayName(this ProductSizeEnum data)
         {
             return data switch
