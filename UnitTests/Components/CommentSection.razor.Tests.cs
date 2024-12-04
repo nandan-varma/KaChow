@@ -221,6 +221,7 @@ namespace UnitTests.Components
             }
             product.CommentList.Add(new CommentModel());
             TestHelper.ProductService.UpdateData(product);
+            component.Instance.PageNumber = TestHelper.ProductService.GetCommentListSize(product.Id) / 10;
             var originalPageNumber = component.Instance.PageNumber;
             var commentListSize = TestHelper.ProductService.GetCommentListSize(product.Id);
 
