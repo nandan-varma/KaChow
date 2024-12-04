@@ -46,6 +46,9 @@ namespace UnitTests.Components
         #region SelectProduct
 
         [Test]
+        /// <summary>
+        /// Tests that the SelectProduct method sets the selected product correctly when given a valid product.
+        /// </summary>
         public void SelectProduct_ValidProduct_Should_SetSelectedProduct()
         {
             // Arrange
@@ -67,6 +70,9 @@ namespace UnitTests.Components
         #region GetCurrentRating
 
         [Test]
+        /// <summary>
+        /// Tests that the GetCurrentRating method calculates the correct rating when ratings are provided.
+        /// </summary>
         public void GetCurrentRating_WithRatings_Should_CalculateCorrectRating()
         {
             // Arrange
@@ -88,6 +94,9 @@ namespace UnitTests.Components
         }
 
         [Test]
+        /// <summary>
+        /// Tests that the GetCurrentRating method handles the absence of ratings correctly.
+        /// </summary>
         public void GetCurrentRating_NoRatings_Should_HandleNoRatings()
         {
             // Arrange
@@ -108,6 +117,9 @@ namespace UnitTests.Components
         }
 
         [Test]
+        /// <summary>
+        /// Tests that the GetCurrentRating method handles a single rating correctly.
+        /// </summary>
         public void GetCurrentRating_SingleRating_Should_HandleSingleRating()
         {
             // Arrange
@@ -133,6 +145,9 @@ namespace UnitTests.Components
         #region SubmitRating
 
         [Test]
+        /// <summary>
+        /// Tests that the SubmitRating method updates the rating of a valid product.
+        /// </summary>
         public void SubmitRating_ValidProduct_Should_UpdateRating()
         {
             // Arrange
@@ -153,6 +168,9 @@ namespace UnitTests.Components
         }
 
         [Test]
+        /// <summary>
+        /// Tests that the SubmitRating method is called when a star is clicked.
+        /// </summary>
         public void SubmitRating_Should_Be_Called_On_Star_Click()
         {
             // Arrange
@@ -179,6 +197,9 @@ namespace UnitTests.Components
         #region Modal
 
         [Test]
+        /// <summary>
+        /// Tests that the modal displays the correct vote count and label.
+        /// </summary>
         public void Modal_DisplayingVoteCountAndLabel_Should_DisplayVoteCountAndLabel()
         {
             // Arrange
@@ -201,6 +222,9 @@ namespace UnitTests.Components
         }
 
         [Test]
+        /// <summary>
+        /// Tests that the modal displays the correct star ratings.
+        /// </summary>
         public void Modal_DisplayStarRatings_Should_DisplayCorrectStarRatings()
         {
             // Arrange
@@ -234,6 +258,9 @@ namespace UnitTests.Components
         }
 
         [Test]
+        /// <summary>
+        /// Tests that the default vote label is presented when there are no votes.
+        /// </summary>
         public void DefaultVoteLabel_NoVotes_Should_PresentDefaultLabel()
         {
             // Arrange
@@ -260,6 +287,9 @@ namespace UnitTests.Components
         #region ApplyFilters
 
         [Test]
+        /// <summary>
+        /// Tests that the ApplyFilters method returns all products when no filters are applied.
+        /// </summary>
         public void ApplyFilters_No_Filters_Should_Return_All_Products()
         {
             // Arrange
@@ -277,6 +307,9 @@ namespace UnitTests.Components
         }
 
         [Test]
+        /// <summary>
+        /// Tests that the ApplyFilters method correctly handles products with null ratings.
+        /// </summary>
         public void ApplyFilters_MinRating_Should_Handle_Null_Ratings()
         {
             // Arrange
@@ -301,6 +334,9 @@ namespace UnitTests.Components
         }
 
         [Test]
+        /// <summary>
+        /// Tests that the ApplyFilters method returns an empty list when no products match the search term.
+        /// </summary>
         public void ApplyFilters_NoMatchSearchTerm_Should_Return_EmptyList()
         {
             // Arrange
@@ -318,6 +354,9 @@ namespace UnitTests.Components
         }
 
         [Test]
+        /// <summary>
+        /// Tests that the ApplyFilters method excludes products below the minimum rating.
+        /// </summary>
         public void ApplyFilters_BelowMinRating_Should_ExcludeProducts()
         {
             // Arrange
@@ -342,6 +381,9 @@ namespace UnitTests.Components
         }
 
         [Test]
+        /// <summary>
+        /// Tests that the ApplyFilters method returns filtered products when the search term and minimum rating match.
+        /// </summary>
         public void ApplyFilters_MatchSearchTermAndMinRating_Should_ReturnFilteredProducts()
         {
             // Arrange
@@ -369,6 +411,9 @@ namespace UnitTests.Components
         }
 
         [Test]
+        /// <summary>
+        /// Tests that the ApplyFilters method includes a product when the search term matches the product name.
+        /// </summary>
         public void ApplyFilters_SearchTerm_MatchOnName_Should_IncludeProduct()
         {
             // Arrange
