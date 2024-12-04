@@ -26,6 +26,7 @@ namespace UnitTests.Components
             Services.AddSingleton(TestHelper.ProductService);
             Services.AddSingleton(new RatingService(_httpContextAccessorMock.Object));
 
+            _products = TestHelper.ProductService.GetAllData();
             // Reset
         }
 
