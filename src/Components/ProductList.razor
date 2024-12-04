@@ -175,5 +175,6 @@
     protected override void OnInitialized()
     {
         FilteredProducts = ProductService.GetAllData(); // Initialize with all products
+        SelectedProduct = ProductService.GetAllData().First(); // Initialize with the first product
     }
 }
