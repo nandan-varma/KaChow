@@ -138,6 +138,9 @@ namespace UnitTests.Pages.Product
         }
 
         [Test]
+        /// <summary>
+        /// Tests that OnPost updates PageResult material and size.
+        /// </summary>
         public void Update_OnPost_Should_Update_Material_And_Size()
         {
             // Arrange
