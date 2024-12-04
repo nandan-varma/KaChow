@@ -1,5 +1,6 @@
 ﻿@page
 @using ContosoCrafts.WebSite.Services @* Imports the service that handles product data *@
+@using ContosoCrafts.WebSite.Models @* Imports the models that handles product data *@
 @inject JsonFileProductService productService // Injects an instance of the product service for accessing product data
 @model ContosoCrafts.WebSite.Pages.Product.CreateModel // Sets the page model for the Create product page
 @{
@@ -69,14 +70,14 @@
         <!-- Form field for the product Material -->
         <div class="form-group">
             <label asp-for="Product.Material"></label>
-            <input asp-for="Product.Material" class="form-control" />
+            <select asp-for="Product.Material" class="form-control" asp-items="Html.GetEnumSelectList<ProductTypeEnum>()"></select>
             <span asp-validation-for="Product.Material" class="text-danger"></span>
         </div>
 
         <!-- Form field for the product Size -->
         <div class="form-group">
             <label asp-for="Product.Size"></label>
-            <input asp-for="Product.Size" class="form-control" />
+            <select asp-for="Product.Size" class="form-control" asp-items="Html.GetEnumSelectList<ProductSizeEnum>()"></select>
             <span asp-validation-for="Product.Size" class="text-danger"></span>
         </div>
 
