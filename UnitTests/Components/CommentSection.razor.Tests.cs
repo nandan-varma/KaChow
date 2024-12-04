@@ -17,6 +17,7 @@ namespace UnitTests.Components
         #region TestSetup
 
         private Mock<IHttpContextAccessor> _httpContextAccessorMock;
+        private IEnumerable<ProductModel> _products;
 
         public CommentSectionTest()
         {
@@ -38,6 +39,7 @@ namespace UnitTests.Components
         public void TestCleanup()
         {
             // Reset
+            TestHelper.ProductService.SaveData(_products);
         }
 
         #endregion TestSetup
